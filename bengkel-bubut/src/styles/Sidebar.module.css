@@ -28,6 +28,11 @@
   letter-spacing: 0em;
   text-align: left;
   height: 100vh;
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  transition: all 0.5s ease 0s;
+
 }
 .logo{
     display: flex;
@@ -37,6 +42,14 @@
     margin-top: 40px;
 }
 
+.sidebarItemExpand {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 50px;
+  margin-left: 17px;
+}
+
 .icon {
   display: flex;
   justify-content: center;
@@ -44,21 +57,30 @@
 
 .iconName {
   margin-top: 6px;
-
   text-align: center;
 }
 
-.link{
-    
+.iconNameExpand {
+  margin-top: 6px;
+  text-align: center;
+  margin-left: 8px;
+  width: 10px;
 }
 
 .activeLink {
     color: #193b68;
+    text-decoration: none;
 }
 
 .notActiveLink {
     color: rgb(222, 222, 222);
+    text-decoration: none;
 
+}
+
+.bar{
+  display: relative;
+  margin-left: 86px;
 }
 
 /* .activeLink::before {

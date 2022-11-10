@@ -12,7 +12,7 @@ import stokActiveIcon from "../Images/selected/Stok.png";
 import stokNotActiveIcon from "../Images/notSelected/Stok.png";
 import mekanikActiveIcon from "../Images/selected/Mekanik.png";
 import mekanikNotActiveIcon from "../Images/notSelected/Mekanik.png";
-
+import {FaBars} from "react-icons/fa";
 import logo from "../Images/logo.png";
 import { useState } from "react";
 
@@ -58,61 +58,33 @@ const Sidebar = ({ children }) => {
 
   const activeLink = `${styles.activeLink}`;
   const notActiveLink = `${styles.notActiveLink}`;
-  const [checkLinkStatus, setLinkStatus] = useState(false);
-  const imgChange = () => {
-    var img = document.getElementsByClassName("img");
-    img.src = "../Images/selected/dashboard.png";
-  };
-  const [newActiveLink, setNewActiveLink] = useState("");
-  console.log(newActiveLink);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
-    <div className={styles.container}>
-      <div className={styles.sidebar}>
+    <div className={styles.container} >
+      <div className={styles.sidebar} style={{width: isOpen ? "200px" : "110px"}}>
         <div className={styles.logo}>
-          <img src={logo} width="70px" />
+          <img src={logo} width="70px" onClick={toggle} style={{cursor: "pointer"}}/>
         </div>
         {menuItem.map((item, index) => (
           <div className={styles.link}>
-            {/* <NavLink
-              to={item.path}
-              key={index}
-              className={({ isActive }) =>
-                isActive ? activeLink : notActiveLink
-              }
-              isActive={(match, location) => {
-                if (!match) {
-                  setNewActiveLink("../Images/notSelected/dashboard.png");
-                  return false;
-                }
-                setNewActiveLink("../Images/Selected/dashboard.png");
-                console.log(newActiveLink);
-                return true;
-              }}
-            >
-              <div className={styles.sidebarItem}>
-                <div className={styles.icon}>
-                  <img src={newActiveLink} />
-                </div>
-              </div>
-            </NavLink> */}
-
             <NavLink
               to={item.path}
               key={index}
               className={({ isActive }) =>
                 isActive ? activeLink : notActiveLink
               }
-              // className={({ isActive }) => (isActive ? "active" : "not-active")}
-              // className={({ isActive }) = isActive ? activeLink : notActiveLink}
               children={({ isActive }) => {
                 const file = isActive ? item.activeIcon : item.notActiveIcon;
                 return (
                   <>
-                    <div className={styles.sidebarItem}>
+                    <div className={isOpen ? styles.sidebarItemExpand : styles.sidebarItem}>
                       <div className={styles.icon}>
-                        <img src={file} width="34px" height="38px"/>
+                        <img src={file} width="34px" height="38px" />
                       </div>
-                      <div className={styles.iconName}>{item.name}</div>
+
+                      <div className={isOpen ? styles.iconNameExpand : styles.iconName}>{item.name}</div>
                     </div>
                   </>
                 );

@@ -8,7 +8,9 @@
 }
 
 .divButton{
-    width: 15%;
+    display: flex;
+    justify-content: right;    
+
 }
 
 .search {

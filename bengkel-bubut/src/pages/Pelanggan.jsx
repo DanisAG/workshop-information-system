@@ -12,14 +12,14 @@ const Pelanggan = () => {
         <Breadcrumbs icon={icon} nama="Pelanggan"/>
       </Row>
       <Row className={pelangganStyles.topSection}>
-        <Col className={pelangganStyles.search} lg={8}>
+        <Col className={pelangganStyles.search} lg={8} >
           <Input
             type="text"
             placeholder="Cari Pelanggan"
             className={styles.searchBar}
           />
         </Col>
-        <Col className={pelangganStyles.divButton} lg={4}>
+        <Col className={pelangganStyles.divButton}  >
           <Button className={pelangganStyles.button}>
             <div>
               <FaPlus className={pelangganStyles.plusIcon} />
