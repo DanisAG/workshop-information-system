@@ -11,8 +11,8 @@ import Transaksi from "./pages/Transaksi";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Sidebar>
+    <BrowserRouter >
+      <Sidebar >
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
