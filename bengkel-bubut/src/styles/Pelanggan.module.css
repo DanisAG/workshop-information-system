@@ -1,0 +1,33 @@
+* {
+  font-family: Montserrat;
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.divButton{
+    width: 15%;
+}
+
+.search {
+  width: 80%;
+}
+
+.button {
+  height: 46px;
+  background-color: #6f6af8;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.plusIcon {
+    color: #6F6AF8;
+    background-color: white;
+    border-radius: 3px;
+    margin-right: 10px;
+    size: 50px;
+}
