@@ -1,0 +1,72 @@
+.card {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 50%;
+  margin-left: 0px;
+}
+
+.formgroup {
+  margin: 12px 36px;
+}
+
+.label {
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.input {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+.button {
+  margin-left: auto;
+  margin-right: 36px;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+
+.batal {
+  border-color: #6f6af8;
+  border-width: medium;
+  color: #6f6af8;
+  border-radius: 10px;
+  margin-right: 22px;
+  width: 142.67px;
+}
+
+.tambahTransaksi {
+  background-color: #6f6af8;
+  border-radius: 10px;
+}
+
+.iconForForm {
+  color: #6f6af8;
+  border-radius: 50%;
+}
+
+.header {
+  margin-left: 36px;
+  padding-top: 20px;
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.title {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 15px;
+  font-family: Montserrat;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: 0.05em;
+  text-align: left;
+}

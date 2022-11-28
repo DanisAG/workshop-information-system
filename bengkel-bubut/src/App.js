@@ -5,8 +5,9 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import LaporanFinancial from "./pages/LaporanFinancial";
 import Mekanik from "./pages/Mekanik";
-import Pelanggan from "./pages/Pelanggan";
+import Pelanggan from "./pages/Pelanggan/Pelanggan";
 import Stok from "./pages/Stok";
+import TambahPelanggan from "./pages/Pelanggan/TambahPelanggan";
 import Transaksi from "./pages/Transaksi";
 
 const App = () => {
@@ -21,6 +22,8 @@ const App = () => {
           <Route path="/pelanggan" element={<Pelanggan />} />
           <Route path="/stok" element={<Stok />} />
           <Route path="/Transaksi" element={<Transaksi />} />
+          <Route path="/TambahPelanggan" element={<TambahPelanggan />} />
+
         </Routes>
       </Sidebar>
     </BrowserRouter>
