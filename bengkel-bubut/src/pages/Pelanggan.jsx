@@ -2,7 +2,7 @@ import { Input, Button, Row, Col } from "reactstrap";
 import styles from "../styles/Searchbar.module.css";
 import pelangganStyles from "../styles/Pelanggan.module.css";
 import { FaPlus } from "react-icons/fa";
-import PelangganTable from "../components/Table.jsx";
+import PelangganTable from "../components/Pelanggan/Table.jsx";
 import Breadcrumbs from "../components/BreadCrumbs.jsx";
 import icon from "../Images/notSelected/Pelanggan.png";
 const Pelanggan = () => {

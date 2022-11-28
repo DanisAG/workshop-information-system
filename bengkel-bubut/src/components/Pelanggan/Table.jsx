@@ -1,22 +1,21 @@
 import { Table } from "reactstrap";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import styles from "../styles/Table.module.css";
+import styles from "../../styles/Table.module.css";
 const PelangganTable = () => {
   const countData = ["", "", "", "", ""];
 
   return (
     <div className={styles.divTable}>
-      <Table responsive className={`${styles.table} text-nowrap`}>
+      <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
         <thead className={styles.thead}>
           <tr className={styles.tr}>
-            <th className={styles.thFirstChild}>ID TRANSAKSI</th>
+            <th className={styles.thFirstChild}>ID PELANGGAN</th>
             <th className={styles.th}>PELANGGAN</th>
-            <th className={styles.th}>MEKANIK</th>
-            <th className={styles.th}>JENIS LAYANAN</th>
-            <th className={styles.th}>BARANG</th>
-            <th className={styles.th}> JUMLAH</th>
-            <th className={styles.th}>PENJUALAN</th>
-            <th className={styles.th}>STATUS</th>
+            <th className={styles.th}>TANGGAL LAHIR</th>
+            <th className={styles.th}>JENIS KELAMIN</th>
+            <th className={styles.th}>ALAMAT</th>
+            <th className={styles.th}>NOMOR TELEPON</th>
+            <th className={styles.th}>EMAIL</th>
             <th className={styles.thLastChild}>AKSI</th>
           </tr>
         </thead>
@@ -29,7 +28,6 @@ const PelangganTable = () => {
                 ) : (
                   <td className={styles.tdFirstChild}>Placeholder</td>
                 )}
-                <td>Placeholder</td>
                 <td>Placeholder</td>
                 <td>Placeholder</td>
                 <td>Placeholder</td>
