@@ -100,3 +100,23 @@
   border-right: 1px solid #eaeaea;
   border-bottom-right-radius: 10px;
 }
+
+
+.divButton{
+  display: flex;
+  justify-content: right;    
+}
+
+.iconFilter{
+  margin-right: 24px;
+  display: flex;
+  margin-top: auto;
+  border-radius: 10px;
+  color: #6f6af8;
+  margin-bottom: auto;
+}
+
+.formFilter{
+  width: 300px;
+  margin: 12px 16px;
+}

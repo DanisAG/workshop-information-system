@@ -32,7 +32,9 @@ const App = () => {
 
         </Routes>
       </Sidebar>
+      
     </BrowserRouter>
+    
   );
 };
 

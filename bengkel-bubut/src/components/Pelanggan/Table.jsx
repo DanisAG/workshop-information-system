@@ -2,11 +2,30 @@ import { Table } from "reactstrap";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import styles from "../../styles/Table.module.css";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert2";
 
 const PelangganTable = () => {
   const countData = ["", "", "", "", ""];
   const navigate = useNavigate();
 
+  const handleClickDelete = () => {
+      swal
+        .fire({
+          title: "KONFIRMASI",
+          text: "Anda yakin untuk menghapus data ini?",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Hapus",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            swal.fire("Deleted!", "Your file has been deleted.", "success");
+          }
+        });
+    
+  }
   return (
     <div className={styles.divTable}>
       <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
@@ -50,7 +69,7 @@ const PelangganTable = () => {
                       navigate("/editPelanggan");
                     }}
                   />
-                  <AiOutlineDelete className={styles.delete} />
+                  <AiOutlineDelete className={styles.delete} onClick={handleClickDelete} />
                 </td>
               </tr>
             );

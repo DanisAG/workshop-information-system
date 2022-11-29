@@ -7,10 +7,11 @@ import {MdSupervisedUserCircle} from 'react-icons/md';
 import {useLocation} from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import React, { useState } from "react";
-
+import swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const TambahPelanggan = (props) => {
   const location = useLocation();
-
+  const navigate = useNavigate();
   console.log(location.state.userId);
   const style = {
     control: (base) => ({
@@ -26,7 +27,24 @@ const TambahPelanggan = (props) => {
     { value: "perempuan", label: "Perempuan" },
   ];
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
-
+  const handleClickCancel = () => {
+      swal
+        .fire({
+          title: "KONFIRMASI",
+          text: "Anda yakin untuk membuang perubahan ini?",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Hapus",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate(-1);
+          }
+        });
+    
+  }
   return (
     <div>
       <Row>
@@ -85,7 +103,7 @@ const TambahPelanggan = (props) => {
         </Form>
         <div className="d-flex">
           <div className={styles.button}>
-            <Button className={styles.batal} outline>
+            <Button className={styles.batal} outline onClick={handleClickCancel}>
               Batal
             </Button>
             <Button className={styles.tambahTransaksi}>Tambah Pelanggan</Button>

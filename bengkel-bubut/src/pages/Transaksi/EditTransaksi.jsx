@@ -7,7 +7,8 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 import { BsFillCalendar2RangeFill } from "react-icons/bs";
 import React, { useState } from "react";
-
+import swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const EditTransaksi = (props) => {
   const style = {
     control: (base) => ({
@@ -22,10 +23,28 @@ const EditTransaksi = (props) => {
     { value: "lakilaki", label: "Laki-laki" },
     { value: "perempuan", label: "Perempuan" },
   ];
+  const navigate = useNavigate();
 
   const [tanggalTransaksi, setTanggalTransaksi] = useState(new Date());
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
-
+  const handleClickCancel = () => {
+      swal
+        .fire({
+          title: "KONFIRMASI",
+          text: "Anda yakin untuk membuang perubahan ini?",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Hapus",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate(-1);
+          }
+        });
+    
+  }
   return (
     <div>
       <Row>
@@ -86,7 +105,7 @@ const EditTransaksi = (props) => {
         </Form>
         <div className="d-flex">
           <div className={styles.button}>
-            <Button className={styles.batal} outline>
+            <Button className={styles.batal} outline onClick={handleClickCancel}>
               Batal
             </Button>
             <Button className={styles.tambahTransaksi}>Edit Transaksi</Button>

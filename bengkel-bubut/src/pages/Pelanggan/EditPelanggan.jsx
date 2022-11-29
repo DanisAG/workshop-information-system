@@ -5,7 +5,9 @@ import styles from "../../styles/Form.module.css";
 import Select from "react-select";
 import {MdSupervisedUserCircle} from 'react-icons/md';
 import DatePicker from "react-datepicker";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const EditPelanggan = (props) => {
   console.log(props);
@@ -22,7 +24,29 @@ const EditPelanggan = (props) => {
     { value: "perempuan", label: "Perempuan" },
   ];
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
+  const [cancelStatus, setCancelStatus] = useState(false);
+  const navigate = useNavigate();
+  const handleClickCancel = () => {
+    setCancelStatus(true);
+      swal
+        .fire({
+          title: "KONFIRMASI",
+          text: "Anda yakin untuk membuang perubahan ini?",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Hapus",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate(-1);
+          }
+        });
+    
+  }
 
+  
   return (
     <div>
       <Row>
@@ -81,7 +105,7 @@ const EditPelanggan = (props) => {
         </Form>
         <div className="d-flex">
           <div className={styles.button}>
-            <Button className={styles.batal} outline>
+            <Button className={styles.batal} outline onClick={handleClickCancel}>
               Batal
             </Button>
             <Button className={styles.tambahTransaksi}>Edit Pelanggan</Button>
