@@ -4,7 +4,7 @@ import Sidebar from "./components/Sidebar";
 
 import Dashboard from "./pages/Dashboard";
 import LaporanFinancial from "./pages/LaporanFinancial";
-import Mekanik from "./pages/Mekanik";
+import Mekanik from "./pages/Mekanik/Mekanik";
 import Pelanggan from "./pages/Pelanggan/Pelanggan";
 import Stok from "./pages/Stok";
 import TambahPelanggan from "./pages/Pelanggan/TambahPelanggan";
@@ -12,6 +12,8 @@ import EditPelanggan from "./pages/Pelanggan/EditPelanggan";
 import Transaksi from "./pages/Transaksi/Transaksi";
 import TambahTransaksi from "./pages/Transaksi/TambahTransaksi";
 import EditTransaksi from "./pages/Transaksi/EditTransaksi";
+import EditMekanik from "./pages/Mekanik/EditMekanik";
+import TambahMekanik from "./pages/Mekanik/TambahMekanik";
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/laporanFinancial" element={<LaporanFinancial />} />
           <Route path="/mekanik" element={<Mekanik />} />
+          <Route path="/tambahMekanik" element={<TambahMekanik />} />
+          <Route path="/editMekanik" element={<EditMekanik />} />
           <Route path="/pelanggan" element={<Pelanggan />} />
           <Route path="/stok" element={<Stok />} />
           <Route path="/transaksi" element={<Transaksi />} />
