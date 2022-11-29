@@ -6,9 +6,23 @@
   letter-spacing: 0em;
   text-align: left;
   color: #79839c;
-  margin-left: 11px;
   margin-bottom: 40px;
   margin-top: 3px;
+  text-decoration: none;
+}
+
+.slash{
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #79839c;
+  margin-bottom: 40px;
+  margin-top: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .icon {

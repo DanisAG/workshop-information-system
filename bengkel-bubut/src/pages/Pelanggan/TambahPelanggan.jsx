@@ -48,7 +48,7 @@ const TambahPelanggan = (props) => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} nama="Pelanggan" />
+        <Breadcrumbs icon={icon} name="Pelanggan" activeName="Tambah Pelanggan" url="/pelanggan" />
       </Row>
       <div className={styles.card}>
         <div className={styles.header}>

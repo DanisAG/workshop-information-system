@@ -12,7 +12,7 @@ const Pelanggan = () => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} nama="Pelanggan" />
+        <Breadcrumbs icon={icon} activeName="Pelanggan" />
       </Row>
       <Row className={pelangganStyles.topSection}>
         <Col className={pelangganStyles.search} lg={8}>

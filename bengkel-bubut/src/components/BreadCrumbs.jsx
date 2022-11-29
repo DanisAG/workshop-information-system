@@ -9,8 +9,10 @@ import {
   Button,
 } from "reactstrap";
 import React, { useState } from "react";
-import { AiOutlineDown,AiOutlineUp } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import Collapsible from "react-collapsible";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const Breadcrumbs = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,8 +32,20 @@ const Breadcrumbs = (props) => {
               width="17px"
               height="18px"
             />
-            <small className={styles.text}>/</small>
-            <small className={styles.text}> {props.nama}</small>
+            <small className={styles.slash}>/</small>
+            <Breadcrumb>
+              {props.name && (
+                <BreadcrumbItem className={styles.text}>
+                  <Link to={props.url} style={{color: "#6F6AF8"}}>{props.name}</Link>
+                </BreadcrumbItem>
+              )}
+
+              <BreadcrumbItem className={styles.text} active>
+                {props.activeName}
+              </BreadcrumbItem>
+            </Breadcrumb>
+            {/* <small className={styles.text}>/</small>
+            <small className={styles.text}> {props.nama}</small> */}
           </div>
         </h3>
         <div></div>
@@ -70,17 +84,17 @@ const Breadcrumbs = (props) => {
             </div>
             <div className={styles.userRole}>Administrator</div>
             {isOpen ? <div className={styles.logout}>Log Out</div> : ""}
-            
           </div>
           <div
             className={isOpen ? styles.dropdownDivExpand : styles.dropdownDiv}
           >
-            {isOpen ? <AiOutlineUp size={23}></AiOutlineUp> : <AiOutlineDown size={23}></AiOutlineDown>}
+            {isOpen ? (
+              <AiOutlineUp size={23}></AiOutlineUp>
+            ) : (
+              <AiOutlineDown size={23}></AiOutlineDown>
+            )}
           </div>
-        
         </div>
-        
-        
       </div>
     </div>
   );

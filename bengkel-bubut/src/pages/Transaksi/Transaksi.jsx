@@ -7,7 +7,7 @@ const Transaksi = () => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} nama="Transaksi" />
+        <Breadcrumbs icon={icon} activeName="Transaksi" url="/Transaksi" />
       </Row>
       <Row>
         <TransaksiTable/>

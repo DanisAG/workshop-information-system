@@ -50,7 +50,7 @@ const TambahTransaksi = (props) => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} nama="Pelanggan" />
+        <Breadcrumbs icon={icon} name="Transaksi" activeName="Tambah Transaksi" url="/transaksi" />
       </Row>
       <div className={styles.card}>
         <div className={styles.header}>
