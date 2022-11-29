@@ -63,7 +63,7 @@ const Sidebar = ({ children }) => {
 
   return (
     <div className={styles.container} >
-      <div className={styles.sidebar} style={{width: isOpen ? "200px" : "110px"}}>
+      <div className={styles.sidebar} style={{width: isOpen ? "170px" : "110px"}}>
         <div className={styles.logo}>
           <img src={logo} width="70px" onClick={toggle} style={{cursor: "pointer"}}/>
         </div>
