@@ -1,7 +1,7 @@
-import { Input, Button, Row, Col } from "reactstrap";
+import {  Row } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Transaksi.png";
-import TransaksiTable from "../../components/Pelanggan/Table.jsx";
+import TransaksiTable from "../../components/Transaksi/Table.jsx";
 
 const Transaksi = () => {
   return (

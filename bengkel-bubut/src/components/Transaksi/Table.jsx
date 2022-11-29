@@ -1,7 +1,14 @@
 import { Table } from "reactstrap";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import styles from "../../styles/Table.module.css";
+import {
+  AiOutlineDelete,
+  AiOutlineEdit,
+  AiOutlineTransaction,
+  AiFillCheckCircle
+} from "react-icons/ai";
+import styles from "../../styles/TableTransaksi.module.css";
 import { useNavigate } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
+import { Input, Button, Row, Col } from "reactstrap";
 
 const TransaksiTable = () => {
   const countData = ["", "", "", "", ""];
@@ -9,17 +16,39 @@ const TransaksiTable = () => {
 
   return (
     <div className={styles.divTable}>
+      <div className={styles.header}>
+        <div className="d-flex">
+          <AiOutlineTransaction className={styles.iconTransaction} size={40} />
+          <div className={styles.headerTitle}>SEMUA TRANSAKSI</div>
+        </div>
+
+        <div className={styles.divButton}>
+          <Button
+            className={styles.button}
+            onClick={() => {
+              navigate("/tambahTransaksi");
+            }}
+          >
+            <div>
+              <FaPlus className={styles.plusIcon} />
+            </div>
+            <div>Tambah Transaksi</div>
+          </Button>
+        </div>
+      </div>
       <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
         <thead className={styles.thead}>
           <tr className={styles.tr}>
-            <th className={styles.thFirstChild}>ID PELANGGAN</th>
+            <th className={styles.th}>ID TRANSAKSI</th>
+            <th className={styles.th}>TGL TRANSAKSI</th>
             <th className={styles.th}>PELANGGAN</th>
-            <th className={styles.th}>TANGGAL LAHIR</th>
-            <th className={styles.th}>JENIS KELAMIN</th>
-            <th className={styles.th}>ALAMAT</th>
-            <th className={styles.th}>NOMOR TELEPON</th>
-            <th className={styles.th}>EMAIL</th>
-            <th className={styles.thLastChild}>AKSI</th>
+            <th className={styles.th}>MEKANIK</th>
+            <th className={styles.th}>JENIS LAYANAN</th>
+            <th className={styles.th}>BARANG</th>
+            <th className={styles.th}>JUMLAH</th>
+            <th className={styles.th}>PENJUALAN</th>
+            <th className={styles.th}>STATUS</th>
+            <th className={styles.th}>AKSI</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +66,8 @@ const TransaksiTable = () => {
                 <td>Placeholder</td>
                 <td>Placeholder</td>
                 <td>Placeholder</td>
+                <td>Placeholder</td>
+                <td>Placeholder</td>
                 <td
                   className={
                     index + 1 == countData.length
@@ -44,10 +75,11 @@ const TransaksiTable = () => {
                       : styles.td
                   }
                 >
+                  <AiFillCheckCircle/>
                   <AiOutlineEdit
                     className={styles.edit}
                     onClick={() => {
-                      navigate("/EditPelanggan");
+                      navigate("/editTransaksi");
                     }}
                   />
                   <AiOutlineDelete className={styles.delete} />

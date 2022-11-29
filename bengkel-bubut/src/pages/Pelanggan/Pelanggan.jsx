@@ -12,22 +12,27 @@ const Pelanggan = () => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} nama="Pelanggan"/>
+        <Breadcrumbs icon={icon} nama="Pelanggan" />
       </Row>
       <Row className={pelangganStyles.topSection}>
-        <Col className={pelangganStyles.search} lg={8} >
+        <Col className={pelangganStyles.search} lg={8}>
           <Input
             type="text"
             placeholder="Cari Pelanggan"
             className={styles.searchBar}
           />
         </Col>
-        <Col className={pelangganStyles.divButton}  >
-          <Button className={pelangganStyles.button} onClick={() => {navigate("/TambahPelanggan", {
-      state: {
-        userId: "2",
-      }
-    })}}>
+        <Col className={pelangganStyles.divButton}>
+          <Button
+            className={pelangganStyles.button}
+            onClick={() => {
+              navigate("/tambahPelanggan", {
+                state: {
+                  userId: "2",
+                },
+              });
+            }}
+          >
             <div>
               <FaPlus className={pelangganStyles.plusIcon} />
             </div>

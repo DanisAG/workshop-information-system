@@ -10,6 +10,8 @@ import Stok from "./pages/Stok";
 import TambahPelanggan from "./pages/Pelanggan/TambahPelanggan";
 import EditPelanggan from "./pages/Pelanggan/EditPelanggan";
 import Transaksi from "./pages/Transaksi/Transaksi";
+import TambahTransaksi from "./pages/Transaksi/TambahTransaksi";
+import EditTransaksi from "./pages/Transaksi/EditTransaksi";
 
 const App = () => {
   return (
@@ -22,9 +24,11 @@ const App = () => {
           <Route path="/mekanik" element={<Mekanik />} />
           <Route path="/pelanggan" element={<Pelanggan />} />
           <Route path="/stok" element={<Stok />} />
-          <Route path="/Transaksi" element={<Transaksi />} />
-          <Route path="/TambahPelanggan" element={<TambahPelanggan />} />
-          <Route path="/EditPelanggan" element={<EditPelanggan />} />
+          <Route path="/transaksi" element={<Transaksi />} />
+          <Route path="/tambahPelanggan" element={<TambahPelanggan />} />
+          <Route path="/editPelanggan" element={<EditPelanggan />} />
+          <Route path="/tambahTransaksi" element={<TambahTransaksi />} />
+          <Route path="/editTransaksi" element={<EditTransaksi />} />
 
         </Routes>
       </Sidebar>

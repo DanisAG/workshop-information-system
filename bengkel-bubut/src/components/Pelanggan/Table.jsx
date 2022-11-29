@@ -25,7 +25,7 @@ const PelangganTable = () => {
         <tbody>
           {countData.map((item, index) => {
             return (
-              <tr>
+              <tr className={styles.tr}>
                 {index + 1 == countData.length ? (
                   <td className={styles.tdFirstLastChild}>Placeholder</td>
                 ) : (
@@ -47,7 +47,7 @@ const PelangganTable = () => {
                   <AiOutlineEdit
                     className={styles.edit}
                     onClick={() => {
-                      navigate("/EditPelanggan");
+                      navigate("/editPelanggan");
                     }}
                   />
                   <AiOutlineDelete className={styles.delete} />

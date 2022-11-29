@@ -5,6 +5,8 @@ import styles from "../../styles/Form.module.css";
 import Select from "react-select";
 import {MdSupervisedUserCircle} from 'react-icons/md';
 import {useLocation} from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import React, { useState } from "react";
 
 const TambahPelanggan = (props) => {
   const location = useLocation();
@@ -23,6 +25,8 @@ const TambahPelanggan = (props) => {
     { value: "lakilaki", label: "Laki-laki" },
     { value: "perempuan", label: "Perempuan" },
   ];
+  const [tanggalLahir, setTanggalLahir] = useState(new Date());
+
   return (
     <div>
       <Row>
@@ -42,7 +46,12 @@ const TambahPelanggan = (props) => {
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Tanggal Lahir</Label>
-            <Input placeholder="Tanggal Lahir" className={styles.input} />
+            <DatePicker
+              selected={tanggalLahir}
+              onChange={(date) => setTanggalLahir(date)}
+              onClickOutside
+              className={styles.datepicker}
+            />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Jenis Kelamin</Label>

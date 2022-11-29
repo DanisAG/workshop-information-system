@@ -3,16 +3,17 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
-import {MdSupervisedUserCircle} from 'react-icons/md';
+import { AiOutlineTransaction } from "react-icons/ai";
 import DatePicker from "react-datepicker";
+import { BsFillCalendar2RangeFill } from "react-icons/bs";
 import React, { useState } from "react";
 
-const EditPelanggan = (props) => {
-  console.log(props);
+const TambahTransaksi = (props) => {
   const style = {
     control: (base) => ({
       ...base,
       border: 0,
+      // This line disable the blue border
       boxShadow: "none",
       borderRadius: 12,
     }),
@@ -21,6 +22,8 @@ const EditPelanggan = (props) => {
     { value: "lakilaki", label: "Laki-laki" },
     { value: "perempuan", label: "Perempuan" },
   ];
+
+  const [tanggalTransaksi, setTanggalTransaksi] = useState(new Date());
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
 
   return (
@@ -31,52 +34,54 @@ const EditPelanggan = (props) => {
       <div className={styles.card}>
         <div className={styles.header}>
           <div>
-            <MdSupervisedUserCircle className={styles.iconForForm} size={40}/>
+            <AiOutlineTransaction className={styles.iconForForm} size={40} />
           </div>
-          <div className={styles.title}>EDIT PELANGGAN</div>
+          <div className={styles.title}>TAMBAH TRANSAKSI</div>
         </div>
         <Form>
+          <FormGroup className={styles.formgroup}>
+            <Label className={styles.label}>Tanggal Transaksi</Label>
+            <div className="d-flex">
+              <DatePicker
+                selected={tanggalTransaksi}
+                onChange={(date) => setTanggalTransaksi(date)}
+                onClickOutside
+                className={styles.datepicker}
+              />
+              {/* <BsFillCalendar2RangeFill className={styles.iconCalendar}/> */}
+            </div>
+          </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Pelanggan</Label>
             <Input placeholder="Nama Pelanggan" className={styles.input} />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Tanggal Lahir</Label>
-            <DatePicker
-              selected={tanggalLahir}
-              onChange={(date) => setTanggalLahir(date)}
-              onClickOutside
-              className={styles.datepicker}
-            />
+            <Label className={styles.label}>Mekanik</Label>
+            <Input placeholder="Nama Mekanik" className={styles.input} />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Jenis Kelamin</Label>
+            <Label className={styles.label}>Pilih Jenis Layanan</Label>
             <Select
               options={options}
               styles={style}
               className={styles.input}
-              placeholder="Pilih Jenis Kelamin"
+              placeholder="Pilih Jenis Layanan"
             />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Alamat</Label>
+            <Label className={styles.label}>Barang</Label>
             <Input
-              type="textarea"
-              placeholder="Tuliskan Alamat Pelanggan"
-              rows={4}
+              placeholder="Barang Yang Digunakan"
               className={styles.input}
             />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Nomor Telepon</Label>
-            <Input
-              placeholder="Nomor Telepon Pelanggan"
-              className={styles.input}
-            />
+            <Label className={styles.label}>Jumlah</Label>
+            <Input placeholder="Jumlah Barang" className={styles.input} />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Email</Label>
-            <Input placeholder="Email Pelanggan" className={styles.input} />
+            <Label className={styles.label}>Penjualan</Label>
+            <Input placeholder="Nilai Penjualan" className={styles.input} />
           </FormGroup>
         </Form>
         <div className="d-flex">
@@ -84,7 +89,7 @@ const EditPelanggan = (props) => {
             <Button className={styles.batal} outline>
               Batal
             </Button>
-            <Button className={styles.tambahTransaksi}>Edit Pelanggan</Button>
+            <Button className={styles.tambahTransaksi}>Tambah Transaksi</Button>
           </div>
         </div>
       </div>
@@ -92,4 +97,4 @@ const EditPelanggan = (props) => {
   );
 };
 
-export default EditPelanggan;
+export default TambahTransaksi;
