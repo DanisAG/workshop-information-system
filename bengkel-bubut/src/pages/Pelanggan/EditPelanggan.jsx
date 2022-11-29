@@ -28,7 +28,7 @@ const EditPelanggan = (props) => {
           <div>
             <MdSupervisedUserCircle className={styles.iconForForm} size={40}/>
           </div>
-          <div className={styles.title}>TAMBAH PELANGGAN</div>
+          <div className={styles.title}>EDIT PELANGGAN</div>
         </div>
         <Form>
           <FormGroup className={styles.formgroup}>
@@ -74,7 +74,7 @@ const EditPelanggan = (props) => {
             <Button className={styles.batal} outline>
               Batal
             </Button>
-            <Button className={styles.tambahTransaksi}>Tambah Transaksi</Button>
+            <Button className={styles.tambahTransaksi}>Edit Pelanggan</Button>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import styles from "../../styles/Table.module.css";
 import { useNavigate } from "react-router-dom";
 
-const PelangganTable = () => {
+const TransaksiTable = () => {
   const countData = ["", "", "", "", ""];
   const navigate = useNavigate();
 
@@ -61,4 +61,4 @@ const PelangganTable = () => {
   );
 };
 
-export default PelangganTable;
+export default TransaksiTable;

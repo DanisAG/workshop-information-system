@@ -8,7 +8,8 @@ import Mekanik from "./pages/Mekanik";
 import Pelanggan from "./pages/Pelanggan/Pelanggan";
 import Stok from "./pages/Stok";
 import TambahPelanggan from "./pages/Pelanggan/TambahPelanggan";
-import Transaksi from "./pages/Transaksi";
+import EditPelanggan from "./pages/Pelanggan/EditPelanggan";
+import Transaksi from "./pages/Transaksi/Transaksi";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/stok" element={<Stok />} />
           <Route path="/Transaksi" element={<Transaksi />} />
           <Route path="/TambahPelanggan" element={<TambahPelanggan />} />
+          <Route path="/EditPelanggan" element={<EditPelanggan />} />
 
         </Routes>
       </Sidebar>

@@ -79,7 +79,7 @@ const TambahPelanggan = (props) => {
             <Button className={styles.batal} outline>
               Batal
             </Button>
-            <Button className={styles.tambahTransaksi}>Tambah Transaksi</Button>
+            <Button className={styles.tambahTransaksi}>Tambah Pelanggan</Button>
           </div>
         </div>
       </div>
