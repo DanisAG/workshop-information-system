@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
 
-import Dashboard from "./pages/Dashboard";
-import LaporanFinancial from "./pages/LaporanFinancial";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import LaporanFinancial from "./pages/LaporanFinancial/LaporanFinancial";
 import Mekanik from "./pages/Mekanik/Mekanik";
 import Pelanggan from "./pages/Pelanggan/Pelanggan";
 import Stok from "./pages/Stok/Stok";
@@ -16,8 +16,9 @@ import EditMekanik from "./pages/Mekanik/EditMekanik";
 import TambahMekanik from "./pages/Mekanik/TambahMekanik";
 import TambahBarang from "./pages/Stok/TambahBarang";
 import EditBarang from "./pages/Stok/EditBarang";
-
+import {useState} from "react";
 const App = () => {
+
   return (
     <BrowserRouter >
       <Sidebar >

@@ -5,19 +5,9 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
   Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  Table,
-  Input,
-  Form,
-  FormGroup,
-  Label,
-  CardBody,
-  CardHeader,
+
 } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import styles from "../../styles/Stok.module.css";
@@ -41,7 +31,7 @@ const Stok = () => {
 
   const navigate = useNavigate();
   return (
-    <div>
+    <div className={styles.content}>
       <Row>
         <Breadcrumbs icon={icon} activeName="Stok" />
       </Row>

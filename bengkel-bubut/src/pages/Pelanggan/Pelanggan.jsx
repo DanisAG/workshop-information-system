@@ -6,11 +6,17 @@ import PelangganTable from "../../components/Pelanggan/Table.jsx";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import { useNavigate } from "react-router-dom";
-
+import {useLocation} from 'react-router-dom';
+import {useEffect} from "react";
 const Pelanggan = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;  console.log(state.isOpen);
+  useEffect(() => {
+  
+  }, [state.isOpen]);
   return (
-    <div>
+    <div className={state.isOpen ? pelangganStyles.contentExpand : pelangganStyles.content}>
       <Row>
         <Breadcrumbs icon={icon} activeName="Pelanggan" />
       </Row>
@@ -45,6 +51,8 @@ const Pelanggan = () => {
           <PelangganTable />
         </Col>
       </Row>
+    
+
     </div>
   );
 };

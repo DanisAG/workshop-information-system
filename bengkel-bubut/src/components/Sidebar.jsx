@@ -12,11 +12,12 @@ import stokActiveIcon from "../Images/selected/Stok.png";
 import stokNotActiveIcon from "../Images/notSelected/Stok.png";
 import mekanikActiveIcon from "../Images/selected/Mekanik.png";
 import mekanikNotActiveIcon from "../Images/notSelected/Mekanik.png";
-import {FaBars} from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import logo from "../Images/logo.png";
 import { useState } from "react";
 
 const Sidebar = ({ children }) => {
+  console.log(children);
   const menuItem = [
     {
       path: "/",
@@ -60,17 +61,26 @@ const Sidebar = ({ children }) => {
   const notActiveLink = `${styles.notActiveLink}`;
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
+  console.log(isOpen);
   return (
-    <div className={styles.container} >
-      <div className={styles.sidebar} style={{width: isOpen ? "170px" : "110px"}}>
+    <div className={styles.container}>
+      <div
+        className={styles.sidebar}
+        style={{ width: isOpen ? "170px" : "110px" }}
+      >
         <div className={styles.logo}>
-          <img src={logo} width="70px" onClick={toggle} style={{cursor: "pointer"}}/>
+          <img
+            src={logo}
+            width="70px"
+            onClick={toggle}
+            style={{ cursor: "pointer" }}
+          />
         </div>
         {menuItem.map((item, index) => (
           <div className={styles.link}>
             <NavLink
-              to={item.path}
+              to={{ pathname: item.path }}
+              state={{ isOpen: isOpen }}
               key={index}
               className={({ isActive }) =>
                 isActive ? activeLink : notActiveLink
@@ -79,12 +89,22 @@ const Sidebar = ({ children }) => {
                 const file = isActive ? item.activeIcon : item.notActiveIcon;
                 return (
                   <>
-                    <div className={isOpen ? styles.sidebarItemExpand : styles.sidebarItem}>
+                    <div
+                      className={
+                        isOpen ? styles.sidebarItemExpand : styles.sidebarItem
+                      }
+                    >
                       <div className={styles.icon}>
                         <img src={file} width="34px" height="38px" />
                       </div>
 
-                      <div className={isOpen ? styles.iconNameExpand : styles.iconName}>{item.name}</div>
+                      <div
+                        className={
+                          isOpen ? styles.iconNameExpand : styles.iconName
+                        }
+                      >
+                        {item.name}
+                      </div>
                     </div>
                   </>
                 );
