@@ -36,7 +36,8 @@ const Filter = () => {
       <Dropdown
         direction="down"
         isOpen={filterOpen}
-        onClick={() => setFilterOpen(!filterOpen)}
+        toggle={toggleFilter}
+        // onClick={() => setFilterOpen(!filterOpen)}
         style={{ zIndex: 300 }}
         onClickOutside
       >
