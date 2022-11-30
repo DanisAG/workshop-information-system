@@ -25,7 +25,7 @@ const Breadcrumbs = (props) => {
       <div className="d-flex">
         <h3 className={styles.breadcrumbs}>
           <b>{moment().format("dddd, MMMM Do YYYY")}</b>
-          <div className="d-flex">
+          <div className="d-flex" style={{height: "6vh"}}>
             <img
               src={props.icon}
               className={styles.icon}
