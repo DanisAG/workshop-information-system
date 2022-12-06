@@ -9,13 +9,14 @@ import styles from "../../styles/TableTransaksi.module.css";
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { Button } from "reactstrap";
-import Filter from "./Filter";
+import Filter from "../Filter";
 import swal from "sweetalert2";
 import { useState } from "react";
 
 const TransaksiTable = () => {
   const countData = ["", "", "", "", ""];
   const navigate = useNavigate();
+  const [filter, cekFilter] = useState(true);
 
   const handleClickDelete = () => {
       swal
@@ -46,8 +47,7 @@ const TransaksiTable = () => {
 
         <div className={styles.divButton}>
           <div className="d-flex">
-            <Filter />
-            {/* <BsFilterSquare size={40} className={styles.iconFilter} /> */}
+            <Filter transactionFilter={filter}/>
           </div>
           <Button
             className={styles.button}
