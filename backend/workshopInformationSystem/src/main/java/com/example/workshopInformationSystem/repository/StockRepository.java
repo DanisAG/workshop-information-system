@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.example.workshopInformationSystem.repository;
 
-import com.example.model.Stock;
+import com.example.workshopInformationSystem.model.Stock;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

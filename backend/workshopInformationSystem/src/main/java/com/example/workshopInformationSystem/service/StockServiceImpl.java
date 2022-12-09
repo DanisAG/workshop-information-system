@@ -1,7 +1,7 @@
-package com.example.service;
+package com.example.workshopInformationSystem.service;
 
-import com.example.model.Stock;
-import com.example.repository.StockRepository;
+import com.example.workshopInformationSystem.model.Stock;
+import com.example.workshopInformationSystem.repository.StockRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

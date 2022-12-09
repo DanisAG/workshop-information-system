@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.example.workshopInformationSystem.controller;
 
-import com.example.model.Stock;
-import com.example.service.StockService;
+import com.example.workshopInformationSystem.model.Stock;
+import com.example.workshopInformationSystem.service.StockService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
