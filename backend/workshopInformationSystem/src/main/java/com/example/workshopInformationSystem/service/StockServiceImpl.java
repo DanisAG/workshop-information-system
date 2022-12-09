@@ -1,5 +1,7 @@
 package com.example.workshopInformationSystem.service;
 
+import java.util.List;
+
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.repository.StockRepository;
 
@@ -15,5 +17,11 @@ public class StockServiceImpl implements StockService {
     public Stock saveStock(Stock stock){
         return stockRepository.save(stock);
     }
+
+    @Override
+    public List<Stock> getAllStocks() {
+        return stockRepository.findAll();
+    }
+    
 
 }

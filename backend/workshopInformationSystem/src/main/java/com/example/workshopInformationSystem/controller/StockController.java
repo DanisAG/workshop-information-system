@@ -1,10 +1,13 @@
 package com.example.workshopInformationSystem.controller;
 
+import java.util.List;
+
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.service.StockService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,11 @@ public class StockController {
     public String add(@RequestBody Stock stock){
         stockService.saveStock(stock);
         return "New Stock is added";
+    }
+
+    @GetMapping("/getAll")
+    public List<Stock> getAllStudents(){
+        return stockService.getAllStocks();
     }
   
 }
