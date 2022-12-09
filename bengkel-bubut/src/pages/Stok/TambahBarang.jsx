@@ -40,22 +40,23 @@ const TambahBarang = (props) => {
       });
   };
 
-  const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [name, setItemName] = useState("");
+  const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState();
 
   const handleClick = (e) => {
     e.preventDefault();
-    const stock = { itemName, price, quantity };
+    const stock = { name, price, quantity };
     console.log(stock);
 
     fetch("http://localhost:8080/stock/add", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(stock),
     })
       .then((response) => {
         console.log(response.status);
+    
         response.json();
       })
       .then((result) => {
@@ -97,7 +98,7 @@ const TambahBarang = (props) => {
               placeholder="Nama Barang"
               className={styles.input}
               onChange={(e) => setItemName(e.target.value)}
-              value={itemName}
+              value={name}
             />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
@@ -116,13 +117,6 @@ const TambahBarang = (props) => {
               className={styles.input}
               onChange={(e) => setQuantity(e.target.value)}
               value={quantity}
-            />
-          </FormGroup>
-          <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Terpakai</Label>
-            <Input
-              placeholder="Banyak Barang Terpakai"
-              className={styles.input}
             />
           </FormGroup>
         </Form>

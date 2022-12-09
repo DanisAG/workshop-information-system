@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "stocks")
@@ -15,16 +14,13 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Name can't be null")
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull(message = "Price can't be null")
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private int price;
 
-    @NotNull(message = "Quantity can't be null")
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
     public Stock() {
