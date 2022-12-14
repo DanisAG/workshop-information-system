@@ -35,6 +35,38 @@ public class StockServiceImpl implements StockService {
         }
     }
     
+    
+    @Override
+    public Stock updateStock(Stock stock){
+        try {            
+
+            Stock stocks = new Stock();
+            stocks.setId(stock.getId());
+            stocks.setName(stock.getName());
+            stocks.setPrice(stock.getPrice()); 
+            stocks.setQuantity(stock.getQuantity());
+            
+            stockRepository.save(stocks);
+
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("user", stock);
+            return stocks;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String deleteStock(Integer id){
+        try {                        
+            stockRepository.deleteById(id);
+            return "Stock Deleted";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to Delete Stock";
+        }
+    }
 
     @Override
     public List<Stock> getAllStocks() {
