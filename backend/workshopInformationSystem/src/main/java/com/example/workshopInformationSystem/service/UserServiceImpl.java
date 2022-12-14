@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import com.example.workshopInformationSystem.model.User;
 import com.example.workshopInformationSystem.repository.UserRepository;
 import com.example.workshopInformationSystem.util.CommonMethod;
@@ -23,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     @Override
     public User saveUser(User user){
         try {            
@@ -50,6 +57,21 @@ public class UserServiceImpl implements UserService {
             return users;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public User logInUser(User user){
+        try {            
+            String query = "FROM User WHERE username=:username and password=:password";
+            Query queryResult = entityManager.createQuery(query);
+            queryResult.setParameter("username", user.getUsername());
+            queryResult.setParameter("password", user.getPassword());
+            User resultList = (User) queryResult.getSingleResult();
+            return resultList;
+        } catch (Exception e) {
+            // e.printStackTrace();
             return null;
         }
     }

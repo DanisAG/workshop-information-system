@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.workshopInformationSystem.model.User;
 public interface UserService{
     public User saveUser(User user);
+    public User logInUser(User user);
     public List<User> getAllUsers();
 
 }

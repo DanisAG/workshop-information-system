@@ -1,6 +1,8 @@
 package com.example.workshopInformationSystem.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.User;
@@ -31,5 +33,18 @@ public class UserController {
     @GetMapping("/getAll")
     public List<User> getAllUsers(){
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/login")
+    public Map<String,Object> logInUser(@RequestBody User user){
+        Map<String,Object> result = new HashMap<>();
+        User res = userService.logInUser(user);
+        if(res==null){
+            result.put("user","user nor found");
+            return result;
+        }
+        result.put("user",res);
+
+        return result;
     }
 }
