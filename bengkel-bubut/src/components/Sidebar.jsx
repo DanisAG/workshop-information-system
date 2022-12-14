@@ -20,7 +20,7 @@ const Sidebar = ({ children }) => {
   console.log(children);
   const menuItem = [
     {
-      path: "/dashboard",
+      path: "/",
       name: "Dashboard",
       activeIcon: dashboardActiveIcon,
       notActiveIcon: dashboardNotActiveIcon,
