@@ -45,7 +45,7 @@ const Login = () => {
       <div className={styles.rightContentDiv}>
         <div className={styles.rightTop}>
           Belum Punya Akun?{" "}
-          <Link to="/s" style={{ color: "#6F6AF8" }}>
+          <Link to="/signup" style={{ color: "#6F6AF8" }}>
             Sign Up
           </Link>
         </div>
