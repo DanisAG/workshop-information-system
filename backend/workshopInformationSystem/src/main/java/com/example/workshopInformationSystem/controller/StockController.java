@@ -1,6 +1,8 @@
 package com.example.workshopInformationSystem.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.service.StockService;
@@ -33,8 +35,14 @@ public class StockController {
     }
 
     @GetMapping("/getAll")
-    public List<Stock> getAllStudents(){
-        return stockService.getAllStocks();
+    public Map<String,Object> getAllStudents(@RequestHeader (name="Authorization") String token){
+        Map<String,Object> result = new HashMap<>();
+        if(userService.checkToken(token)==false){
+            result.put("stock", "Invalid Token");
+            return result;
+        }
+        result.put("stock", stockService.getAllStocks());
+        return result;
     }
   
 }
