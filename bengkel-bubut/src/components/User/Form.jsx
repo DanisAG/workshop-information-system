@@ -92,7 +92,11 @@ const FormUser = (props) => {
       })
       .then((data) => {
         console.log(data.user.token);
-        authCtx.login(data.user.token);
+        const expirationTime = new Date(
+         data.user.expiredDate
+        ).getTime();
+        console.log(expirationTime);
+        authCtx.login(data.user.token, expirationTime);
         navigate("/");
       })
       .catch((err) => {
