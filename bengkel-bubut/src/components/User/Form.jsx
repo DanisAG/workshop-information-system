@@ -53,19 +53,51 @@ const FormUser = (props) => {
   const authCtx = useContext(AuthContext);
   console.log(authCtx);
   const onSubmit = (values, actions) => {
-    console.log(values.username);
-    console.log(actions);
-    props.userData.map((data) => {
-      console.log(data);
-      if (
-        data.username === values.username &&
-        data.password === values.password
-      ) {
-        authCtx.login(data.token);
-        navigate("/dashboard");
-      }
-      console.log(location.state);
-    });
+    console.log(values);
+    // props.userData.map((data) => {
+    //   console.log(data);
+    //   if (
+    //     data.username === values.username &&
+    //     data.password === values.password
+    //   ) {
+    //     authCtx.login(data.token);
+    //     navigate("/dashboard");
+    //   }
+    //   console.log(location.state);
+    // });
+
+    fetch("http://localhost:8080/user/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username: values.username,
+        password: values.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.json().then((data) => {
+            let errorMessage = "Authentication failed!";
+            errorMessage = data?.error?.message;
+
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data.user.token);
+        authCtx.login(data.user.token);
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   const loginFormik = useFormik({
