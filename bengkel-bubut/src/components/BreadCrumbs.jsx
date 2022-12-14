@@ -8,18 +8,27 @@ import {
   DropdownItem,
   Button,
 } from "reactstrap";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import Collapsible from "react-collapsible";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
+import AuthContext from "./store/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const Breadcrumbs = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const authCtx = useContext(AuthContext);
   // const toggle = () => setDropdownOpen((prevState) => !prevState);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    navigate("/login");
+  }
+  
   return (
     <div className="d-flex">
       <div className="d-flex">
@@ -83,7 +92,7 @@ const Breadcrumbs = (props) => {
               Staff Name
             </div>
             <div className={styles.userRole}>Administrator</div>
-            {isOpen ? <div className={styles.logout}>Log Out</div> : ""}
+            {isOpen ? <div className={styles.logout} onClick={logoutHandler}>Log Out</div> : ""}
           </div>
           <div
             className={isOpen ? styles.dropdownDivExpand : styles.dropdownDiv}

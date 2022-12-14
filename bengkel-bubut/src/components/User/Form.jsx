@@ -5,11 +5,14 @@ import styles from "../../styles/FormUser.module.css";
 import Select from "react-select";
 import { MdSupervisedUserCircle } from "react-icons/md";
 import DatePicker from "react-datepicker";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GiMechanicGarage } from "react-icons/gi";
-
+import { useFormik } from "formik";
+import { loginSchema } from "./Schema";
+import { UserContext } from "../../App.js";
+import AuthContext from "../store/AuthContext.jsx";
 const FormUser = (props) => {
   console.log(props);
   const style = {
@@ -26,7 +29,6 @@ const FormUser = (props) => {
   ];
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
   const [cancelStatus, setCancelStatus] = useState(false);
-  const navigate = useNavigate();
   const handleClickCancel = () => {
     setCancelStatus(true);
     swal
@@ -46,8 +48,43 @@ const FormUser = (props) => {
       });
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
+  console.log(authCtx);
+  const onSubmit = (values, actions) => {
+    console.log(values.username);
+    console.log(actions);
+    props.userData.map((data) => {
+      console.log(data);
+      if (
+        data.username === values.username &&
+        data.password === values.password
+      ) {
+        authCtx.login(data.token);
+        navigate("/dashboard");
+      }
+      console.log(location.state);
+    });
+  };
+
+  const loginFormik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit,
+  });
+
+  console.log(loginFormik);
+
   return (
-    <div className={props.signupStatus ? styles.formContentSignup : styles.formContentLogin}>
+    <div
+      className={
+        props.signupStatus ? styles.formContentSignup : styles.formContentLogin
+      }
+    >
       <div className={styles.header}>
         {props.signupStatus ? (
           <div className={styles.title}>CREATE YOUR ACCOUNT</div>
@@ -55,7 +92,7 @@ const FormUser = (props) => {
           <div className={styles.title}>LOG IN ACCOUNT</div>
         )}
       </div>
-      <Form>
+      <Form onSubmit={loginFormik.handleSubmit} autoComplete="off">
         {props.signupStatus && (
           <>
             <FormGroup className={styles.formgroup}>
@@ -75,7 +112,7 @@ const FormUser = (props) => {
               <Label className={styles.label}>Password</Label>
               <Input
                 type="password"
-                placeholder="Tulis 8 karakter, 1 Huruf Besar"
+                placeholder="Minimal 5 karakter, 1 Huruf Besar, 1 Angka"
                 className={styles.input}
               />
             </FormGroup>
@@ -94,30 +131,61 @@ const FormUser = (props) => {
           <>
             <FormGroup className={styles.formgroup}>
               <Label className={styles.label}>Email</Label>
-              <Input placeholder="username@user.com" className={styles.input} />
+              <Input
+                id="username"
+                placeholder="username@user.com"
+                value={loginFormik.values.username}
+                onChange={loginFormik.handleChange}
+                onBlur={loginFormik.handleBlur}
+                autoComplete="off"
+                className={
+                  loginFormik.errors.username && loginFormik.touched.username
+                    ? styles.inputError
+                    : styles.input
+                }
+                // className={styles.input}
+              />
+              {loginFormik.errors.username && loginFormik.touched.username && (
+                <p className={styles.error}>{loginFormik.errors.username}</p>
+              )}
             </FormGroup>
 
             <FormGroup className={styles.formgroup}>
               <Label className={styles.label}>Password</Label>
               <Input
+                id="password"
                 type="password"
-                placeholder="Tulis 8 karakter, 1 Huruf Besar"
-                className={styles.input}
+                value={loginFormik.values.password}
+                onChange={loginFormik.handleChange}
+                onBlur={loginFormik.handleBlur}
+                className={
+                  loginFormik.errors.password && loginFormik.touched.password
+                    ? styles.inputError
+                    : styles.input
+                }
+                placeholder="Minimal 5 karakter, 1 Huruf Besar, 1 Angka"
               />
+              {loginFormik.errors.password && loginFormik.touched.password && (
+                <p className={styles.error}>{loginFormik.errors.password}</p>
+              )}
             </FormGroup>
           </>
         )}
-      </Form>
-      <div className="d-flex">
-        <div className={styles.button}>
-          {props.signupStatus && (
-            <Button className={styles.buatAkun}>Buat Akun</Button>
-          )}
-          {props.loginStatus && (
-            <Button className={styles.buatAkun}>Masuk Akun</Button>
-          )}
+        <div className="d-flex">
+          <div className={styles.button}>
+            {props.loginStatus && (
+              <Button className={styles.buatAkun} type="submit">
+                Masuk Akun
+              </Button>
+            )}
+            {props.signupStatus && (
+              <Button className={styles.buatAkun} type="submit">
+                Buat Akun
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      </Form>
     </div>
   );
 };

@@ -2,9 +2,17 @@ import styles from "../../styles/Login.module.css";
 import logo from "../../Images/login.png";
 import Form from "../../components/User/Form";
 import { Link } from "react-router-dom";
-import {useState} from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../components/store/AuthContext";
 const SignUp = () => {
-    const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(true);
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
+  if (authCtx.isLoggedIn) {
+    navigate("/dashboard");
+    return;
+  }
   return (
     <div className="d-flex">
       <div className={styles.leftContentDiv}>
@@ -27,7 +35,7 @@ const SignUp = () => {
             Log In
           </Link>
         </div>
-        <Form signupStatus ={status}/>
+        <Form signupStatus={status} />
       </div>
     </div>
   );

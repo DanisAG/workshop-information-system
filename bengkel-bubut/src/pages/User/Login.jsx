@@ -1,11 +1,33 @@
 import styles from "../../styles/Login.module.css";
 import logo from "../../Images/login.png";
 import Form from "../../components/User/Form";
-import { Link } from "react-router-dom";
-import {useState} from "react";
+import { Link, Navigate } from "react-router-dom";
+import {useState, useEffect, useContext} from "react";
+import {useFormik} from "formik";
+import { UserContext } from "../../App";
+import AuthContext from "../../components/store/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
     const [status, setStatus] = useState(true);
+    const [userData, setUserData] = useState();
+    useEffect(() => {
+      fetch("http://localhost:8080/user/getAll")
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          setUserData(result);
+        });
+    }, []);  
+
+    const navigate = useNavigate();
+    const authCtx = useContext(AuthContext)
+
+    if(authCtx.isLoggedIn) {
+      return <Navigate to="/"/>;
+    }
   return (
+      
     <div className="d-flex">
       <div className={styles.leftContentDiv}>
         <div className={styles.leftContent}>
@@ -27,7 +49,7 @@ const Login = () => {
             Sign Up
           </Link>
         </div>
-        <Form loginStatus ={status}/>
+        <Form loginStatus ={status} userData = {userData}/>
       </div>
     </div>
   );
