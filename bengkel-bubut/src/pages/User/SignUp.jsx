@@ -1,7 +1,7 @@
 import styles from "../../styles/Login.module.css";
 import logo from "../../Images/login.png";
 import Form from "../../components/User/Form";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../components/store/AuthContext";
@@ -10,8 +10,7 @@ const SignUp = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   if (authCtx.isLoggedIn) {
-    navigate("/dashboard");
-    return;
+    return <Navigate to="/"/>;
   }
   return (
     <div className="d-flex">

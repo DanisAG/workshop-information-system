@@ -28,8 +28,8 @@ public class UserController {
         return "New User is added";
     }
 
-    // @GetMapping("/getAll")
-    // public List<Stock> getAllStudents(){
-    //     return userService.getAllStocks();
-    // }
+    @GetMapping("/getAll")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
 }
