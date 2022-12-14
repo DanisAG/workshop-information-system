@@ -1,5 +1,6 @@
 package com.example.workshopInformationSystem.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class StockServiceImpl implements StockService {
             stocks.setName(stock.getName());
             stocks.setPrice(stock.getPrice()); 
             stocks.setQuantity(stock.getQuantity());
-            
+            stocks.setCreated(new Date());
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();
@@ -52,6 +53,7 @@ public class StockServiceImpl implements StockService {
             stocks.setId(stock.getId());
             stocks.setName(stock.getName());
             stocks.setPrice(stock.getPrice()); 
+            stocks.setUpdated(new Date());
             stocks.setQuantity(stock.getQuantity());
             
             stockRepository.save(stocks);

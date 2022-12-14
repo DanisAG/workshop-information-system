@@ -1,5 +1,7 @@
 package com.example.workshopInformationSystem.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,12 @@ public class Stock {
 
     @Column(name = "quantity")
     private int quantity;
+
+    @Column(name = "created")
+    private Date created;
+
+    @Column(name = "updated")
+    private Date updated;
 
     public Stock() {
     }
@@ -64,4 +72,22 @@ public class Stock {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public Date getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return this.updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+
 }
