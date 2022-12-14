@@ -77,6 +77,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean checkToken(String token){
+        try {            
+            String[] tokens = token.split(" ");
+            String query = "SELECT count(*) as total FROM User WHERE token=:token and ExpiredDate>:ExpiredDate";
+            Query queryResult = entityManager.createQuery(query);
+            queryResult.setParameter("token", tokens[1]);
+            queryResult.setParameter("ExpiredDate", new Date());
+            Long resultList = (Long) queryResult.getSingleResult();
+
+            if(resultList>0)return true;
+            else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
