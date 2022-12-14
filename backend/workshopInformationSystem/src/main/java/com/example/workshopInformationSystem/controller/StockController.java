@@ -60,4 +60,17 @@ public class StockController {
         return result;
     }
   
+    @GetMapping("/getList")
+    public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+        Map<String,Object> result = new HashMap<>();
+        if(userService.checkToken(token)==false){
+            result.put("stock", "Invalid Token");
+            return result;
+        }
+        result.put("stock", stockService.getAllStocks());
+        int totalData = stockService.getStockTotal(reqData);
+        result = stockService.getStockPagination(reqData, totalData);
+        return result;
+    }
+
 }
