@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../components/store/AuthContext.jsx";
 const TambahBarang = (props) => {
   const navigate = useNavigate();
   const style = {
@@ -67,8 +69,13 @@ const TambahBarang = (props) => {
       });
   };
 
+  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
-    fetch("http://localhost:8080/stock/getAll")
+    console.log(authCtx);
+    fetch("http://localhost:8080/stock/getAll",{
+      method: "GET",
+      headers: {"Authorization": `Bearer ${authCtx.token}`}})
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
