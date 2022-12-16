@@ -10,10 +10,10 @@ import {
 
 } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
-import styles from "../../styles/Stok.module.css";
+import styles from "../../styles/Stock.module.css";
 import { MdInventory2 } from "react-icons/md";
-import { Chart } from "../../components/Stok/Chart";
-import StokTable from "../../components/Stok/Table.jsx";
+import { Chart } from "../../components/Stock/Chart";
+import StokTable from "../../components/Stock/Table.jsx";
 import { useState } from "react";
 import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ import { AiFillWarning, AiFillStar } from "react-icons/ai";
 import { TbNumber1,TbNumber2,TbNumber3,TbNumber4 } from "react-icons/tb";
 import { BsArrowUpShort } from "react-icons/bs";
 
-const Stok = () => {
+const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
   const toggle = (tab) => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
@@ -86,13 +86,13 @@ const Stok = () => {
                 <Button
                   className={styles.button}
                   onClick={() => {
-                    navigate("/tambahBarang");
+                    navigate("/addStock");
                   }}
                 >
                   <div>
                     <FaPlus className={pelangganStyles.plusIcon} />
                   </div>
-                  <div>Tambah Barang</div>
+                  <div>Add Stock</div>
                 </Button>
               </div>
             </div>
@@ -196,4 +196,4 @@ const Stok = () => {
   );
 };
 
-export default Stok;
+export default Stock;

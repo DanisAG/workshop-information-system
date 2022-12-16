@@ -32,8 +32,8 @@ const Sidebar = ({ children }) => {
       notActiveIcon: transaksiNotActiveIcon,
     },
     {
-      path: "/stok",
-      name: "Stok",
+      path: "/stock",
+      name: "Stock",
       activeIcon: stokActiveIcon,
       notActiveIcon: stokNotActiveIcon,
     },

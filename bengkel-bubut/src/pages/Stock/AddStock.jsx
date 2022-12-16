@@ -9,7 +9,7 @@ import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
-const TambahBarang = (props) => {
+const AddStock = (props) => {
   const navigate = useNavigate();
   const style = {
     control: (base) => ({
@@ -27,13 +27,13 @@ const TambahBarang = (props) => {
   const handleClickCancel = () => {
     swal
       .fire({
-        title: "KONFIRMASI",
-        text: "Anda yakin untuk membuang perubahan ini?",
+        title: "Confirmation",
+        text: "Are you sure to discard the changes?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#d33",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Hapus",
+        confirmButtonText: "Discard",
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -51,21 +51,43 @@ const TambahBarang = (props) => {
     const stock = { name, price, quantity };
     console.log(stock);
 
-    fetch("http://localhost:8080/stock/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(stock),
-    })
-      .then((response) => {
-        console.log(response.status);
-    
-        response.json();
+    swal
+      .fire({
+        title: "Confirmation",
+        text: "Are you sure to add the data?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Add",
       })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((response) => {
-        console.log(response.status);
+      .then( (result) => {
+        if (result.isConfirmed) {
+          fetch("http://localhost:8080/stock/add", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authCtx.token}`,
+            },
+            body: JSON.stringify(stock),
+          })
+            .then(async(response) => {
+              if(!response.ok){
+                throw new Error(response.statusText)
+              }
+              else{
+               await swal.fire("Added!", "The Data has been added.", "success");
+                navigate("/stock")
+              }
+            })
+            .catch((error) => {
+              swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Request failed: ${error}`,
+              });
+            });
+        }
       });
   };
 
@@ -73,9 +95,10 @@ const TambahBarang = (props) => {
 
   useEffect(() => {
     console.log(authCtx);
-    fetch("http://localhost:8080/stock/getAll",{
+    fetch("http://localhost:8080/stock/getAll", {
       method: "GET",
-      headers: {"Authorization": `Bearer ${authCtx.token}`}})
+      headers: { Authorization: `Bearer ${authCtx.token}` },
+    })
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
@@ -86,9 +109,9 @@ const TambahBarang = (props) => {
       <Row>
         <Breadcrumbs
           icon={icon}
-          name="Stok"
-          activeName="Tambah Barang"
-          url="/stok"
+          name="Stock"
+          activeName="Add Stock"
+          url="/stock"
         />
       </Row>
       <div className={styles.card}>
@@ -96,31 +119,31 @@ const TambahBarang = (props) => {
           <div>
             <MdInventory2 className={styles.iconForForm} size={40} />
           </div>
-          <div className={styles.title}>TAMBAH BARANG</div>
+          <div className={styles.title}>Add Stock</div>
         </div>
         <Form>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Nama Barang</Label>
+            <Label className={styles.label}>Item Name</Label>
             <Input
-              placeholder="Nama Barang"
+              placeholder="Item Name"
               className={styles.input}
               onChange={(e) => setItemName(e.target.value)}
               value={name}
             />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Harga</Label>
+            <Label className={styles.label}>Price</Label>
             <Input
-              placeholder="Nominal Harga"
+              placeholder="Price"
               className={styles.input}
               onChange={(e) => setPrice(e.target.value)}
               value={price}
             />
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Stok</Label>
+            <Label className={styles.label}>Stock</Label>
             <Input
-              placeholder="Banyak Stok Barang"
+              placeholder="Quantity"
               className={styles.input}
               onChange={(e) => setQuantity(e.target.value)}
               value={quantity}
@@ -134,13 +157,13 @@ const TambahBarang = (props) => {
               outline
               onClick={handleClickCancel}
             >
-              Batal
+              Cancel
             </Button>
             <Button
               className={styles.tambahTransaksi}
               onClick={(e) => handleClick(e)}
             >
-              Tambah Barang
+              Add Stock
             </Button>
           </div>
         </div>
@@ -149,4 +172,4 @@ const TambahBarang = (props) => {
   );
 };
 
-export default TambahBarang;
+export default AddStock;

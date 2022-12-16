@@ -1,51 +1,77 @@
-import {useState} from "react";
+import { useState } from "react";
 import React from "react";
+import { useRef } from "react";
+import { useContext } from "react";
 
 const AuthContext = React.createContext({
-    token: "",
-    isLoggedIn: false,
-    login: (token) => {},
-    logout: () => {}
+  token: "",
+  isLoggedIn: false,
+  login: (token) => {},
+  logout: () => {},
 });
 
-const calculateRemainingTime =(expirationTime) => {
-    const currentTime = new Date().getTime();
-    const adjExpirationTime = new Date(expirationTime).getTime();
-    
-    const remainingDuration = adjExpirationTime - currentTime;
+const calculateRemainingTime = (expirationTime) => {
+  const currentTime = new Date().getTime();
+  const adjExpirationTime = new Date(expirationTime).getTime();
 
-    return remainingDuration;
-}
+  const remainingDuration = adjExpirationTime - currentTime;
+
+  return remainingDuration;
+};
 
 export const AuthContextProvider = (props) => {
-    const initialToken = localStorage.getItem('token');
-    const [token, setToken] = useState(initialToken)
+  const initialToken = localStorage.getItem("token");
+  const [token, setToken] = useState(initialToken);
+  const authCtx = useContext(AuthContext);
+  const userIsLoggedIn = !!token;
 
-    const userIsLoggedIn = !!token;
+  // if(token === "Invalid Token") {
+  //      userIsLoggedIn =false;
+  // }
 
-    const logoutHandler = () => {
-        setToken(null);
-        localStorage.removeItem('token');
-    };
+  const logoutHandler = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+  };
 
-    const loginHandler = (token, expirationTime) => {
-        setToken(token);
-        console.log(token);
-        localStorage.setItem('token', token);
+  const loginHandler = (token) => {
+    setToken(token);
+    console.log(token);
 
-        const remainingTime = calculateRemainingTime(expirationTime);
+    localStorage.setItem("token", token);
+  };
+
+  fetch("http://localhost:8080/user/getAll", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${authCtx.token}` },
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      console.log(result);
+      result.map((data) => {
+        console.log(data);
+        const expirationTime = new Date(
+            data.expiredDate
+           ).getTime();
+        let remainingTime = calculateRemainingTime(expirationTime);
         console.log(remainingTime);
+        if (remainingTime < 0) remainingTime = 0;
         setTimeout(logoutHandler, remainingTime);
-    };
+      });
+    });
 
-const contextValue = {
+  const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
-    logout: logoutHandler
-}
+    logout: logoutHandler,
+  };
 
-    return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {props.children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;

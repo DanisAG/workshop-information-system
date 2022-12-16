@@ -14,7 +14,7 @@ import { loginSchema } from "./Schema";
 import { UserContext } from "../../App.js";
 import AuthContext from "../store/AuthContext.jsx";
 const FormUser = (props) => {
-  console.log(props);
+  // console.log(props);
   const style = {
     control: (base) => ({
       ...base,
@@ -51,20 +51,9 @@ const FormUser = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  console.log(authCtx);
+  // console.log(authCtx);
   const onSubmit = (values, actions) => {
-    console.log(values);
-    // props.userData.map((data) => {
-    //   console.log(data);
-    //   if (
-    //     data.username === values.username &&
-    //     data.password === values.password
-    //   ) {
-    //     authCtx.login(data.token);
-    //     navigate("/dashboard");
-    //   }
-    //   console.log(location.state);
-    // });
+    // console.log(values);
 
     fetch("http://localhost:8080/user/login", {
       method: "POST",
@@ -92,11 +81,7 @@ const FormUser = (props) => {
       })
       .then((data) => {
         console.log(data.user.token);
-        const expirationTime = new Date(
-         data.user.expiredDate
-        ).getTime();
-        console.log(expirationTime);
-        authCtx.login(data.user.token, expirationTime);
+        authCtx.login(data.user.token);
         navigate("/");
       })
       .catch((err) => {
@@ -113,7 +98,7 @@ const FormUser = (props) => {
     onSubmit,
   });
 
-  console.log(loginFormik);
+  // console.log(loginFormik);
 
   return (
     <div
