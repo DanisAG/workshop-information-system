@@ -67,7 +67,6 @@ public class StockController {
             result.put("stock", "Invalid Token");
             return result;
         }
-        result.put("stock", stockService.getAllStocks());
         int totalData = stockService.getStockTotal(reqData);
         result = stockService.getStockPagination(reqData, totalData);
         return result;

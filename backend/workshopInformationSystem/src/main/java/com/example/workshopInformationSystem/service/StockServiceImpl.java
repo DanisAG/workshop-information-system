@@ -89,7 +89,13 @@ public class StockServiceImpl implements StockService {
         try {
 
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
-            String stockFilter = reqData.get("stock") != null ? reqData.get("stock").toString().toUpperCase() : "";
+            String stockFilter = "";
+            Map<String, Object> filtered = new HashMap<>();
+            
+            if (reqData.get("filter")!=null) {
+                filtered = (Map<String, Object>) reqData.get("filter");
+                stockFilter = filtered.get("stock") != null ? filtered.get("stock").toString().toLowerCase() : "";
+            }
 
             String query = "SELECT COUNT(a) FROM Stock a WHERE a.id>0 ";
             if(!stockFilter.isEmpty()){
