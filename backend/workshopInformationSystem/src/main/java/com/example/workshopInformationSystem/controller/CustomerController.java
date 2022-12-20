@@ -53,7 +53,7 @@ public class CustomerController {
     public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
-            result.put("stock", "Invalid Token");
+            result.put("customer", "Invalid Token");
             return result;
         }
         int totalData = customerService.getCustomerTotal(reqData);
