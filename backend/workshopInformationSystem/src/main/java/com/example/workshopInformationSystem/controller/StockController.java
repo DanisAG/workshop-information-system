@@ -60,7 +60,7 @@ public class StockController {
         return result;
     }
   
-    @GetMapping("/getList")
+    @PostMapping("/getList")
     public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){

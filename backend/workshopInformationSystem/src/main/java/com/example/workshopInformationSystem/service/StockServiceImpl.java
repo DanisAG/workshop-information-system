@@ -87,12 +87,23 @@ public class StockServiceImpl implements StockService {
     public Integer getStockTotal(Map<String, Object> reqData) {
         Long totalData = null;
         try {
-            String query = "SELECT COUNT(a) FROM User a ";
-            query += "JOIN RoleUser ru ON a.id = ru.userId ";
-            query += "JOIN Role r ON ru.roleId = r.id " ;
-            query += "WHERE (a.isActive=true or a.isActive IS NULL) ";
-            query += "AND (LOWER(a.email) LIKE CONCAT('%', :key, '%') OR LOWER(a.username) LIKE CONCAT('%', :key, '%') OR LOWER(a.fullName) LIKE CONCAT('%', :key, '%')) ";
 
+            String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
+            String stockFilter = reqData.get("stock") != null ? reqData.get("stock").toString().toLowerCase() : "";
+
+            String query = "SELECT COUNT(a) FROM Stock a WHERE a.id>0 ";
+            if(!stockFilter.isEmpty()){
+                if(stockFilter.equalsIgnoreCase("EMPTY")){
+                    query += "AND a.quantity = 0 ";
+                }
+                if(stockFilter.equalsIgnoreCase("ALL")){
+                    query += "AND a.quantity > 0 ";
+                }
+                
+            }
+            if(!key.isEmpty()){
+            query += " AND (UPPER(a.name) LIKE CONCAT('%', UPPER(" + key + "), '%')) ";
+            }
             Query queryResult = entityManager.createQuery(query,Long.class);
 
             totalData = (Long) queryResult.getSingleResult();
@@ -112,9 +123,14 @@ public class StockServiceImpl implements StockService {
             int limit =reqData.get("limit") != null ? Integer.parseInt(reqData.get("limit").toString()) : 0;
             int currentPage =reqData.get("page") !=null ? Integer.parseInt(reqData.get("page").toString()) : 0;
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
+            String stockFilter = "";
             Map<String, Object> filtered = new HashMap<>();
             String orderBy = "";
             String sort = "";
+            if (reqData.get("filter")!=null) {
+                filtered = (Map<String, Object>) reqData.get("filter");
+                stockFilter = filtered.get("stock") != null ? filtered.get("stock").toString().toLowerCase() : "";
+            }
             if (reqData.get("orderBy")!=null) {
                 filtered = (Map<String, Object>) reqData.get("orderBy");
                 String field = filtered.get("field")!=null?filtered.get("field").toString():"";
@@ -140,9 +156,20 @@ public class StockServiceImpl implements StockService {
             }
             
             List<Stock> users = new LinkedList<>();
-            String query = "SELECT a FROM Stock a WHERE a.isActive=false";
+            String query = "SELECT a FROM Stock a WHERE a.id>0 ";
+            if(!stockFilter.isEmpty()){
+                if(stockFilter.equalsIgnoreCase("EMPTY")){
+                    query += " AND a.quantity = 0 ";
+                }
+                if(stockFilter.equalsIgnoreCase("ALL")){
+                    query += " AND a.quantity > 0 ";
+                }
+            }
+            if(!key.isEmpty()){
+                query += " AND (UPPER(a.name) LIKE CONCAT('%', UPPER(" + key + "), '%')) ";
+            }
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
-            else query += " ORDER BY a.createdAt DESC";
+            else query += " ORDER BY a.created DESC";
             System.out.println(query);
             users = entityManager.createQuery(query, Stock.class).setMaxResults(limit).setFirstResult(offset).getResultList();
             users.forEach((Stock stock) -> {
