@@ -89,7 +89,7 @@ public class StockServiceImpl implements StockService {
         try {
 
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
-            String stockFilter = reqData.get("stock") != null ? reqData.get("stock").toString().toLowerCase() : "";
+            String stockFilter = reqData.get("stock") != null ? reqData.get("stock").toString().toUpperCase() : "";
 
             String query = "SELECT COUNT(a) FROM Stock a WHERE a.id>0 ";
             if(!stockFilter.isEmpty()){
@@ -102,7 +102,7 @@ public class StockServiceImpl implements StockService {
                 
             }
             if(!key.isEmpty()){
-            query += " AND (UPPER(a.name) LIKE CONCAT('%', UPPER(" + key + "), '%')) ";
+                query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
             Query queryResult = entityManager.createQuery(query,Long.class);
 
@@ -122,7 +122,7 @@ public class StockServiceImpl implements StockService {
         try {
             int limit =reqData.get("limit") != null ? Integer.parseInt(reqData.get("limit").toString()) : 0;
             int currentPage =reqData.get("page") !=null ? Integer.parseInt(reqData.get("page").toString()) : 0;
-            String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
+            String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toUpperCase() : "";
             String stockFilter = "";
             Map<String, Object> filtered = new HashMap<>();
             String orderBy = "";
@@ -166,7 +166,7 @@ public class StockServiceImpl implements StockService {
                 }
             }
             if(!key.isEmpty()){
-                query += " AND (UPPER(a.name) LIKE CONCAT('%', UPPER(" + key + "), '%')) ";
+                query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
             else query += " ORDER BY a.created DESC";
