@@ -37,9 +37,9 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody Customer stock, @RequestHeader (name="Authorization") String token){
+    public String update(@RequestBody Customer customer, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        customerService.updateCustomer(stock);
+        customerService.updateCustomer(customer);
         return "Customer is Updated";
     }
 
