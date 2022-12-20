@@ -3,11 +3,30 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import styles from "../../styles/Table.module.css";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useContext } from "react";
+import AuthContext from "../store/AuthContext";
 
-const PelangganTable = () => {
-  const countData = ["", "", "", "", ""];
+const CustomerList = () => {
   const navigate = useNavigate();
+  const [customerData, setCustomerData] = useState();
+  const authCtx = useContext(AuthContext);
 
+  useEffect(() => {
+    const getAllCustomers = () => {
+      fetch("http://localhost:8080/customer/getAll", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${authCtx.token}` },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+           setCustomerData(result);
+        });
+    };
+    getAllCustomers();
+  }, [authCtx.token]);
   const handleClickDelete = () => {
       swal
         .fire({
@@ -31,34 +50,34 @@ const PelangganTable = () => {
       <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
         <thead className={styles.thead}>
           <tr className={styles.tr}>
-            <th className={styles.thFirstChild}>ID PELANGGAN</th>
-            <th className={styles.th}>PELANGGAN</th>
-            <th className={styles.th}>TANGGAL LAHIR</th>
-            <th className={styles.th}>JENIS KELAMIN</th>
-            <th className={styles.th}>ALAMAT</th>
-            <th className={styles.th}>NOMOR TELEPON</th>
+            <th className={styles.thFirstChild}>CUSTOMER ID</th>
+            <th className={styles.th}>CUSTOMER</th>
+            <th className={styles.th}>DATE OF BIRTH</th>
+            <th className={styles.th}>GENDER</th>
+            <th className={styles.th}>ADDRESS</th>
+            <th className={styles.th}>PHONE NUMBER</th>
             <th className={styles.th}>EMAIL</th>
-            <th className={styles.thLastChild}>AKSI</th>
+            <th className={styles.thLastChild}>ACTION</th>
           </tr>
         </thead>
         <tbody>
-          {countData.map((item, index) => {
+          {customerData?.map((item, index) => {
             return (
               <tr className={styles.tr}>
-                {index + 1 == countData.length ? (
-                  <td className={styles.tdFirstLastChild}>Placeholder</td>
+                {index + 1 == customerData.length ? (
+                  <td className={styles.tdFirstLastChild}>{item.id}</td>
                 ) : (
-                  <td className={styles.tdFirstChild}>Placeholder</td>
+                  <td className={styles.tdFirstChild}>{item.id}</td>
                 )}
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
+                <td>{item.name}</td>
+                <td>{item.dob}</td>
+                <td>{item.gender}</td>
+                <td>{item.address}</td>
+                <td>{item.phone}</td>
+                <td>{item.email}</td>
                 <td
                   className={
-                    index + 1 == countData.length
+                    index + 1 == customerData.length
                       ? styles.tdLastChild
                       : styles.td
                   }
@@ -80,4 +99,4 @@ const PelangganTable = () => {
   );
 };
 
-export default PelangganTable;
+export default CustomerList;

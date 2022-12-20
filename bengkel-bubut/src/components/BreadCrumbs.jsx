@@ -30,8 +30,8 @@ const Breadcrumbs = (props) => {
   }
   
   return (
-    <div className="d-flex">
-      <div className="d-flex">
+    <div className="d-flex justify-content-between">
+      <div className="d-flex" style={{minWidth: "70vw"}}>
         <h3 className={styles.breadcrumbs}>
           <b>{moment().format("dddd, MMMM Do YYYY")}</b>
           <div className="d-flex" style={{height: "6vh"}}>
@@ -48,36 +48,14 @@ const Breadcrumbs = (props) => {
                   <Link to={props.url} style={{color: "#6F6AF8"}}>{props.name}</Link>
                 </BreadcrumbItem>
               )}
-
               <BreadcrumbItem className={styles.text} active>
                 {props.activeName}
               </BreadcrumbItem>
             </Breadcrumb>
-            {/* <small className={styles.text}>/</small>
-            <small className={styles.text}> {props.nama}</small> */}
           </div>
         </h3>
         <div></div>
       </div>
-      {/* <div className={styles.user}>
-        <div className={styles.profilePictureDiv}>
-          <FaRegUserCircle className={styles.profilePicture} size={23} />
-        </div>
-        <div className={styles.userDetail}>
-          <div className={styles.username}>Staff Name</div>
-          <div className={styles.userRole}>Administrator</div>
-        </div>
-        <div className={styles.dropdownDiv}>
-          <Dropdown isOpen={dropdownOpen} onClick={toggle}>
-            <DropdownToggle color="none" className={styles.dropdown}>
-              <AiOutlineDown size={23}></AiOutlineDown>
-            </DropdownToggle>
-            <DropdownMenu className={styles.dropdownMenu}>
-              <DropdownItem >Log Out</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-      </div> */}
       <div className={styles.collapsible} onClick={toggle}>
         <div className={isOpen ? styles.userExpand : styles.user}>
           <div

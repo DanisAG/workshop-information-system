@@ -5,10 +5,10 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import LaporanFinancial from "./pages/LaporanFinancial/LaporanFinancial";
 import Mekanik from "./pages/Mekanik/Mekanik";
-import Pelanggan from "./pages/Pelanggan/Pelanggan";
+import Customer from "./pages/Customer/Customer";
 import Stock from "./pages/Stock/Stock";
-import TambahPelanggan from "./pages/Pelanggan/TambahPelanggan";
-import EditPelanggan from "./pages/Pelanggan/EditPelanggan";
+import AddCustomer from "./pages/Customer/AddCustomer";
+import EditCustomer from "./pages/Customer/EditCustomer";
 import Transaksi from "./pages/Transaksi/Transaksi";
 import TambahTransaksi from "./pages/Transaksi/TambahTransaksi";
 import EditTransaksi from "./pages/Transaksi/EditTransaksi";
@@ -37,10 +37,10 @@ const App = () => {
               <Route path="/mekanik" element={<Mekanik />} />
               <Route path="/tambahMekanik" element={<TambahMekanik />} />
               <Route path="/editMekanik" element={<EditMekanik />} />
-              <Route path="/pelanggan" element={<Pelanggan />} />
+              <Route path="/customer" element={<Customer />} />
               <Route path="/stock" element={<Stock />} />
-              <Route path="/tambahPelanggan" element={<TambahPelanggan />} />
-              <Route path="/editPelanggan" element={<EditPelanggan />} />
+              <Route path="/addCustomer" element={<AddCustomer />} />
+              <Route path="/editCustomer" element={<EditCustomer />} />
               <Route path="/editBarang" element={<EditBarang />} />
               <Route path="/transaksi" element={<Transaksi />} />
               <Route path="/addStock" element={<AddStock />} />
@@ -60,13 +60,13 @@ const App = () => {
             <Route path="/mekanik" element={<Mekanik />} />
             <Route path="/tambahMekanik" element={<TambahMekanik />} />
             <Route path="/editMekanik" element={<EditMekanik />} />
-            <Route path="/pelanggan" element={<Pelanggan />} />
+            <Route path="/customer" element={<Customer />} />
             <Route path="/stock" element={<Stock />} />
             <Route path="/addStock" element={<AddStock />} />
             <Route path="/editBarang" element={<EditBarang />} />
             <Route path="/transaksi" element={<Transaksi />} />
-            <Route path="/tambahPelanggan" element={<TambahPelanggan />} />
-            <Route path="/editPelanggan" element={<EditPelanggan />} />
+            <Route path="/addCustomer" element={<AddCustomer />} />
+            <Route path="/editCustomer" element={<EditCustomer />} />
             <Route path="/tambahTransaksi" element={<TambahTransaksi />} />
             <Route path="/editTransaksi" element={<EditTransaksi />} />
           </Route>

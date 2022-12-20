@@ -51,10 +51,8 @@ const FormUser = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  // console.log(authCtx);
+  const [errorMessage, setErrorMessage] = useState(false);
   const onSubmit = (values, actions) => {
-    // console.log(values);
-
     fetch("http://localhost:8080/user/login", {
       method: "POST",
       body: JSON.stringify({
@@ -74,19 +72,21 @@ const FormUser = (props) => {
           res.json().then((data) => {
             let errorMessage = "Authentication failed!";
             errorMessage = data?.error?.message;
-
+            console.log(data);
             throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
+        if(data.user.password !== values.password || data.user.username !== values.username) {
+          setErrorMessage(true);
+          return;
+        }
         console.log(data.user.token);
         authCtx.login(data.user.token);
         navigate("/");
       })
-      .catch((err) => {
-        alert(err.message);
-      });
+      
   };
 
   const loginFormik = useFormik({
@@ -98,7 +98,11 @@ const FormUser = (props) => {
     onSubmit,
   });
 
-  // console.log(loginFormik);
+  const handleChange = (name,e) => {
+    loginFormik.setFieldValue(name, e.target.value);
+    setErrorMessage(false);
+  }
+
 
   return (
     <div
@@ -156,7 +160,7 @@ const FormUser = (props) => {
                 id="username"
                 placeholder="username@user.com"
                 value={loginFormik.values.username}
-                onChange={loginFormik.handleChange}
+                onChange={(e) => handleChange("username", e)}
                 onBlur={loginFormik.handleBlur}
                 autoComplete="off"
                 className={
@@ -177,7 +181,7 @@ const FormUser = (props) => {
                 id="password"
                 type="password"
                 value={loginFormik.values.password}
-                onChange={loginFormik.handleChange}
+                onChange={(e) => handleChange("password", e)}
                 onBlur={loginFormik.handleBlur}
                 className={
                   loginFormik.errors.password && loginFormik.touched.password
@@ -190,18 +194,23 @@ const FormUser = (props) => {
                 <p className={styles.error}>{loginFormik.errors.password}</p>
               )}
             </FormGroup>
+            <FormGroup className={styles.formgroup}>
+            {errorMessage && <p className={styles.error}>Username or password is incorrect!</p>}
+
+            </FormGroup>
+
           </>
         )}
         <div className="d-flex">
           <div className={styles.button}>
             {props.loginStatus && (
-              <Button className={styles.buatAkun} type="submit">
-                Masuk Akun
+              <Button className={styles.buatAkun} type="submit" >
+                Login
               </Button>
             )}
             {props.signupStatus && (
               <Button className={styles.buatAkun} type="submit">
-                Buat Akun
+                Sign Up
               </Button>
             )}
           </div>

@@ -25,10 +25,6 @@ export const AuthContextProvider = (props) => {
   const authCtx = useContext(AuthContext);
   const userIsLoggedIn = !!token;
 
-  // if(token === "Invalid Token") {
-  //      userIsLoggedIn =false;
-  // }
-
   const logoutHandler = () => {
     setToken(null);
     localStorage.removeItem("token");

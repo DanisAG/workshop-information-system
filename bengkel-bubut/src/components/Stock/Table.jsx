@@ -89,11 +89,11 @@ const StokTable = () => {
       <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
         <thead className={styles.thead}>
           <tr className={styles.tr}>
-            <th className={styles.thFirstChild}>NAMA BARANG</th>
-            <th className={styles.th}>HARGA</th>
-            <th className={styles.th}>STOK</th>
+            <th className={styles.thFirstChild}>ITEM NAME</th>
+            <th className={styles.th}>PRICE</th>
+            <th className={styles.th}>QUANTITY</th>
 
-            <th className={styles.thLastChild}>AKSI</th>
+            <th className={styles.thLastChild}>ACTION</th>
           </tr>
         </thead>
         <tbody>

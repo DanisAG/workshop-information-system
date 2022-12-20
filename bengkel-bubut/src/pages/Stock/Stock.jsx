@@ -17,7 +17,7 @@ import StokTable from "../../components/Stock/Table.jsx";
 import { useState } from "react";
 import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
-import pelangganStyles from "../../styles/Pelanggan.module.css";
+import pelangganStyles from "../../styles/Customer.module.css";
 import { FaPlus } from "react-icons/fa";
 import { AiFillWarning, AiFillStar } from "react-icons/ai";
 import { TbNumber1,TbNumber2,TbNumber3,TbNumber4 } from "react-icons/tb";
@@ -32,9 +32,9 @@ const Stock = () => {
   const navigate = useNavigate();
   return (
     <div className={styles.content}>
-      <Row>
-        <Breadcrumbs icon={icon} activeName="Stok" />
-      </Row>
+      <div className={styles.breadcrumbs}>
+        <Breadcrumbs icon={icon} activeName="Stock" />
+      </div>
       <div className="d-flex">
         <div>
           <div className={styles.overview}>
@@ -107,7 +107,7 @@ const Stock = () => {
             </TabContent>
           </div>
         </div>
-        <div c>
+        <div>
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />

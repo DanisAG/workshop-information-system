@@ -44,8 +44,8 @@ const Sidebar = ({ children }) => {
       notActiveIcon: laporanFinancialNotActiveIcon,
     },
     {
-      path: "/pelanggan",
-      name: "Pelanggan",
+      path: "/customer",
+      name: "Customer",
       activeIcon: pelangganActiveIcon,
       notActiveIcon: pelangganNotActiveIcon,
     },

@@ -2,23 +2,24 @@ import { Input, Button, Row, Col } from "reactstrap";
 import styles from "../../styles/Searchbar.module.css";
 import customerStyles from "../../styles/Customer.module.css";
 import { FaPlus } from "react-icons/fa";
-import MekanikTable from "../../components/Mekanik/Table.jsx";
+import CustomerList from "../../components/Customer/Table.jsx";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
-import icon from "../../Images/notSelected/Mekanik.png";
+import icon from "../../Images/notSelected/Pelanggan.png";
 import { useNavigate } from "react-router-dom";
 
-const Mekanik = () => {
+const Customer = () => {
   const navigate = useNavigate();
+ 
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} activeName="Mekanik" />
+        <Breadcrumbs icon={icon} activeName="Customer" />
       </Row>
       <Row className={customerStyles.topSection}>
         <Col className={customerStyles.search} lg={8}>
           <Input
             type="text"
-            placeholder="Cari Mekanik"
+            placeholder="Search Customer"
             className={styles.searchBar}
           />
         </Col>
@@ -26,7 +27,7 @@ const Mekanik = () => {
           <Button
             className={customerStyles.button}
             onClick={() => {
-              navigate("/tambahMekanik", {
+              navigate("/addCustomer", {
                 state: {
                   userId: "2",
                 },
@@ -36,17 +37,19 @@ const Mekanik = () => {
             <div>
               <FaPlus className={customerStyles.plusIcon} />
             </div>
-            <div>Tambah Mekanik</div>
+            <div>Add Customer</div>
           </Button>
         </Col>
       </Row>
       <Row>
         <Col>
-          <MekanikTable />
+          <CustomerList />
         </Col>
       </Row>
+    
+
     </div>
   );
 };
 
-export default Mekanik;
+export default Customer;
