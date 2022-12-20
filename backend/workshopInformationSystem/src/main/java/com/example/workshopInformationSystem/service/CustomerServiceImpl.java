@@ -109,7 +109,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Map<String, Object> getStockPagination(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getCustomerPagination(Map<String, Object> reqData, int totalData) {
         List<Customer> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();

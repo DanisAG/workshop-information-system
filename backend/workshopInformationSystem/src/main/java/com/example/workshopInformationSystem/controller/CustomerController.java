@@ -57,7 +57,7 @@ public class CustomerController {
             return result;
         }
         int totalData = customerService.getCustomerTotal(reqData);
-        result = customerService.getStockPagination(reqData, totalData);
+        result = customerService.getCustomerPagination(reqData, totalData);
         return result;
     }
     
