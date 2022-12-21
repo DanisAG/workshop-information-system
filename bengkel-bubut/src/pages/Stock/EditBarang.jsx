@@ -51,7 +51,7 @@ const EditBarang = (props) => {
         <Breadcrumbs
           icon={icon}
           name="Stok"
-          activeName="Edit Barang"
+          activeName="Edit Stock"
           url="/stok"
         />
       </Row>
