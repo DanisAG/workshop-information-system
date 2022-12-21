@@ -151,7 +151,7 @@ public class CustomerServiceImpl implements CustomerService {
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%' OR UPPER(a.email) LIKE '%" + key + "%' or UPPER(a.phone) LIKE '%" + key + "%') ";
             }
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
-            else query += " ORDER BY a.created DESC";
+            else query += " ORDER BY a.id DESC";
             System.out.println(query);
             users = entityManager.createQuery(query, Customer.class).setMaxResults(limit).setFirstResult(offset).getResultList();
             users.forEach((Customer customer) -> {
