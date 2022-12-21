@@ -10,6 +10,7 @@ import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
 import { useFormik } from "formik";
 import { stockSchema } from "../../components/Schema.jsx";
+import moment from "moment";
 
 const AddStock = (props) => {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ const AddStock = (props) => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
+      updated: moment().format()
+
     };
     swal
       .fire({

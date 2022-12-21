@@ -17,17 +17,16 @@ const EditStock = (props) => {
   const location = useLocation();
   const stockDataPerId = useRef();
   const authCtx = useContext(AuthContext);
-  console.log(location.state);
   const handleClickCancel = () => {
     swal
       .fire({
-        title: "KONFIRMASI",
-        text: "Anda yakin untuk membuang perubahan ini?",
+        title: "Confirmation",
+        text: "Are you sure to discard the changes?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#d33",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Hapus",
+        confirmButtonText: "Discard",
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -42,6 +41,7 @@ const EditStock = (props) => {
 
   const onSubmit = (values) => {
     const submittedData = {
+      id: location.state.id,
       name: values.name,
       price: values.price,
       quantity: values.quantity,
@@ -58,7 +58,7 @@ const EditStock = (props) => {
         showCancelButton: true,
         cancelButtonColor: "#d33",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Add",
+        confirmButtonText: "Update",
       })
       .then((result) => {
         if (result.isConfirmed) {

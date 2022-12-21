@@ -11,12 +11,13 @@ import ReactPaginate from "react-paginate";
 import "../../styles/Pagination.css";
 import { data } from "./Chart";
 import { useRef } from "react";
-import {AiFillLeftCircle, AiFillRightCircle} from "react-icons/ai";
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai";
 
 const StokTable = () => {
   const navigate = useNavigate();
 
   const [allStocksData, setAllStocksData] = useState();
+  const [stocksData, setStocksData] = useState();
   const authCtx = useContext(AuthContext);
 
   const initialStockPagination = {
@@ -48,26 +49,43 @@ const StokTable = () => {
         setAllStocksData(result);
       });
   };
+
+  const getAllStockData = () => {
+    fetch("http://localhost:8080/stock/getAll", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setStocksData(result);
+      });
+  };
   useEffect(() => {
     getStockData(stockPagination.current);
+    getAllStockData();
   }, []);
 
-  
-
   const endOffset =
-    allStocksData?.pagination.currentPage +
-    allStocksData?.pagination.limit - 1;
+    stockPagination?.current.start + stockPagination?.current.limit;
+    
+  const currentItems = stocksData?.stock
+    .sort((a, b) => (a.updated > b.updated ? -1 : 1))
+    .slice(stockPagination?.current.start, endOffset);
 
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * allStocksData?.pagination.limit) %
       allStocksData?.pagination.totalItem;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    const newStockPagination = {...initialStockPagination, page: event.selected + 1, start: newOffset};
-    stockPagination.current.value = newStockPagination;
-    getStockData(stockPagination.current.value);
+    const newStockPagination = {
+      ...initialStockPagination,
+      page: event.selected + 1,
+      start: newOffset,
+    };
+    stockPagination.current = newStockPagination;
+    getStockData(stockPagination.current);
   };
 
   const handleClickDelete = (id) => {
@@ -137,7 +155,7 @@ const StokTable = () => {
           </tr>
         </thead>
         <tbody>
-          {allStocksData?.result.map((item, index) => {
+          {currentItems?.map((item, index) => {
             return (
               <tr className={styles.tr}>
                 {index + 1 === allStocksData?.result.length ? (
@@ -158,11 +176,11 @@ const StokTable = () => {
                   <AiOutlineEdit
                     className={styles.edit}
                     onClick={() => {
-                      navigate("/editStock",{
+                      navigate("/editStock", {
                         state: {
                           id: item.id,
-                          allStocksData: allStocksData
-                        }
+                          allStocksData: allStocksData,
+                        },
                       });
                     }}
                   />
@@ -178,11 +196,11 @@ const StokTable = () => {
       </Table>
       <ReactPaginate
         breakLabel="..."
-        nextLabel={<AiFillRightCircle color="#6f6af8" size={35}/>}
+        nextLabel={<AiFillRightCircle color="#6f6af8" size={35} />}
         onPageChange={handlePageClick}
         pageRangeDisplayed={2}
         pageCount={allStocksData?.pagination.totalPage}
-        previousLabel={<AiFillLeftCircle color="#6f6af8" size={35}/>}
+        previousLabel={<AiFillLeftCircle color="#6f6af8" size={35} />}
         renderOnZeroPageCount={null}
         containerClassName="pagination"
         pageLinkClassName="page-num"
