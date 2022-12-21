@@ -10,7 +10,7 @@ import swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GiMechanicGarage } from "react-icons/gi";
 import { useFormik } from "formik";
-import { loginSchema } from "./Schema";
+import { loginSchema } from "../Schema";
 import { UserContext } from "../../App.js";
 import AuthContext from "../store/AuthContext.jsx";
 const FormUser = (props) => {

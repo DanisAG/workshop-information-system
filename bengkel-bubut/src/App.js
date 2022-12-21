@@ -15,7 +15,7 @@ import EditTransaksi from "./pages/Transaksi/EditTransaksi";
 import EditMekanik from "./pages/Mekanik/EditMekanik";
 import TambahMekanik from "./pages/Mekanik/TambahMekanik";
 import AddStock from "./pages/Stock/AddStock";
-import EditBarang from "./pages/Stock/EditBarang";
+import EditStock from "./pages/Stock/EditStock";
 import { useContext } from "react";
 import Login from "./pages/User/Login";
 import SignUp from "./pages/User/SignUp";
@@ -41,7 +41,7 @@ const App = () => {
               <Route path="/stock" element={<Stock />} />
               <Route path="/addCustomer" element={<AddCustomer />} />
               <Route path="/editCustomer" element={<EditCustomer />} />
-              <Route path="/editBarang" element={<EditBarang />} />
+              <Route path="/editStock" element={<EditStock />} />
               <Route path="/transaksi" element={<Transaksi />} />
               <Route path="/addStock" element={<AddStock />} />
               <Route path="/tambahTransaksi" element={<TambahTransaksi />} />
@@ -63,7 +63,7 @@ const App = () => {
             <Route path="/customer" element={<Customer />} />
             <Route path="/stock" element={<Stock />} />
             <Route path="/addStock" element={<AddStock />} />
-            <Route path="/editBarang" element={<EditBarang />} />
+            <Route path="/editStock" element={<EditStock />} />
             <Route path="/transaksi" element={<Transaksi />} />
             <Route path="/addCustomer" element={<AddCustomer />} />
             <Route path="/editCustomer" element={<EditCustomer />} />

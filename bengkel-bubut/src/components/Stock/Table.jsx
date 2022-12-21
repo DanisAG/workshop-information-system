@@ -33,7 +33,6 @@ const StokTable = () => {
     },
   };
 
-  // const [stockPagination, setStockPagination] = useState(initialStockPagination);
   const stockPagination = useRef(initialStockPagination);
   const getStockData = (data) => {
     fetch("http://localhost:8080/stock/getList", {
@@ -53,13 +52,11 @@ const StokTable = () => {
     getStockData(stockPagination.current);
   }, []);
 
-  console.log("Stock Pagination",stockPagination.current)
-  console.log(allStocksData)
+  
+
   const endOffset =
     allStocksData?.pagination.currentPage +
     allStocksData?.pagination.limit - 1;
-  console.log(endOffset);
-  console.log(`Loading items from ${stockPagination?.current.start} to ${endOffset}`);
 
   const handlePageClick = (event) => {
     const newOffset =
@@ -68,12 +65,8 @@ const StokTable = () => {
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
-    // stockData = { ...stockData, page: event.selected + 1, start: newOffset };
     const newStockPagination = {...initialStockPagination, page: event.selected + 1, start: newOffset};
-    // setStockPagination(newStockPagination)
     stockPagination.current.value = newStockPagination;
-    console.log(newStockPagination);
-    console.log(stockPagination)
     getStockData(stockPagination.current.value);
   };
 
@@ -165,7 +158,12 @@ const StokTable = () => {
                   <AiOutlineEdit
                     className={styles.edit}
                     onClick={() => {
-                      navigate("/editBarang");
+                      navigate("/editStock",{
+                        state: {
+                          id: item.id,
+                          allStocksData: allStocksData
+                        }
+                      });
                     }}
                   />
                   <AiOutlineDelete

@@ -3,26 +3,31 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import { MdInventory2 } from "react-icons/md";
-import React, { useState, useEffect } from "react";
+import { json, useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
 import { useFormik } from "formik";
 import { stockSchema } from "../../components/Schema.jsx";
-
-const AddStock = (props) => {
+import moment from "moment";
+const EditStock = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const stockDataPerId = useRef();
+  const authCtx = useContext(AuthContext);
+  console.log(location.state);
   const handleClickCancel = () => {
     swal
       .fire({
-        title: "Confirmation",
-        text: "Are you sure to discard the changes?",
+        title: "KONFIRMASI",
+        text: "Anda yakin untuk membuang perubahan ini?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#d33",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Discard",
+        confirmButtonText: "Hapus",
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -31,17 +36,24 @@ const AddStock = (props) => {
       });
   };
 
+  const filteredData = location.state.allStocksData.result.filter(
+    (stock) => stock.id === location.state.id
+  );
+
   const onSubmit = (values) => {
-    console.log(values);
-    const stock = {
+    const submittedData = {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
-    };
+      updated: moment().format()
+    }
+
+    console.log(submittedData);
+  
     swal
       .fire({
         title: "Confirmation",
-        text: "Are you sure to add the data?",
+        text: "Are you sure to update the data?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#d33",
@@ -50,13 +62,13 @@ const AddStock = (props) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/stock/add", {
+          fetch("http://localhost:8080/stock/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${authCtx.token}`,
             },
-            body: JSON.stringify(stock),
+            body: JSON.stringify(submittedData),
           })
             .then(async (response) => {
               if (!response.ok) {
@@ -64,7 +76,7 @@ const AddStock = (props) => {
               } else {
                 await swal.fire(
                   "Added!",
-                  "The Data has been added.",
+                  "The Data has been updated.",
                   "success"
                 );
                 navigate("/stock");
@@ -81,37 +93,24 @@ const AddStock = (props) => {
       });
   };
 
-  const stockFormik = useFormik({
+  const { handleSubmit, values, handleChange, errors, touched } = useFormik({
     initialValues: {
-      name: "",
-      price: "",
-      quantity: "",
+      name: filteredData.map(data => data.name).toString(),
+      price: parseInt(filteredData.map(data => data.price)),
+      quantity: parseInt(filteredData.map(data => data.quantity)),
     },
     validationSchema: stockSchema,
     onSubmit,
   });
 
-  const authCtx = useContext(AuthContext);
-
-  useEffect(() => {
-    console.log(authCtx);
-    fetch("http://localhost:8080/stock/getAll", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${authCtx.token}` },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-      });
-  }, []);
   return (
     <div>
       <Row>
         <Breadcrumbs
           icon={icon}
-          name="Stock"
-          activeName="Add Stock"
-          url="/stock"
+          name="Stok"
+          activeName="Edit Stock"
+          url="/stok"
         />
       </Row>
       <div className={styles.card}>
@@ -119,58 +118,54 @@ const AddStock = (props) => {
           <div>
             <MdInventory2 className={styles.iconForForm} size={40} />
           </div>
-          <div className={styles.title}>Add Stock</div>
+          <div className={styles.title}>EDIT STOCK</div>
         </div>
-        <Form onSubmit={stockFormik.handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Item Name</Label>
             <Input
               id="name"
               placeholder="Item Name"
-              onChange={stockFormik.handleChange}
-              value={stockFormik.values.name}
+              value={values.name}
+              onChange={handleChange}
               className={
-                stockFormik.errors.name && stockFormik.touched.name
-                  ? styles.inputError
-                  : styles.input
+                errors.name && touched.name ? styles.inputError : styles.input
               }
             />
-            {stockFormik.errors.name && stockFormik.touched.name && (
-              <p className={styles.error}>{stockFormik.errors.name}</p>
+            {errors.name && touched.name && (
+              <p className={styles.error}>{errors.name}</p>
             )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Price</Label>
             <Input
               id="price"
-              placeholder="Price"
-              onChange={stockFormik.handleChange}
-              value={stockFormik.values.price}
+              placeholder="Nominal Price"
+              value={values.price}
+              onChange={handleChange}
               className={
-                stockFormik.errors.price && stockFormik.touched.price
-                  ? styles.inputError
-                  : styles.input
+                errors.price && touched.price ? styles.inputError : styles.input
               }
             />
-            {stockFormik.errors.price && stockFormik.touched.price && (
-              <p className={styles.error}>{stockFormik.errors.price}</p>
+            {errors.price && touched.price && (
+              <p className={styles.error}>{errors.price}</p>
             )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Stock</Label>
+            <Label className={styles.label}>Quantity</Label>
             <Input
               id="quantity"
               placeholder="Quantity"
+              value={values.quantity}
+              onChange={handleChange}
               className={
-                stockFormik.errors.quantity && stockFormik.touched.quantity
+                errors.quantity && touched.quantity
                   ? styles.inputError
                   : styles.input
               }
-              onChange={stockFormik.handleChange}
-              value={stockFormik.values.quantity}
             />
-            {stockFormik.errors.quantity && stockFormik.touched.quantity && (
-              <p className={styles.error}>{stockFormik.errors.quantity}</p>
+            {errors.quantity && touched.quantity && (
+              <p className={styles.error}>{errors.quantity}</p>
             )}
           </FormGroup>
           <div className="d-flex">
@@ -182,12 +177,8 @@ const AddStock = (props) => {
               >
                 Cancel
               </Button>
-              <Button
-                className={styles.tambahTransaksi}
-                // onClick={(e) => handleClick(e)}
-                type="submit"
-              >
-                Add Stock
+              <Button className={styles.tambahTransaksi} type="submit">
+                Update Stock
               </Button>
             </div>
           </div>
@@ -197,4 +188,4 @@ const AddStock = (props) => {
   );
 };
 
-export default AddStock;
+export default EditStock;
