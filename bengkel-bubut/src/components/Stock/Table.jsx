@@ -7,31 +7,75 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import AuthContext from "../store/AuthContext";
 import { useState } from "react";
+import ReactPaginate from "react-paginate";
+import "../../styles/Pagination.css";
+import { data } from "./Chart";
+import { useRef } from "react";
+import {AiFillLeftCircle, AiFillRightCircle} from "react-icons/ai";
 
 const StokTable = () => {
-  const countData = ["", "", "", "", ""];
   const navigate = useNavigate();
 
-  const [allStocks, setAllStocks] = useState();
-  const [checkSwalError, setSwalError] = useState(false);
+  const [allStocksData, setAllStocksData] = useState();
   const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    const getAllStocks = () => {
-      fetch("http://localhost:8080/stock/getAll", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${authCtx.token}` },
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result.stock);
-          setAllStocks(result.stock);
-        });
-    };
-    getAllStocks();
-  }, [authCtx.token]);
+  const initialStockPagination = {
+    start: 0,
+    limit: 5,
+    page: 1,
+    keyword: "",
+    filter: {
+      stock: "",
+    },
+    orderBy: {
+      field: "",
+      sort: "",
+    },
+  };
 
-  console.log(allStocks);
+  // const [stockPagination, setStockPagination] = useState(initialStockPagination);
+  const stockPagination = useRef(initialStockPagination);
+  const getStockData = (data) => {
+    fetch("http://localhost:8080/stock/getList", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setAllStocksData(result);
+      });
+  };
+  useEffect(() => {
+    getStockData(stockPagination.current);
+  }, []);
+
+  console.log("Stock Pagination",stockPagination.current)
+  console.log(allStocksData)
+  const endOffset =
+    allStocksData?.pagination.currentPage +
+    allStocksData?.pagination.limit - 1;
+  console.log(endOffset);
+  console.log(`Loading items from ${stockPagination?.current.start} to ${endOffset}`);
+
+  const handlePageClick = (event) => {
+    const newOffset =
+      (event.selected * allStocksData?.pagination.limit) %
+      allStocksData?.pagination.totalItem;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    // stockData = { ...stockData, page: event.selected + 1, start: newOffset };
+    const newStockPagination = {...initialStockPagination, page: event.selected + 1, start: newOffset};
+    // setStockPagination(newStockPagination)
+    stockPagination.current.value = newStockPagination;
+    console.log(newStockPagination);
+    console.log(stockPagination)
+    getStockData(stockPagination.current.value);
+  };
 
   const handleClickDelete = (id) => {
     swal
@@ -58,17 +102,20 @@ const StokTable = () => {
 
               if (!response.ok) {
                 console.log(response);
-                
+
                 throw new Error(response.statusText);
               } else {
-                fetch("http://localhost:8080/stock/getAll", {
-                  method: "GET",
-                  headers: { Authorization: `Bearer ${authCtx.token}` },
+                fetch("http://localhost:8080/stock/getList", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authCtx.token}`,
+                  },
+                  body: JSON.stringify(stockPagination.current.value),
                 })
                   .then((res) => res.json())
                   .then((result) => {
-                    console.log(result.stock);
-                    setAllStocks(result.stock);
+                    setAllStocksData(result);
                   });
                 swal.fire("Deleted!", "The data has been deleted.", "success");
               }
@@ -97,10 +144,10 @@ const StokTable = () => {
           </tr>
         </thead>
         <tbody>
-          {allStocks?.map((item, index) => {
+          {allStocksData?.result.map((item, index) => {
             return (
               <tr className={styles.tr}>
-                {index + 1 === countData.length ? (
+                {index + 1 === allStocksData?.result.length ? (
                   <td className={styles.tdFirstLastChild}>{item.name}</td>
                 ) : (
                   <td className={styles.tdFirstChild}>{item.name}</td>
@@ -110,7 +157,7 @@ const StokTable = () => {
 
                 <td
                   className={
-                    index + 1 === countData.length
+                    index + 1 === allStocksData?.result.length
                       ? styles.tdLastChild
                       : styles.td
                   }
@@ -131,6 +178,20 @@ const StokTable = () => {
           })}
         </tbody>
       </Table>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel={<AiFillRightCircle color="#6f6af8" size={35}/>}
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        pageCount={allStocksData?.pagination.totalPage}
+        previousLabel={<AiFillLeftCircle color="#6f6af8" size={35}/>}
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName="page-num"
+        previousLinkClassName="previous-page-num"
+        nextLinkClassName="next-page-num"
+        activeLinkClassName="active"
+      />
     </div>
   );
 };

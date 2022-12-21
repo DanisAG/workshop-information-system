@@ -3,10 +3,12 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import { MdInventory2 } from "react-icons/md";
-import {useLocation} from 'react-router-dom';
-import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../components/store/AuthContext.jsx";
 const EditBarang = (props) => {
   const navigate = useNavigate();
   const style = {
@@ -23,32 +25,40 @@ const EditBarang = (props) => {
     { value: "perempuan", label: "Perempuan" },
   ];
   const handleClickCancel = () => {
-      swal
-        .fire({
-          title: "KONFIRMASI",
-          text: "Anda yakin untuk membuang perubahan ini?",
-          icon: "warning",
-          showCancelButton: true,
-          cancelButtonColor: "#d33",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "Hapus",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            navigate(-1);
-          }
-        });
-    
-  }
+    swal
+      .fire({
+        title: "KONFIRMASI",
+        text: "Anda yakin untuk membuang perubahan ini?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Hapus",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          navigate(-1);
+        }
+      });
+  };
+  const authCtx = useContext(AuthContext);
+
+
+ 
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} name="Stok" activeName="Edit Barang" url="/stok" />
+        <Breadcrumbs
+          icon={icon}
+          name="Stok"
+          activeName="Edit Barang"
+          url="/stok"
+        />
       </Row>
       <div className={styles.card}>
         <div className={styles.header}>
           <div>
-            <MdInventory2 className={styles.iconForForm} size={40}/>
+            <MdInventory2 className={styles.iconForForm} size={40} />
           </div>
           <div className={styles.title}>EDIT BARANG</div>
         </div>
@@ -60,12 +70,10 @@ const EditBarang = (props) => {
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Harga</Label>
             <Input placeholder="Nominal Harga" className={styles.input} />
-
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Stok</Label>
             <Input placeholder="Banyak Stok Barang" className={styles.input} />
-
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Terpakai</Label>
@@ -77,7 +85,11 @@ const EditBarang = (props) => {
         </Form>
         <div className="d-flex">
           <div className={styles.button}>
-            <Button className={styles.batal} outline onClick={handleClickCancel}>
+            <Button
+              className={styles.batal}
+              outline
+              onClick={handleClickCancel}
+            >
               Batal
             </Button>
             <Button className={styles.tambahTransaksi}>Tambah Barang</Button>
