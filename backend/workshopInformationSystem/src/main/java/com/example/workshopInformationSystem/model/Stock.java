@@ -31,14 +31,20 @@ public class Stock {
     @Column(name = "updated")
     private Date updated;
 
+    @Column(name = "minimumQty")
+    private int minimumQty;
+
     public Stock() {
     }
 
-    public Stock(int id, String name, int price, int quantity) {
+    public Stock(int id, String name, int price, int quantity, Date created, Date updated, int minimumQty) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.created = created;
+        this.updated = updated;
+        this.minimumQty = minimumQty;
     }
 
     public int getId() {
@@ -89,5 +95,12 @@ public class Stock {
         this.updated = updated;
     }
 
+    public int getMinimumQty() {
+        return this.minimumQty;
+    }
+
+    public void setMinimumQty(int minimumQty) {
+        this.minimumQty = minimumQty;
+    }
 
 }

@@ -34,6 +34,7 @@ public class StockServiceImpl implements StockService {
             stocks.setQuantity(stock.getQuantity());
             stocks.setCreated(new Date());
             stocks.setUpdated(new Date());
+            stocks.setMinimumQty(stock.getMinimumQty());
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();
@@ -61,7 +62,8 @@ public class StockServiceImpl implements StockService {
             stocks.setPrice(stock.getPrice()); 
             stocks.setUpdated(new Date());
             stocks.setQuantity(stock.getQuantity());
-            
+            stocks.setMinimumQty(stock.getMinimumQty());
+
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();

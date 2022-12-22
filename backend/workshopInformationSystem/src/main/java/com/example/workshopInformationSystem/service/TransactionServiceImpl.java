@@ -12,6 +12,7 @@ import javax.persistence.Query;
 
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.Transaction;
+import com.example.workshopInformationSystem.model.request.TransactionRequest;
 import com.example.workshopInformationSystem.repository.StockRepository;
 import com.example.workshopInformationSystem.repository.TransactionRepository;
 
@@ -150,7 +151,7 @@ public class TransactionServiceImpl  implements TransactionService {
 
     @Override
     public Map<String, Object> getTransactionPagination(Map<String, Object> reqData, int totalData) {
-        List<Stock> listUsers = new LinkedList<>();
+        List<TransactionRequest> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
         try {
@@ -191,7 +192,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 hasNext = false;
             }
             
-            List<Stock> users = new LinkedList<>();
+            List<Transaction> users = new LinkedList<>();
             String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
 
             if(!type.isEmpty()){  
@@ -207,9 +208,21 @@ public class TransactionServiceImpl  implements TransactionService {
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
             else query += " ORDER BY a.created DESC";
             System.out.println(query);
-            users = entityManager.createQuery(query, Stock.class).setMaxResults(limit).setFirstResult(offset).getResultList();
-            users.forEach((Stock stock) -> {
-                listUsers.add(stock);
+            users = entityManager.createQuery(query, Transaction.class).setMaxResults(limit).setFirstResult(offset).getResultList();
+            users.forEach((Transaction transaction) -> {
+                TransactionRequest transactions = new TransactionRequest();
+                transactions.setName(transaction.getName());
+                transactions.setType(transaction.getType());
+                transactions.setMechanic(transaction.getMechanic().getName());
+                transactions.setCustomer(transaction.getCustomer().getName());
+                transactions.setStock(transaction.getStock().getName());
+                transactions.setPrice(transaction.getPrice()); 
+                transactions.setQuantity(transaction.getQuantity());
+                if(transaction.getCreated()!=null)
+                transactions.setCreated(transaction.getCreated().toString());
+                if(transaction.getUpdated()!=null)
+                transactions.setUpdated(transaction.getUpdated().toString());
+                listUsers.add(transactions);
             });
             pagination.put("totalPage", totalPage);
             pagination.put("totalItem", totalData);
