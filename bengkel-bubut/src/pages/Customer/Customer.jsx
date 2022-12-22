@@ -15,32 +15,6 @@ const Customer = () => {
       <Row>
         <Breadcrumbs icon={icon} activeName="Customer" />
       </Row>
-      <Row className={customerStyles.topSection}>
-        <Col className={customerStyles.search} lg={8}>
-          <Input
-            type="text"
-            placeholder="Search Customer"
-            className={styles.searchBar}
-          />
-        </Col>
-        <Col className={customerStyles.divButton}>
-          <Button
-            className={customerStyles.button}
-            onClick={() => {
-              navigate("/addCustomer", {
-                state: {
-                  userId: "2",
-                },
-              });
-            }}
-          >
-            <div>
-              <FaPlus className={customerStyles.plusIcon} />
-            </div>
-            <div>Add Customer</div>
-          </Button>
-        </Col>
-      </Row>
       <Row>
         <Col>
           <CustomerList />

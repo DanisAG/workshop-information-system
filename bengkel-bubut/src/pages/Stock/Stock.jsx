@@ -99,10 +99,10 @@ const Stock = () => {
 
             <TabContent activeTab={currentActiveTab}>
               <TabPane tabId="1">
-                <StokTable />
+                <StokTable tabId={currentActiveTab}/>
               </TabPane>
               <TabPane tabId="2">
-                <StokTable />
+                <StokTable tabId={currentActiveTab}/>
               </TabPane>
             </TabContent>
           </div>

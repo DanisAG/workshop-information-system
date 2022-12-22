@@ -13,28 +13,33 @@ import { data } from "./Chart";
 import { useRef } from "react";
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai";
 
-const StokTable = () => {
+const StokTable = (props) => {
   const navigate = useNavigate();
-
   const [allStocksData, setAllStocksData] = useState();
-  const [stocksData, setStocksData] = useState();
   const authCtx = useContext(AuthContext);
 
-  const initialStockPagination = {
-    start: 0,
+  useEffect(() => {
+    getStockData(stockPagination.current);
+  }, [props.tabId]);
+
+  let newOffset;
+  let initialStockPagination = {
+    start: newOffset ? newOffset : 0,
     limit: 5,
-    page: 1,
+    page: allStocksData ? allStocksData?.pagination.currentPage : 1,
     keyword: "",
     filter: {
-      stock: "",
+      stock: props.tabId === "2" ? "empty" : "all",
     },
     orderBy: {
-      field: "",
-      sort: "",
+      field: "created",
+      sort: "DESC",
     },
   };
 
   const stockPagination = useRef(initialStockPagination);
+  stockPagination.current = initialStockPagination;
+
   const getStockData = (data) => {
     fetch("http://localhost:8080/stock/getList", {
       method: "POST",
@@ -50,41 +55,16 @@ const StokTable = () => {
       });
   };
 
-  const getAllStockData = () => {
-    fetch("http://localhost:8080/stock/getAll", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authCtx.token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setStocksData(result);
-      });
-  };
-  useEffect(() => {
-    getStockData(stockPagination.current);
-    getAllStockData();
-  }, []);
-
-  const endOffset =
-    stockPagination?.current.start + stockPagination?.current.limit;
-    
-  const currentItems = stocksData?.stock
-    .sort((a, b) => (a.updated > b.updated ? -1 : 1))
-    .slice(stockPagination?.current.start, endOffset);
-
   const handlePageClick = (event) => {
-    const newOffset =
+    newOffset =
       (event.selected * allStocksData?.pagination.limit) %
       allStocksData?.pagination.totalItem;
-    const newStockPagination = {
+    initialStockPagination = {
       ...initialStockPagination,
       page: event.selected + 1,
       start: newOffset,
     };
-    stockPagination.current = newStockPagination;
+    stockPagination.current = initialStockPagination;
     getStockData(stockPagination.current);
   };
 
@@ -101,19 +81,13 @@ const StokTable = () => {
         allowOutsideClick: false,
       })
       .then((result) => {
-        console.log(result);
-
         if (result.isConfirmed) {
           fetch(`http://localhost:8080/stock/delete/${id}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
             .then((response) => {
-              console.log(response);
-
               if (!response.ok) {
-                console.log(response);
-
                 throw new Error(response.statusText);
               } else {
                 fetch("http://localhost:8080/stock/getList", {
@@ -122,11 +96,14 @@ const StokTable = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${authCtx.token}`,
                   },
-                  body: JSON.stringify(stockPagination.current.value),
+                  body: JSON.stringify(stockPagination.current),
                 })
                   .then((res) => res.json())
                   .then((result) => {
+                    console.log(result, "Result ");
+
                     setAllStocksData(result);
+                    // setRefresh(!refresh);
                   });
                 swal.fire("Deleted!", "The data has been deleted.", "success");
               }
@@ -155,7 +132,7 @@ const StokTable = () => {
           </tr>
         </thead>
         <tbody>
-          {currentItems?.map((item, index) => {
+          {allStocksData?.result.map((item, index) => {
             return (
               <tr className={styles.tr}>
                 {index + 1 === allStocksData?.result.length ? (
@@ -186,7 +163,7 @@ const StokTable = () => {
                   />
                   <AiOutlineDelete
                     className={styles.delete}
-                    onClick={() => handleClickDelete(item.id)}
+                    onClick={(event) => handleClickDelete(item.id)}
                   />
                 </td>
               </tr>
@@ -199,7 +176,7 @@ const StokTable = () => {
         nextLabel={<AiFillRightCircle color="#6f6af8" size={35} />}
         onPageChange={handlePageClick}
         pageRangeDisplayed={2}
-        pageCount={allStocksData?.pagination.totalPage}
+        pageCount={Math.ceil(allStocksData?.pagination.totalPage)}
         previousLabel={<AiFillLeftCircle color="#6f6af8" size={35} />}
         renderOnZeroPageCount={null}
         containerClassName="pagination"

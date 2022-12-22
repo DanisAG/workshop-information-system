@@ -38,9 +38,12 @@ const AddStock = (props) => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
-      updated: moment().format()
-
+      updated: moment().format(),
+      created: moment().format()
     };
+
+    console.log(stock);
+
     swal
       .fire({
         title: "Confirmation",

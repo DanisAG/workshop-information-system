@@ -17,7 +17,6 @@ import logo from "../Images/logo.png";
 import { useState } from "react";
 
 const Sidebar = ({ children }) => {
-  console.log(children);
   const menuItem = [
     {
       path: "/",
@@ -61,7 +60,7 @@ const Sidebar = ({ children }) => {
   const notActiveLink = `${styles.notActiveLink}`;
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  console.log(isOpen);
+  
   return (
     <div className={styles.container}>
       <div

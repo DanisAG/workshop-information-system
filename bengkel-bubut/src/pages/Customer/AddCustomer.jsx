@@ -11,6 +11,8 @@ import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
+import { useFormik } from "formik";
+import { customerSchema } from "../../components/Schema.jsx";
 
 const AddCustomer = (props) => {
   const location = useLocation();
@@ -24,13 +26,20 @@ const AddCustomer = (props) => {
       borderRadius: 12,
     }),
   };
+
+  const errorStyle = {
+    control: (base) => ({
+      ...base,
+      background: "#ffffff",
+      boxShadow: "none",
+      borderRadius: 12,
+      borderColor: "#fc8181",
+    }),
+  };
   const options = [
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
   ];
-  const handleChange = (gender) => {
-    setGender(gender.value);
-  }
 
   const authCtx = useContext(AuthContext);
   const handleClickCancel = () => {
@@ -51,16 +60,18 @@ const AddCustomer = (props) => {
       });
   };
 
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState();
-  const [gender, setGender] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    const customer = { name, dob, gender, address, phone, email };
+
+  const onSubmit = (values) => {
+    const customer = {
+      name: values.name,
+      dob: values.dob,
+      gender: values.gender,
+      address: values.address,
+      phone: values.phone,
+      email: values.email,
+    };
+    console.log(customer);
 
     swal
       .fire({
@@ -105,14 +116,29 @@ const AddCustomer = (props) => {
         }
       });
   };
+
+  const { handleSubmit, handleChange, values, errors, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        name: "",
+        dob: "",
+        gender: "",
+        address: "",
+        phone: "",
+        email: "",
+      },
+      validationSchema: customerSchema,
+      onSubmit,
+    });
+
   return (
     <div>
       <Row>
         <Breadcrumbs
           icon={icon}
-          name="Pelanggan"
-          activeName="Tambah Pelanggan"
-          url="/pelanggan"
+          name="Customer"
+          activeName="Add Customer"
+          url="/customer"
         />
       </Row>
       <div className={styles.card}>
@@ -122,85 +148,131 @@ const AddCustomer = (props) => {
           </div>
           <div className={styles.title}>ADD CUSTOMER</div>
         </div>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Customer</Label>
             <Input
+              id="name"
               placeholder="Customer Name"
-              className={styles.input}
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={handleChange}
+              value={values.name}
+              className={
+                errors.name && touched.name ? styles.inputError : styles.input
+              }
             />
+            {errors.name && touched.name && (
+              <p className={styles.error}>{errors.name}</p>
+            )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Date Of Birth</Label>
             <DatePicker
-              selected={dob}
-              onChange={(date) => setDob(date)}
+              id="dob"
+              name="dob"
+              selected={values.dob}
+              onChange={(date) => setFieldValue("dob", date)}
               onClickOutside
-              className={styles.datepicker}
               showYearDropdown
               scrollableYearDropdown
               yearDropdownItemNumber={50}
               placeholderText="Your Birth Date"
+              className={
+                errors.dob && touched.dob
+                  ? styles.datepickerError
+                  : styles.datepicker
+              }
             />
+            {errors.dob && touched.dob && (
+              <p className={styles.error}>{errors.dob}</p>
+            )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Gender</Label>
-            <Select value={gender.value}
-              onChange={handleChange}
+            <Select
+              id="gender"
+              value={
+                options
+                  ? options.find((option) => option.value === values.gender)
+                  : ""
+              }
+              onChange={(option) => setFieldValue("gender", option.value)}
               options={options}
-              styles={style}
-              className={styles.input}
+              styles={errors.gender && touched.gender ? errorStyle : style}
+              className={
+                errors.gender && touched.gender
+                  ? styles.inputError
+                  : styles.input
+              }
               placeholder="Select Your Gender"
             />
-             
-            
+            {errors.gender && touched.gender && (
+              <p className={styles.error}>{errors.gender}</p>
+            )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Address</Label>
             <Input
+              id="address"
               type="textarea"
               placeholder="Write Your Address"
               rows={4}
-              className={styles.input}
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
+              onChange={handleChange}
+              value={values.address}
+              className={
+                errors.address && touched.address
+                  ? styles.inputError
+                  : styles.input
+              }
             />
+            {errors.address && touched.address && (
+              <p className={styles.error}>{errors.address}</p>
+            )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Phone Number</Label>
             <Input
+              id="phone"
               placeholder="Your Phone Number"
-              className={styles.input}
-              onChange={(e) => setPhone(e.target.value)}
-              value={phone}
+              onChange={handleChange}
+              value={values.phone}
+              className={
+                errors.phone && touched.phone ? styles.inputError : styles.input
+              }
             />
+            {errors.phone && touched.phone && (
+              <p className={styles.error}>{errors.phone}</p>
+            )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Email</Label>
             <Input
+              id="email"
               placeholder="Customer Email"
-              className={styles.input}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={handleChange}
+              value={values.email}
+              className={
+                errors.email && touched.email ? styles.inputError : styles.input
+              }
             />
+            {errors.email && touched.email && (
+              <p className={styles.error}>{errors.email}</p>
+            )}
           </FormGroup>
-        </Form>
-        <div className="d-flex">
-          <div className={styles.button}>
-            <Button
-              className={styles.batal}
-              outline
-              onClick={handleClickCancel}
-            >
-              Cancel
-            </Button>
-            <Button className={styles.tambahTransaksi} onClick={handleClick}>
-              Add Customer
-            </Button>
+          <div className="d-flex">
+            <div className={styles.button}>
+              <Button
+                className={styles.batal}
+                outline
+                onClick={handleClickCancel}
+              >
+                Cancel
+              </Button>
+              <Button className={styles.tambahTransaksi} type="submit">
+                Add Customer
+              </Button>
+            </div>
           </div>
-        </div>
+        </Form>
       </div>
     </div>
   );

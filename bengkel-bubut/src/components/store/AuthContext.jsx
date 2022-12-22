@@ -32,7 +32,6 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = (token) => {
     setToken(token);
-    console.log(token);
 
     localStorage.setItem("token", token);
   };
@@ -43,14 +42,9 @@ export const AuthContextProvider = (props) => {
   })
     .then((res) => res.json())
     .then((result) => {
-      console.log(result);
       result.map((data) => {
-        console.log(data);
-        const expirationTime = new Date(
-            data.expiredDate
-           ).getTime();
+        const expirationTime = new Date(data.expiredDate).getTime();
         let remainingTime = calculateRemainingTime(expirationTime);
-        console.log(remainingTime);
         if (remainingTime < 0) remainingTime = 0;
         setTimeout(logoutHandler, remainingTime);
       });

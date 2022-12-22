@@ -15,7 +15,6 @@ import moment from "moment";
 const EditStock = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const stockDataPerId = useRef();
   const authCtx = useContext(AuthContext);
   const handleClickCancel = () => {
     swal
@@ -45,11 +44,11 @@ const EditStock = (props) => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
-      updated: moment().format()
-    }
+      updated: moment().format(),
+    };
 
     console.log(submittedData);
-  
+
     swal
       .fire({
         title: "Confirmation",
@@ -75,7 +74,7 @@ const EditStock = (props) => {
                 throw new Error(response.statusText);
               } else {
                 await swal.fire(
-                  "Added!",
+                  "Updated!",
                   "The Data has been updated.",
                   "success"
                 );
@@ -95,9 +94,9 @@ const EditStock = (props) => {
 
   const { handleSubmit, values, handleChange, errors, touched } = useFormik({
     initialValues: {
-      name: filteredData.map(data => data.name).toString(),
-      price: parseInt(filteredData.map(data => data.price)),
-      quantity: parseInt(filteredData.map(data => data.quantity)),
+      name: filteredData.map((data) => data.name).toString(),
+      price: parseInt(filteredData.map((data) => data.price)),
+      quantity: parseInt(filteredData.map((data) => data.quantity)),
     },
     validationSchema: stockSchema,
     onSubmit,
