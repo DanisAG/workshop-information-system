@@ -49,8 +49,8 @@ const Sidebar = ({ children }) => {
       notActiveIcon: pelangganNotActiveIcon,
     },
     {
-      path: "/mekanik",
-      name: "Mekanik",
+      path: "/mechanic",
+      name: "Mechanic",
       activeIcon: mekanikActiveIcon,
       notActiveIcon: mekanikNotActiveIcon,
     },
@@ -60,7 +60,7 @@ const Sidebar = ({ children }) => {
   const notActiveLink = `${styles.notActiveLink}`;
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  
+
   return (
     <div className={styles.container}>
       <div

@@ -33,7 +33,6 @@ const AddStock = (props) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     const stock = {
       name: values.name,
       price: values.price,

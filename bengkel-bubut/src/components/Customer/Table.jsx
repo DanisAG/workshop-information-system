@@ -99,7 +99,6 @@ const CustomerList = () => {
 
   useEffect(() => {
     customerPagination.current = initialCustomerPagination;
-    console.log(customerPagination.current);
     getCustomerWithPaginationData(customerPagination.current);
   }, [search]);
 

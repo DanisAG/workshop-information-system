@@ -12,18 +12,26 @@ export const loginSchema = yup.object().shape({
 });
 
 export const customerSchema = yup.object().shape({
-  name: yup.string().required("Required"),
-  dob: yup.date().required(),
-  gender: yup.string().required(),
-  address: yup.string().required(),
-  phone: yup.string().required(),
-  email: yup.string().required()
+  name: yup.string().required("Customer name cannot be empty"),
+  dob: yup.date().required("Date of Birth cannot be empty"),
+  gender: yup.string().required("Gender cannot be empty"),
+  address: yup.string().required("Address cannot be empty"),
+  phone: yup.string().required("Phone cannot be empty"),
+  email: yup.string().required("Email cannot be empty")
 });
 
 export const stockSchema = yup.object().shape({
   name: yup.string().required("Stock name cannot be empty!"),
-  price: yup.number().required("Price name cannot be empty!"),
-  quantity: yup.number().required("Quantity name cannot be empty!")
+  price: yup.number().required("Price cannot be empty!"),
+  quantity: yup.number().required("Quantity cannot be empty!")
 });
 
+export const mechanicSchema = yup.object().shape({
+  name: yup.string().required("Mechanic name cannot be empty"),
+  dob: yup.date().required("Date of Birth cannot be empty"),
+  gender: yup.string().required("Gender cannot be empty"),
+  address: yup.string().required("Address cannot be empty"),
+  phone: yup.string().required("Phone cannot be empty"),
+  email: yup.string().required("Email cannot be empty")
+});
 

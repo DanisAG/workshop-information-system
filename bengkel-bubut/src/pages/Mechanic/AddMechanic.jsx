@@ -1,4 +1,4 @@
-import { Input, Button, Row, FormGroup, Form, Label } from "reactstrap";
+import { Input, Button, Row, Col, FormGroup, Form, Label } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
@@ -9,12 +9,14 @@ import DatePicker from "react-datepicker";
 import React, { useState } from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { GiMechanicGarage } from "react-icons/gi";
+import { useFormik } from "formik";
+import { mechanicSchema } from "../../components/Schema.jsx";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
-import { useFormik } from "formik";
-import { customerSchema } from "../../components/Schema.jsx";
+import moment from "moment";
 
-const AddCustomer = (props) => {
+const AddMechanic = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   console.log(location.state.userId);
@@ -26,7 +28,6 @@ const AddCustomer = (props) => {
       borderRadius: 12,
     }),
   };
-
   const errorStyle = {
     control: (base) => ({
       ...base,
@@ -40,8 +41,6 @@ const AddCustomer = (props) => {
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
   ];
-
-  const authCtx = useContext(AuthContext);
   const handleClickCancel = () => {
     swal
       .fire({
@@ -60,18 +59,20 @@ const AddCustomer = (props) => {
       });
   };
 
-
+  const authCtx = useContext(AuthContext);
 
   const onSubmit = (values) => {
-    const customer = {
+    const mechanic = {
       name: values.name,
       dob: values.dob,
       gender: values.gender,
       address: values.address,
       phone: values.phone,
       email: values.email,
+      updated: moment().format()
+
     };
-    console.log(customer);
+    console.log(mechanic);
 
     swal
       .fire({
@@ -85,13 +86,13 @@ const AddCustomer = (props) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/customer/add", {
+          fetch("http://localhost:8080/mechanic/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${authCtx.token}`,
             },
-            body: JSON.stringify(customer),
+            body: JSON.stringify(mechanic),
           })
             .then(async (response) => {
               if (!response.ok) {
@@ -103,7 +104,7 @@ const AddCustomer = (props) => {
                   "The Data has been added.",
                   "success"
                 );
-                navigate("/customer");
+                navigate("/mechanic");
               }
             })
             .catch((error) => {
@@ -116,8 +117,7 @@ const AddCustomer = (props) => {
         }
       });
   };
-
-  const { handleSubmit, handleChange, values, errors, touched, setFieldValue } =
+  const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
     useFormik({
       initialValues: {
         name: "",
@@ -127,7 +127,7 @@ const AddCustomer = (props) => {
         phone: "",
         email: "",
       },
-      validationSchema: customerSchema,
+      validationSchema: mechanicSchema,
       onSubmit,
     });
 
@@ -136,46 +136,45 @@ const AddCustomer = (props) => {
       <Row>
         <Breadcrumbs
           icon={icon}
-          name="Customer"
-          activeName="Add Customer"
-          url="/customer"
+          name="Mechanic"
+          activeName="Add Mechanic"
+          url="/mechanic"
         />
       </Row>
       <div className={styles.card}>
         <div className={styles.header}>
           <div>
-            <MdSupervisedUserCircle className={styles.iconForForm} size={40} />
+            <GiMechanicGarage className={styles.iconForForm} size={40} />
           </div>
-          <div className={styles.title}>ADD CUSTOMER</div>
+          <div className={styles.title}>ADD MECHANIC</div>
         </div>
         <Form onSubmit={handleSubmit}>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Customer</Label>
+            <Label className={styles.label}>Mechanic</Label>
             <Input
               id="name"
-              placeholder="Customer Name"
-              value={values.name}
+              placeholder="Mechanic Name"
               onChange={handleChange}
               className={
                 errors.name && touched.name ? styles.inputError : styles.input
               }
+              value={values.name}
             />
             {errors.name && touched.name && (
               <p className={styles.error}>{errors.name}</p>
             )}
           </FormGroup>
           <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Date Of Birth</Label>
+            <Label className={styles.label}>Date of Birth</Label>
             <DatePicker
               id="dob"
-              name="dob"
               selected={values.dob}
+              placeholderText="Your Birth Date"
               onChange={(date) => setFieldValue("dob", date)}
               onClickOutside
               showYearDropdown
               scrollableYearDropdown
               yearDropdownItemNumber={50}
-              placeholderText="Your Birth Date"
               className={
                 errors.dob && touched.dob
                   ? styles.datepickerError
@@ -190,12 +189,6 @@ const AddCustomer = (props) => {
             <Label className={styles.label}>Gender</Label>
             <Select
               id="gender"
-              value={
-                options
-                  ? options.find((option) => option.value === values.gender)
-                  : ""
-              }
-              onChange={(option) => setFieldValue("gender", option.value)}
               options={options}
               styles={errors.gender && touched.gender ? errorStyle : style}
               className={
@@ -203,6 +196,12 @@ const AddCustomer = (props) => {
                   ? styles.inputError
                   : styles.input
               }
+              value={
+                options
+                  ? options.find((option) => option.value === values.gender)
+                  : ""
+              }
+              onChange={(option) => setFieldValue("gender", option.value)}
               placeholder="Select Your Gender"
             />
             {errors.gender && touched.gender && (
@@ -214,10 +213,9 @@ const AddCustomer = (props) => {
             <Input
               id="address"
               type="textarea"
-              placeholder="Write Your Address"
+              placeholder="Address"
               rows={4}
               onChange={handleChange}
-              value={values.address}
               className={
                 errors.address && touched.address
                   ? styles.inputError
@@ -234,9 +232,10 @@ const AddCustomer = (props) => {
               id="phone"
               placeholder="Your Phone Number"
               onChange={handleChange}
-              value={values.phone}
               className={
-                errors.phone && touched.phone ? styles.inputError : styles.input
+                errors.address && touched.address
+                  ? styles.inputError
+                  : styles.input
               }
             />
             {errors.phone && touched.phone && (
@@ -247,9 +246,8 @@ const AddCustomer = (props) => {
             <Label className={styles.label}>Email</Label>
             <Input
               id="email"
-              placeholder="Customer Email"
+              placeholder="Your Email"
               onChange={handleChange}
-              value={values.email}
               className={
                 errors.email && touched.email ? styles.inputError : styles.input
               }
@@ -268,7 +266,7 @@ const AddCustomer = (props) => {
                 Cancel
               </Button>
               <Button className={styles.tambahTransaksi} type="submit">
-                Add Customer
+                Add Mechanic
               </Button>
             </div>
           </div>
@@ -278,4 +276,4 @@ const AddCustomer = (props) => {
   );
 };
 
-export default AddCustomer;
+export default AddMechanic;
