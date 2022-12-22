@@ -50,7 +50,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer updateCustomer(Customer customer){
         try {            
 
-            Customer customers = new Customer();
+            String query = "FROM Customer WHERE id = "+customer.getId()+" ";
+
+            Query queryResult = entityManager.createQuery(query,Customer.class);
+
+            Customer customers = (Customer) queryResult.getSingleResult();
+
+            // Customer customers = new Customer();
             customers.setId(customer.getId());
             customers.setName(customer.getName());
             customers.setDob(customer.getDob()); 

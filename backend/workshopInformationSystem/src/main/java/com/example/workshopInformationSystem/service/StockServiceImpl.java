@@ -33,6 +33,7 @@ public class StockServiceImpl implements StockService {
             stocks.setPrice(stock.getPrice()); 
             stocks.setQuantity(stock.getQuantity());
             stocks.setCreated(new Date());
+            stocks.setUpdated(new Date());
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();
@@ -49,7 +50,12 @@ public class StockServiceImpl implements StockService {
     public Stock updateStock(Stock stock){
         try {            
 
-            Stock stocks = new Stock();
+            String query = "FROM Stock WHERE id = "+stock.getId()+" ";
+
+            Query queryResult = entityManager.createQuery(query,Stock.class);
+
+            Stock stocks = (Stock) queryResult.getSingleResult();
+            // Stock stocks = new Stock();
             stocks.setId(stock.getId());
             stocks.setName(stock.getName());
             stocks.setPrice(stock.getPrice()); 

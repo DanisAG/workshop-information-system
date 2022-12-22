@@ -51,7 +51,13 @@ public class MechanicServiceImpl implements MechanicService {
     public Mechanic updateMechanic(Mechanic mechanic){
         try {            
 
-            Mechanic mechanics = new Mechanic();
+            String query = "FROM Mechanic WHERE id = "+mechanic.getId()+" ";
+
+            Query queryResult = entityManager.createQuery(query,Mechanic.class);
+
+            Mechanic mechanics = (Mechanic) queryResult.getSingleResult();
+
+            // Mechanic mechanics = new Mechanic();
             mechanics.setId(mechanic.getId());
             mechanics.setName(mechanic.getName());
             mechanics.setDob(mechanic.getDob()); 
