@@ -28,7 +28,7 @@ public class Transaction {
     public Customer customer;
 
     @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "stock", referencedColumnName = "stock")
+    @JoinColumn(name = "stock", referencedColumnName = "id")
     public Stock stock;
 
     @Column(name = "name")
