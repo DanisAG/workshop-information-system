@@ -3,6 +3,8 @@ import {
   AiOutlineDelete,
   AiOutlineEdit,
   AiFillCheckCircle,
+  AiFillRightCircle,
+  AiFillLeftCircle,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +17,7 @@ import AuthContext from "./store/AuthContext";
 import searchStyles from "../styles/Searchbar.module.css";
 import Select from "react-select";
 import formStyles from "../styles/Form.module.css";
+import ReactPaginate from "react-paginate";
 
 const TableData = (props) => {
   const navigate = useNavigate();
@@ -25,7 +28,7 @@ const TableData = (props) => {
     {
       label: (
         <>
-          LIMIT: <b>5</b>{" "}
+          <b>5</b>{" "}
         </>
       ),
       value: 5,
@@ -33,7 +36,7 @@ const TableData = (props) => {
     {
       label: (
         <>
-          LIMIT: <b>10</b>{" "}
+          <b>10</b>{" "}
         </>
       ),
       value: 10,
@@ -41,7 +44,7 @@ const TableData = (props) => {
     {
       label: (
         <>
-          LIMIT: <b>20</b>{" "}
+          <b>20</b>{" "}
         </>
       ),
       value: 20,
@@ -49,7 +52,7 @@ const TableData = (props) => {
     {
       label: (
         <>
-          LIMIT: <b>30</b>{" "}
+          <b>30</b>{" "}
         </>
       ),
       value: 30,
@@ -98,55 +101,6 @@ const TableData = (props) => {
       });
   };
 
-  // const handleClickDelete = (id) => {
-  //   swal
-  //     .fire({
-  //       title: "Confirmation",
-  //       text: "Are you sure to delete the data?",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonColor: "#3085d6",
-  //       confirmButtonText: "Delete",
-  //       allowOutsideClick: false,
-  //     })
-  //     .then((result) => {
-  //       if (result.isConfirmed) {
-  //         fetch(`http://localhost:8080/mechanic/delete/${id}`, {
-  //           method: "DELETE",
-  //           headers: { Authorization: `Bearer ${authCtx.token}` },
-  //         })
-  //           .then((response) => {
-  //             if (!response.ok) {
-  //               throw new Error(response.statusText);
-  //             } else {
-  //               fetch("http://localhost:8080/mechanic/getList", {
-  //                 method: "POST",
-  //                 headers: {
-  //                   "Content-Type": "application/json",
-  //                   Authorization: `Bearer ${authCtx.token}`,
-  //                 },
-  //                 body: JSON.stringify(mechanicPagination.current),
-  //               })
-  //                 .then((res) => res.json())
-  //                 .then((result) => {
-  //                   console.log(result, "Result ");
-  //                   setAllMechanicsData(result);
-  //                 });
-  //               swal.fire("Deleted!", "The data has been deleted.", "success");
-  //             }
-  //           })
-  //           .catch((error) => {
-  //             swal.fire({
-  //               icon: "error",
-  //               title: "Oops...",
-  //               text: `Request failed: ${error}`,
-  //             });
-  //           });
-  //       }
-  //     });
-  // };
-
   // const handleChange = (e) => {
   //   setSearch(e.target.value);
   // };
@@ -175,123 +129,131 @@ const TableData = (props) => {
   console.log(allData);
   console.log(dataPagination.current);
 
-  // const handlePageClick = (event) => {
-  //   const newOffset =
-  //     (event.selected * allMechanicsData?.pagination.limit) %
-  //     allMechanicsData?.pagination.totalItem;
-  //   const newmechanicPagination = {
-  //     ...initialMechanicPagination,
-  //     page: event.selected + 1,
-  //     start: newOffset,
-  //   };
-  //   mechanicPagination.current = newmechanicPagination;
-  //   getCustomerWithPaginationData(mechanicPagination.current);
-  // };
+  const handlePageClick = (event) => {
+    const newOffset =
+      (event.selected * allData?.pagination.limit) %
+      allData?.pagination.totalItem;
+    const newDataPagination = {
+      ...initialDataPagination,
+      page: event.selected + 1,
+      start: newOffset,
+    };
+    allData.current = newDataPagination;
+    postDataWithPagination(allData.current);
+  };
 
   return (
-    <div className={styles.divTable}>
-      {props.data.header && (
-        <div className={styles.header}>
-          <div className={styles.headerTop}>
-            <div className="d-flex">
-              <div className={styles.iconTransaction}>
-                {props.data.iconTable}
+    <>
+      <div className={styles.divTable}>
+        {props.data.header && (
+          <div className={styles.header}>
+            <div className={styles.headerTop}>
+              <div className="d-flex">
+                <div className={styles.iconTransaction}>
+                  {props.data.iconTable}
+                </div>
+                <div className={styles.headerTitle}>{props.data.title}</div>
               </div>
-              <div className={styles.headerTitle}>{props.data.title}</div>
             </div>
-            <Select
-              options={limitOptions}
-              placeholder="Show Limit"
-              styles={style}
-              className={styles.select}
-            />
-          </div>
 
-          <div className={styles.headerBottom}>
-            <div lg={8} className={searchStyles.div}>
-              <Input
-                type="text"
-                placeholder="Search Transaction"
-                className={searchStyles.searchBar}
-                // value={search}
-                // onChange={handleChange}
-              />
-            </div>
-            <div className={styles.divButton}>
-              {props.data.filterStatus && (
-                <div className="d-flex">
-                  <Filter reportfilterStatus={props.data.filterStatus} />
+            <div className={styles.headerBottom}>
+              <div className="d-flex">
+                <Select
+                  options={limitOptions}
+                  placeholder="Limit"
+                  styles={style}
+                  className={styles.select}
+                />
+                <div lg={8} className={searchStyles.div}>
+                  <Input
+                    type="text"
+                    placeholder="Search Transaction"
+                    className={searchStyles.searchBar}
+                    // value={search}
+                    // onChange={handleChange}
+                  />
                 </div>
-              )}
-              <Button
-                className={styles.button}
-                onClick={() => {
-                  navigate(props.data.buttonNavigation);
-                }}
-              >
-                <div>
-                  <FaPlus className={styles.plusIcon} />
-                </div>
-                <div>{props.data.buttonText}</div>
-              </Button>
+              </div>
+
+              <div className={styles.divButton}>
+                {props.data.filterStatus && (
+                  <div className="d-flex">
+                    <Filter reportfilterStatus={props.data.filterStatus} />
+                  </div>
+                )}
+                <Button
+                  className={styles.button}
+                  onClick={() => {
+                    navigate(props.data.buttonNavigation);
+                  }}
+                >
+                  <div>
+                    <FaPlus className={styles.plusIcon} />
+                  </div>
+                  <div>{props.data.buttonText}</div>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <Table responsive className={`${styles.table} text-nowrap shadow-sm`}>
-        <thead className={styles.thead}>
-          <tr className={styles.tr}>
-            {props.data.tableHeaderTitles.map((item, index) => {
-              return <th>{item}</th>;
+        )}
+        <Table responsive className={`${styles.table} text-nowrap shadow-sm table-borderless`}>
+          <thead className={styles.thead}>
+            <tr>
+              {props.data.tableHeaderTitles.map((item) => {
+                return <th>{item}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {allData?.result?.map((item) => {
+              return (
+                <tr >
+                  {props.data.variableName.map((variable) => {
+                    return (
+                      <>
+                       <td>{item[variable]}</td>
+                      </>
+                    );
+                  })}
+                  <td
+                  >
+                    <AiOutlineEdit
+                      className={styles.edit}
+                      onClick={() => {
+                        navigate("/editStock", {
+                          state: {
+                            id: item.id,
+                            allStocksData: allData,
+                          },
+                        });
+                      }}
+                    />
+                    <AiOutlineDelete
+                      className={styles.delete}
+                      onClick={() => handleClickDelete(item.id)}
+                    />
+                  </td>
+                </tr>
+              );
             })}
-          </tr>
-        </thead>
-        <tbody>
-          {allData?.result?.map((item, index) => {
-            return (
-              <tr>
-                {props.data.tableHeaderTitles.map((item, indexHeaderTitle) => {
-                  return (
-                    <>
-                      {index + 1 === allData?.result.length &&
-                      indexHeaderTitle === 0 ? (
-                        <td className={styles.tdFirstLastChild}>Placeholder</td>
-                      ) : index + 1 !== allData?.result.length &&
-                        indexHeaderTitle === 0 ? (
-                        <td className={styles.tdFirstChild}>Placeholder</td>
-                      ) : indexHeaderTitle ===
-                        props.data.tableHeaderTitles.length - 1 ? (
-                        <td
-                          className={
-                            index + 1 === allData?.result.length
-                              ? styles.tdLastChild
-                              : styles.td
-                          }
-                        >
-                          <AiFillCheckCircle />
-                          <AiOutlineEdit
-                            className={styles.edit}
-                            onClick={() => {
-                              navigate(props.data.editNavigation);
-                            }}
-                          />
-                          <AiOutlineDelete
-                            className={styles.delete}
-                            onClick={handleClickDelete}
-                          />
-                        </td>
-                      ) : (
-                        <td>Placeholder</td>
-                      )}
-                    </>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    </div>
+          </tbody>
+        </Table>
+      </div>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel={<AiFillRightCircle color="#6f6af8" size={35} />}
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        pageCount={Math.ceil(allData?.pagination?.totalPage)}
+        previousLabel={<AiFillLeftCircle color="#6f6af8" size={35} />}
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName="page-num"
+        previousLinkClassName="previous-page-num"
+        nextLinkClassName="next-page-num"
+        activeLinkClassName="active"
+      />
+    </>
   );
 };
 

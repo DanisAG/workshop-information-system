@@ -1,16 +1,10 @@
-import { Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Transaksi.png";
-import TransaksiTable from "../../components/Transaksi/Table.jsx";
 import Table from "../../components/Table";
 import { AiOutlineTransaction } from "react-icons/ai";
-import { useContext } from "react";
-import AuthContext from "../../components/store/AuthContext.jsx";
-import { useState } from "react";
-import { useEffect } from "react";
+
 const Transaction = () => {
-  const authCtx = useContext(AuthContext);
-  const [allTransactionData, setAllTransactionData] = useState();
   const allTableDatas = {
     title: "ALL TRANSACTION",
     buttonText: "Add Transaction",
@@ -32,7 +26,19 @@ const Transaction = () => {
       "STATUS",
       "ACTION",
     ],
-    postAPIWithPagination: "http://localhost:8080/transaction/getList"
+    variableName: [
+      "id",
+      "name",
+      "created",
+      "customer",
+      "mechanic",
+      "type",
+      "stock",
+      "quantity",
+      "price",
+      "status",
+    ],
+    postAPIWithPagination: "http://localhost:8080/transaction/getList",
   };
 
   return (
@@ -40,9 +46,9 @@ const Transaction = () => {
       <Row>
         <Breadcrumbs icon={icon} activeName="Transaksi" url="/Transaksi" />
       </Row>
-      <Row>
+      <Col>
         <Table data={allTableDatas} />
-      </Row>
+      </Col>
     </div>
   );
 };

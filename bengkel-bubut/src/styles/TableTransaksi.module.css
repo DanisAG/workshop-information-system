@@ -1,29 +1,26 @@
 .divTable {
   margin-top: 22px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 0;
 }
 
 .table {
-  border-collapse: separate;
-  border-spacing: 0;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  margin-bottom: 0;
 }
 
 .header {
-  padding: 19px 22px;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0px 0px 0.2rem rgba(0, 0, 0, 0.1);
+  padding: 2rem 1.6rem 0.4rem 1.6rem;
   font-family: Montserrat;
   font-size: 26px;
   font-weight: 800;
   line-height: 32px;
   letter-spacing: 0.05em;
   text-align: left;
-  /* display: flex; */
   justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .select {
@@ -34,18 +31,20 @@
   font-family: Montserrat;
   font-size: 18px;
   font-weight: 500;
-  line-height: 22px;
+  height: 90%;
   letter-spacing: 0em;
   text-align: left;
+  margin-right: 2rem;
+  display: flex;
 }
 
-.headerBottom{
+.headerBottom {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
 }
 
-.headerTop{
+.headerTop {
   display: flex;
   justify-content: space-between;
 }
@@ -68,7 +67,7 @@
   border-radius: 12px;
   display: flex;
   align-items: center;
-  width: 174px;
+  width: fit-content;
 }
 
 .plusIcon {
@@ -78,8 +77,10 @@
   margin-right: 10px;
   size: 50px;
 }
+
 .thead {
   background-color: rgba(111, 106, 248, 0.1);
+  width: 100%;
 }
 
 .edit {
@@ -94,45 +95,12 @@
   cursor: pointer;
 }
 
-.th {
-  border-top: 1px solid #eaeaea;
-}
-
-.td {
-  border-right: 1px solid #eaeaea;
-}
-
-.thFirstChild {
-  border-top-left-radius: 10px;
-  border-left: 1px solid #eaeaea;
-}
-
-.thLastChild {
-  border-top-right-radius: 10px;
-  border-right: 1px solid #eaeaea;
-}
-
-.tdFirstChild {
-  border-left: 1px solid #eaeaea;
-}
-
-.tdFirstLastChild {
-  border-left: 1px solid #eaeaea;
-  border-bottom-left-radius: 10px;
-}
-
-.tdLastChild {
-  border-right: 1px solid #eaeaea;
-  border-bottom-right-radius: 10px;
-}
-
-
-.divButton{
+.divButton {
   display: flex;
-  justify-content: right;    
+  justify-content: right;
 }
 
-.iconFilter{
+.iconFilter {
   margin-right: 24px;
   display: flex;
   margin-top: auto;
@@ -141,7 +109,7 @@
   margin-bottom: auto;
 }
 
-.formFilter{
+.formFilter {
   width: 15rem;
   margin: 12px 16px;
 }

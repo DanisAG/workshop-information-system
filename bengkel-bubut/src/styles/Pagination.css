@@ -1,7 +1,6 @@
 .pagination {
   list-style: none;
   align-items: center;
-  margin-bottom: 5rem;
   font-size: 1rem;
   gap: 1px;
   border: none;
@@ -11,7 +10,7 @@
   width: fit-content;
   margin-left: auto;
   height: 2.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .pagination .page-num {
@@ -43,3 +42,4 @@
 .pagination .active {
   background-color: rgb(234,234,234);
 }
+
