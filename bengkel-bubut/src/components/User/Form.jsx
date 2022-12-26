@@ -23,11 +23,7 @@ const FormUser = (props) => {
       borderRadius: 12,
     }),
   };
-  const options = [
-    { value: "lakilaki", label: "Laki-laki" },
-    { value: "perempuan", label: "Perempuan" },
-  ];
-  const [tanggalLahir, setTanggalLahir] = useState(new Date());
+
   const [cancelStatus, setCancelStatus] = useState(false);
   const handleClickCancel = () => {
     setCancelStatus(true);

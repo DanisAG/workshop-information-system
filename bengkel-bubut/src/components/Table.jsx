@@ -10,11 +10,30 @@ import { FaPlus } from "react-icons/fa";
 import { Button } from "reactstrap";
 import Filter from "./Filter";
 import swal from "sweetalert2";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import AuthContext from "./store/AuthContext";
 
 const TableData = (props) => {
-  const countData = ["", "", "", "", ""];
+  const countData = [""];
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
+  const [allData, setAllData] = useState([]);
+
+  const initialDataPagination = {
+    start: 0,
+    limit: 5,
+    page: 1,
+    keyword: "",
+    filter: {
+      transaction: "",
+    },
+    orderBy: {
+      field: "",
+      sort: "",
+    },
+  };
+  const dataPagination = useRef(initialDataPagination);
+
   const handleClickDelete = () => {
     swal
       .fire({
@@ -32,6 +51,96 @@ const TableData = (props) => {
         }
       });
   };
+
+  // const handleClickDelete = (id) => {
+  //   swal
+  //     .fire({
+  //       title: "Confirmation",
+  //       text: "Are you sure to delete the data?",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonColor: "#3085d6",
+  //       confirmButtonText: "Delete",
+  //       allowOutsideClick: false,
+  //     })
+  //     .then((result) => {
+  //       if (result.isConfirmed) {
+  //         fetch(`http://localhost:8080/mechanic/delete/${id}`, {
+  //           method: "DELETE",
+  //           headers: { Authorization: `Bearer ${authCtx.token}` },
+  //         })
+  //           .then((response) => {
+  //             if (!response.ok) {
+  //               throw new Error(response.statusText);
+  //             } else {
+  //               fetch("http://localhost:8080/mechanic/getList", {
+  //                 method: "POST",
+  //                 headers: {
+  //                   "Content-Type": "application/json",
+  //                   Authorization: `Bearer ${authCtx.token}`,
+  //                 },
+  //                 body: JSON.stringify(mechanicPagination.current),
+  //               })
+  //                 .then((res) => res.json())
+  //                 .then((result) => {
+  //                   console.log(result, "Result ");
+  //                   setAllMechanicsData(result);
+  //                 });
+  //               swal.fire("Deleted!", "The data has been deleted.", "success");
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             swal.fire({
+  //               icon: "error",
+  //               title: "Oops...",
+  //               text: `Request failed: ${error}`,
+  //             });
+  //           });
+  //       }
+  //     });
+  // };
+
+  // const handleChange = (e) => {
+  //   setSearch(e.target.value);
+  // };
+
+  const postDataWithPagination = (data) => {
+    fetch(props.data.postAPIWithPagination, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setAllData(result);
+      });
+  };
+
+  useEffect(() => {
+    dataPagination.current = initialDataPagination;
+    postDataWithPagination(dataPagination.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(allData);
+  console.log(dataPagination.current);
+
+  // const handlePageClick = (event) => {
+  //   const newOffset =
+  //     (event.selected * allMechanicsData?.pagination.limit) %
+  //     allMechanicsData?.pagination.totalItem;
+  //   const newmechanicPagination = {
+  //     ...initialMechanicPagination,
+  //     page: event.selected + 1,
+  //     start: newOffset,
+  //   };
+  //   mechanicPagination.current = newmechanicPagination;
+  //   getCustomerWithPaginationData(mechanicPagination.current);
+  // };
 
   return (
     <div className={styles.divTable}>
@@ -71,23 +180,23 @@ const TableData = (props) => {
           </tr>
         </thead>
         <tbody>
-          {countData.map((item, index) => {
+          {allData?.result?.map((item, index) => {
             return (
               <tr>
                 {props.data.tableHeaderTitles.map((item, indexHeaderTitle) => {
                   return (
                     <>
-                      {index + 1 == countData.length &&
-                      indexHeaderTitle == 0 ? (
+                      {index + 1 === allData?.result.length &&
+                      indexHeaderTitle === 0 ? (
                         <td className={styles.tdFirstLastChild}>Placeholder</td>
-                      ) : index + 1 !== countData.length &&
-                        indexHeaderTitle == 0 ? (
+                      ) : index + 1 !== allData?.result.length &&
+                        indexHeaderTitle === 0 ? (
                         <td className={styles.tdFirstChild}>Placeholder</td>
-                      ) : indexHeaderTitle ==
+                      ) : indexHeaderTitle ===
                         props.data.tableHeaderTitles.length - 1 ? (
                         <td
                           className={
-                            index + 1 == countData.length
+                            index + 1 === allData?.result.length
                               ? styles.tdLastChild
                               : styles.td
                           }

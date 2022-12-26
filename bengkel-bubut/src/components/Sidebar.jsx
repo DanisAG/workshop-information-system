@@ -25,8 +25,8 @@ const Sidebar = ({ children }) => {
       notActiveIcon: dashboardNotActiveIcon,
     },
     {
-      path: "/transaksi",
-      name: "Transaksi",
+      path: "/transaction",
+      name: "Transaction",
       activeIcon: transaksiActiveIcon,
       notActiveIcon: transaksiNotActiveIcon,
     },

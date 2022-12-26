@@ -35,3 +35,12 @@ export const mechanicSchema = yup.object().shape({
   email: yup.string().required("Email cannot be empty")
 });
 
+export const transactionSchema = yup.object().shape({
+  name: yup.string().required("Mechanic name cannot be empty"),
+  Type: yup.date().required("Date of Birth cannot be empty"),
+  Stock: yup.string().required("Gender cannot be empty"),
+  address: yup.string().required("Address cannot be empty"),
+  phone: yup.string().required("Phone cannot be empty"),
+  email: yup.string().required("Email cannot be empty")
+});
+

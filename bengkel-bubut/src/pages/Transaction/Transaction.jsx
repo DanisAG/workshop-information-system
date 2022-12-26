@@ -4,28 +4,37 @@ import icon from "../../Images/notSelected/Transaksi.png";
 import TransaksiTable from "../../components/Transaksi/Table.jsx";
 import Table from "../../components/Table";
 import { AiOutlineTransaction } from "react-icons/ai";
-const Transaksi = () => {
+import { useContext } from "react";
+import AuthContext from "../../components/store/AuthContext.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
+const Transaction = () => {
+  const authCtx = useContext(AuthContext);
+  const [allTransactionData, setAllTransactionData] = useState();
   const allTableDatas = {
-    title: "SEMUA TRANSAKSI",
-    buttonText: "Tambah Transaksi",
+    title: "ALL TRANSACTION",
+    buttonText: "Add Transaction",
     filterStatus: true,
     header: true,
-    buttonNavigation: "/tambahTransaksi",
+    buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaksi",
     iconTable: <AiOutlineTransaction size={40} />,
     tableHeaderTitles: [
-      "ID TRANSAKSI",
-      "TGL TRANSAKSI",
-      "PELANGGAN",
-      "MEKANIK",
-      "JENIS LAYANAN",
-      "BARANG",
-      "JUMLAH",
-      "PENJUALAN",
+      "TRANSACTION ID",
+      "TRANSACTION NAME",
+      "TRANSACTION DATE",
+      "CUSTOMER",
+      "MECHANIC",
+      "SERVICE TYPE",
+      "STOCK",
+      "QUANTITY",
+      "PRICE",
       "STATUS",
-      "AKSI",
+      "ACTION",
     ],
+    postAPIWithPagination: "http://localhost:8080/transaction/getList"
   };
+
   return (
     <div>
       <Row>
@@ -38,4 +47,4 @@ const Transaksi = () => {
   );
 };
 
-export default Transaksi;
+export default Transaction;

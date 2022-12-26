@@ -8,9 +8,8 @@ import Customer from "./pages/Customer/Customer";
 import Stock from "./pages/Stock/Stock";
 import AddCustomer from "./pages/Customer/AddCustomer";
 import EditCustomer from "./pages/Customer/EditCustomer";
-import Transaksi from "./pages/Transaksi/Transaksi";
-import TambahTransaksi from "./pages/Transaksi/TambahTransaksi";
-import EditTransaksi from "./pages/Transaksi/EditTransaksi";
+import AddTransaction from "./pages/Transaction/AddTransaction";
+import EditTransaksi from "./pages/Transaction/EditTransaksi";
 import AddStock from "./pages/Stock/AddStock";
 import EditStock from "./pages/Stock/EditStock";
 import { useContext } from "react";
@@ -21,6 +20,7 @@ import AuthContext from "./components/store/AuthContext";
 import AddMechanic from "./pages/Mechanic/AddMechanic";
 import EditMechanic from "./pages/Mechanic/EditMechanic";
 import Mechanic from "./pages/Mechanic/Mechanic";
+import Transaction from "./pages/Transaction/Transaction";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -42,9 +42,9 @@ const App = () => {
               <Route path="/addCustomer" element={<AddCustomer />} />
               <Route path="/editCustomer" element={<EditCustomer />} />
               <Route path="/editStock" element={<EditStock />} />
-              <Route path="/transaksi" element={<Transaksi />} />
+              <Route path="/transaction" element={<Transaction />} />
               <Route path="/addStock" element={<AddStock />} />
-              <Route path="/tambahTransaksi" element={<TambahTransaksi />} />
+              <Route path="/addTransaction" element={<AddTransaction />} />
               <Route path="/editTransaksi" element={<EditTransaksi />} />
             </Route>
             <Route path="/login" element={<Login />} />
@@ -64,10 +64,10 @@ const App = () => {
             <Route path="/stock" element={<Stock />} />
             <Route path="/addStock" element={<AddStock />} />
             <Route path="/editStock" element={<EditStock />} />
-            <Route path="/transaksi" element={<Transaksi />} />
+            <Route path="/transaction" element={<Transaction />} />
             <Route path="/addCustomer" element={<AddCustomer />} />
             <Route path="/editCustomer" element={<EditCustomer />} />
-            <Route path="/tambahTransaksi" element={<TambahTransaksi />} />
+            <Route path="/addTransaction" element={<AddTransaction />} />
             <Route path="/editTransaksi" element={<EditTransaksi />} />
           </Route>
           <Route path="/login" element={<Login />} />
