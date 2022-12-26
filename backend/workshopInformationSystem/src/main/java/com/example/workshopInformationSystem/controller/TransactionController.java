@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.Transaction;
+import com.example.workshopInformationSystem.model.request.TransactionPayload;
 import com.example.workshopInformationSystem.service.StockService;
 import com.example.workshopInformationSystem.service.TransactionService;
 import com.example.workshopInformationSystem.service.UserService;
@@ -32,14 +33,14 @@ public class TransactionController {
     private UserService userService;
     
     @PostMapping("/add")
-    public String add(@RequestBody Transaction transaction, @RequestHeader (name="Authorization") String token){
+    public String add(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         transactionService.saveTransaction(transaction);
         return "New Transaction is added";
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody Transaction transaction, @RequestHeader (name="Authorization") String token){
+    public String update(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         transactionService.updateTransaction(transaction);
         return "Transaction is Updated";

@@ -10,8 +10,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.example.workshopInformationSystem.model.Customer;
+import com.example.workshopInformationSystem.model.Mechanic;
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.Transaction;
+import com.example.workshopInformationSystem.model.request.TransactionPayload;
 import com.example.workshopInformationSystem.model.request.TransactionRequest;
 import com.example.workshopInformationSystem.repository.StockRepository;
 import com.example.workshopInformationSystem.repository.TransactionRepository;
@@ -31,26 +34,41 @@ public class TransactionServiceImpl  implements TransactionService {
     private EntityManager entityManager;
     
     @Override
-    public Transaction saveTransaction(Transaction transaction){
+    public Transaction saveTransaction(TransactionPayload transaction){
         try {            
 
             Transaction transactions = new Transaction();
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
-            transactions.setMechanic(transaction.getMechanic());
-            transactions.setCustomer(transaction.getCustomer());
-            transactions.setStock(transaction.getStock());
+
+            String query = "FROM Mechanic WHERE id = "+transaction.getMechanic()+" ";
+            Query queryResult = entityManager.createQuery(query,Mechanic.class);
+            Mechanic mechanic = (Mechanic) queryResult.getSingleResult();
+
+            transactions.setMechanic(mechanic);
+
+            query = "FROM Customer WHERE id = "+transaction.getCustomer()+" ";
+            queryResult = entityManager.createQuery(query,Customer.class);
+            Customer customer = (Customer) queryResult.getSingleResult();
+
+            transactions.setCustomer(customer);
+
+            query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
+            queryResult = entityManager.createQuery(query,Stock.class);
+            Stock stock = (Stock) queryResult.getSingleResult();
+
+            transactions.setStock(stock);
             transactions.setPrice(transaction.getPrice()); 
             transactions.setQuantity(transaction.getQuantity());
             transactions.setCreated(new Date());
             transactions.setUpdated(new Date());
             transactionRepository.save(transactions);
 
-            if(transaction.getStock()!=null){
-                if(!transaction.getStock().toString().isEmpty()){
-                    String query = "FROM Stock WHERE id = "+Integer.parseInt(transaction.getStock().toString())+" ";
+            if(transactions.getStock()!=null){
+                if(!transactions.getStock().toString().isEmpty()){
+                    query = "FROM Stock WHERE id = "+transactions.getStock().getId()+" ";
 
-                    Query queryResult = entityManager.createQuery(query,Stock.class);
+                    queryResult = entityManager.createQuery(query,Stock.class);
 
                     Stock stocks = (Stock) queryResult.getSingleResult();
                  
@@ -71,7 +89,7 @@ public class TransactionServiceImpl  implements TransactionService {
     
     
     @Override
-    public Transaction updateTransaction(Transaction transaction){
+    public Transaction updateTransaction(TransactionPayload transaction){
         try {            
 
             String query = "FROM Transaction WHERE id = "+transaction.getId()+" ";
@@ -83,9 +101,23 @@ public class TransactionServiceImpl  implements TransactionService {
             transactions.setId(transaction.getId());
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
-            transactions.setMechanic(transaction.getMechanic());
-            transactions.setCustomer(transaction.getCustomer());
-            transactions.setStock(transaction.getStock());
+            query = "FROM Mechanic WHERE id = "+transaction.getMechanic()+" ";
+            queryResult = entityManager.createQuery(query,Mechanic.class);
+            Mechanic mechanic = (Mechanic) queryResult.getSingleResult();
+
+            transactions.setMechanic(mechanic);
+
+            query = "FROM Customer WHERE id = "+transaction.getCustomer()+" ";
+            queryResult = entityManager.createQuery(query,Customer.class);
+            Customer customer = (Customer) queryResult.getSingleResult();
+
+            transactions.setCustomer(customer);
+
+            query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
+            queryResult = entityManager.createQuery(query,Stock.class);
+            Stock stock = (Stock) queryResult.getSingleResult();
+
+            transactions.setStock(stock);
             transactions.setPrice(transaction.getPrice()); 
             transactions.setQuantity(transaction.getQuantity());
             transactions.setUpdated(new Date());
@@ -141,8 +173,8 @@ public class TransactionServiceImpl  implements TransactionService {
             }
 
             Query queryResult = entityManager.createQuery(query,Long.class);
-
-            totalData = (Long) queryResult.getSingleResult();
+            
+            totalData = (Long) queryResult.getSingleResult();System.out.println("trace "+ totalData);
             return totalData.intValue();
         } catch (Exception e) {
             e.printStackTrace();
