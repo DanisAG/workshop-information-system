@@ -1,4 +1,4 @@
-import { Table } from "reactstrap";
+import { Input, Table } from "reactstrap";
 import {
   AiOutlineDelete,
   AiOutlineEdit,
@@ -12,11 +12,58 @@ import Filter from "./Filter";
 import swal from "sweetalert2";
 import { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "./store/AuthContext";
+import searchStyles from "../styles/Searchbar.module.css";
+import Select from "react-select";
+import formStyles from "../styles/Form.module.css";
 
 const TableData = (props) => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [allData, setAllData] = useState([]);
+
+  const limitOptions = [
+    {
+      label: (
+        <>
+          LIMIT: <b>5</b>{" "}
+        </>
+      ),
+      value: 5,
+    },
+    {
+      label: (
+        <>
+          LIMIT: <b>10</b>{" "}
+        </>
+      ),
+      value: 10,
+    },
+    {
+      label: (
+        <>
+          LIMIT: <b>20</b>{" "}
+        </>
+      ),
+      value: 20,
+    },
+    {
+      label: (
+        <>
+          LIMIT: <b>30</b>{" "}
+        </>
+      ),
+      value: 30,
+    },
+  ];
+
+  const style = {
+    control: (base) => ({
+      ...base,
+      border: 0,
+      boxShadow: "none",
+      borderRadius: 12,
+    }),
+  };
 
   const initialDataPagination = {
     start: 0,
@@ -145,28 +192,49 @@ const TableData = (props) => {
     <div className={styles.divTable}>
       {props.data.header && (
         <div className={styles.header}>
-          <div className="d-flex">
-            <div className={styles.iconTransaction}>{props.data.iconTable}</div>
-            <div className={styles.headerTitle}>{props.data.title}</div>
+          <div className={styles.headerTop}>
+            <div className="d-flex">
+              <div className={styles.iconTransaction}>
+                {props.data.iconTable}
+              </div>
+              <div className={styles.headerTitle}>{props.data.title}</div>
+            </div>
+            <Select
+              options={limitOptions}
+              placeholder="Show Limit"
+              styles={style}
+              className={styles.select}
+            />
           </div>
 
-          <div className={styles.divButton}>
-            {props.data.filterStatus && (
-              <div className="d-flex">
-                <Filter reportfilterStatus={props.data.filterStatus} />
-              </div>
-            )}
-            <Button
-              className={styles.button}
-              onClick={() => {
-                navigate(props.data.buttonNavigation);
-              }}
-            >
-              <div>
-                <FaPlus className={styles.plusIcon} />
-              </div>
-              <div>{props.data.buttonText}</div>
-            </Button>
+          <div className={styles.headerBottom}>
+            <div lg={8} className={searchStyles.div}>
+              <Input
+                type="text"
+                placeholder="Search Transaction"
+                className={searchStyles.searchBar}
+                // value={search}
+                // onChange={handleChange}
+              />
+            </div>
+            <div className={styles.divButton}>
+              {props.data.filterStatus && (
+                <div className="d-flex">
+                  <Filter reportfilterStatus={props.data.filterStatus} />
+                </div>
+              )}
+              <Button
+                className={styles.button}
+                onClick={() => {
+                  navigate(props.data.buttonNavigation);
+                }}
+              >
+                <div>
+                  <FaPlus className={styles.plusIcon} />
+                </div>
+                <div>{props.data.buttonText}</div>
+              </Button>
+            </div>
           </div>
         </div>
       )}
