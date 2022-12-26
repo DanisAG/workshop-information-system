@@ -14,7 +14,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "./store/AuthContext";
 
 const TableData = (props) => {
-  const countData = [""];
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [allData, setAllData] = useState([]);

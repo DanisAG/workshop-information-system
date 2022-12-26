@@ -1,11 +1,9 @@
-import { Input, Button, Row, Col, FormGroup, Form, Label } from "reactstrap";
+import { Input, Button, Row, FormGroup, Form, Label } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
 import { AiOutlineTransaction } from "react-icons/ai";
-import DatePicker from "react-datepicker";
-import { BsFillCalendar2RangeFill } from "react-icons/bs";
 import React, { useState } from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -230,9 +228,22 @@ const AddTransaction = (props) => {
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Customer</Label>
             <Select
+              id="Customer"
               options={customerOptions}
-              styles={style}
-              className={styles.input}
+              styles={errors.Customer && touched.Customer ? errorStyle : style}
+              className={
+                errors.Customer && touched.Customer
+                  ? styles.inputError
+                  : styles.input
+              }
+              value={
+                mechanicOptions
+                  ? mechanicOptions.find(
+                      (option) => option.value === values.Customer
+                    )
+                  : ""
+              }
+              onChange={(option) => setFieldValue("Customer", option.value)}
               maxMenuHeight={500}
               placeholder="Customer Name"
             />
@@ -282,7 +293,7 @@ const AddTransaction = (props) => {
                     )
                   : ""
               }
-              onChange={(option) => setFieldValue("Mechanic", option.value)}
+              onChange={(option) => setFieldValue("Type", option.value)}
               placeholder="Select Service"
             />
             {errors.Type && touched.Type && (
@@ -312,6 +323,7 @@ const AddTransaction = (props) => {
             <Input
               placeholder="Stock"
               id="Stock"
+              type="number"
               onChange={handleChange}
               value={values.Stock}
               className={
@@ -329,6 +341,7 @@ const AddTransaction = (props) => {
             <Input
               placeholder="Quantity"
               id="Quantity"
+              type="number"
               onChange={handleChange}
               value={values.Quantity}
               className={
