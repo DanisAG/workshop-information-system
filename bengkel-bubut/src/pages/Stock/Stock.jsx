@@ -7,7 +7,6 @@ import {
   NavLink,
   Button,
   Row,
-
 } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import styles from "../../styles/Stock.module.css";
@@ -20,16 +19,37 @@ import { useNavigate } from "react-router-dom";
 import pelangganStyles from "../../styles/Customer.module.css";
 import { FaPlus } from "react-icons/fa";
 import { AiFillWarning, AiFillStar } from "react-icons/ai";
-import { TbNumber1,TbNumber2,TbNumber3,TbNumber4 } from "react-icons/tb";
+import { TbNumber1, TbNumber2, TbNumber3, TbNumber4 } from "react-icons/tb";
 import { BsArrowUpShort } from "react-icons/bs";
+import TableData from "../../components/Table";
 
 const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
   const toggle = (tab) => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
   };
-
   const navigate = useNavigate();
+
+  const allTableDatas = {
+    title: "ALL STOCKS",
+    buttonText: "Add Stock",
+    filterStatus: false,
+    header: true,
+    buttonNavigation: "/addStock",
+    editNavigation: "/editStock",
+    iconTable: <MdInventory2 size={40} />,
+    tableHeaderTitles: [
+      "ITEM NAME",
+      "PRICE",
+      "QUANTITY",
+      "ACTION"
+    ],
+    variableName: ["name", "price", "quantity"],
+    postAPIWithPagination: "http://localhost:8080/stock/getList",
+    deleteAPI: "http://localhost:8080/stock/delete/",
+    orderBy: {field: "updated", sort: "DESC"}
+    
+  };
   return (
     <div className={styles.content}>
       <div className={styles.breadcrumbs}>
@@ -52,7 +72,9 @@ const Stock = () => {
             </div>
           </div>
           <div className={styles.table}>
-            <div className="d-flex">
+          <TableData data={allTableDatas} />
+
+            {/* <div className="d-flex">
               <Nav tabs style={{ width: "82%" }}>
                 <NavItem>
                   <NavLink
@@ -99,12 +121,12 @@ const Stock = () => {
 
             <TabContent activeTab={currentActiveTab}>
               <TabPane tabId="1">
-                <StokTable tabId={currentActiveTab}/>
+                <StokTable tabId={currentActiveTab} />
               </TabPane>
               <TabPane tabId="2">
-                <StokTable tabId={currentActiveTab}/>
+                <StokTable tabId={currentActiveTab} />
               </TabPane>
-            </TabContent>
+            </TabContent> */}
           </div>
         </div>
         <div>

@@ -7,7 +7,7 @@ import Table from "../../components/Table";
 
 const Customer = () => {
   const allTableDatas = {
-    title: "ALL CUSTOMER",
+    title: "ALL CUSTOMERS",
     buttonText: "Add Customer",
     filterStatus: false,
     header: true,
@@ -27,7 +27,7 @@ const Customer = () => {
     variableName: ["id", "name", "dob", "gender", "address", "phone", "email"],
     postAPIWithPagination: "http://localhost:8080/customer/getList",
     deleteAPI: "http://localhost:8080/customer/delete/",
-    
+    orderBy: {field: "name", sort: "ASC"}
   };
   return (
     <div>

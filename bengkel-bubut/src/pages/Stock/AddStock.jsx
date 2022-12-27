@@ -91,6 +91,7 @@ const AddStock = (props) => {
       name: "",
       price: "",
       quantity: "",
+      minimumQty: ""
     },
     validationSchema: stockSchema,
     onSubmit,
@@ -176,6 +177,23 @@ const AddStock = (props) => {
             />
             {stockFormik.errors.quantity && stockFormik.touched.quantity && (
               <p className={styles.error}>{stockFormik.errors.quantity}</p>
+            )}
+          </FormGroup>
+          <FormGroup className={styles.formgroup}>
+            <Label className={styles.label}>Minimum Quantity</Label>
+            <Input
+              id="minimumQty"
+              placeholder="Minimum Quantity"
+              className={
+                stockFormik.errors.minimumQty && stockFormik.touched.minimumQty
+                  ? styles.inputError
+                  : styles.input
+              }
+              onChange={stockFormik.handleChange}
+              value={stockFormik.values.minimumQty}
+            />
+            {stockFormik.errors.minimumQty && stockFormik.touched.minimumQty && (
+              <p className={styles.error}>{stockFormik.errors.minimumQty}</p>
             )}
           </FormGroup>
           <div className="d-flex">

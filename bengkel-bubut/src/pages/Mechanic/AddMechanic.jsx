@@ -3,10 +3,8 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
-import { MdSupervisedUserCircle } from "react-icons/md";
-import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import React, { useState } from "react";
+import React from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { GiMechanicGarage } from "react-icons/gi";
@@ -16,10 +14,8 @@ import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
 import moment from "moment";
 
-const AddMechanic = (props) => {
-  const location = useLocation();
+const AddMechanic = () => {
   const navigate = useNavigate();
-  console.log(location.state.userId);
   const style = {
     control: (base) => ({
       ...base,

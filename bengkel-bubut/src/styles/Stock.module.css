@@ -1,6 +1,6 @@
 .overview {
   min-height: 65vh;
-  min-width: 60vw;
+  width: 60vw;
   border: none;
   background: #ffffff;
   box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
@@ -9,8 +9,9 @@
 }
 
 .table {
-  min-width: 60vw;
+  width: 60vw;
   margin-top: 2rem;
+  margin-left: 0.4rem;
 }
 
 .overviewHeader {

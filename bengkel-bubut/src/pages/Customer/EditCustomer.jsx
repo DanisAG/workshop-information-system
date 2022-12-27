@@ -120,7 +120,6 @@ const EditCustomer = (props) => {
 
   const filteredData = location.state.allData.filter(
     (customer) => customer.id === location.state.id);
-  console.log(location.state.allData)
 
   console.log(filteredData.map(data=> data.gender).toString());
 

@@ -80,8 +80,8 @@ const TableData = (props) => {
       type:""
     },
     orderBy: {
-      field: "",
-      sort: "",
+      field: props?.data.orderBy?.field,
+      sort: props?.data.orderBy?.sort,
     },
   };
   const dataPagination = useRef(initialDataPagination);
@@ -143,9 +143,6 @@ const TableData = (props) => {
     setLimit(e.value);
   };
 
-  console.log(limitOptions);
-
-
   const postDataWithPagination = (data) => {
     fetch(props.data.postAPIWithPagination, {
       method: "POST",
@@ -168,7 +165,6 @@ const TableData = (props) => {
   }, [search, limit]);
 
   console.log(allData);
-  console.log(dataPagination.current);
 
   const handlePageClick = (event) => {
     const newOffset =
@@ -199,7 +195,7 @@ const TableData = (props) => {
             </div>
 
             <div className={styles.headerBottom}>
-              <div className="d-flex">
+              <div className={styles.headerBottomLeft}>
                 <Select
                   options={limitOptions}
                   placeholder="Limit"

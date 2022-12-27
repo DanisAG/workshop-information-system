@@ -116,10 +116,10 @@ const EditMechanic = (props) => {
       });
   };
 
-  const filteredData = location.state.allMechanicsData.filter(
-    (customer) => customer.id === location.state.id
+  const filteredData = location.state.allData?.filter(
+    (mechanic) => mechanic.id === location.state.id
   );
-  console.log();
+
   const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -224,6 +224,7 @@ const EditMechanic = (props) => {
                   ? styles.inputError
                   : styles.input
               }
+              value={values.address}
             />
             {errors.address && touched.address && (
               <p className={styles.error}>{errors.address}</p>
@@ -240,6 +241,8 @@ const EditMechanic = (props) => {
                   ? styles.inputError
                   : styles.input
               }
+              value={values.phone}
+
             />
             {errors.phone && touched.phone && (
               <p className={styles.error}>{errors.phone}</p>
@@ -254,6 +257,8 @@ const EditMechanic = (props) => {
               className={
                 errors.email && touched.email ? styles.inputError : styles.input
               }
+              value={values.email}
+
             />
             {errors.email && touched.email && (
               <p className={styles.error}>{errors.email}</p>

@@ -34,7 +34,7 @@ const EditStock = (props) => {
       });
   };
 
-  const filteredData = location.state.allStocksData.result.filter(
+  const filteredData = location.state.allData.filter(
     (stock) => stock.id === location.state.id
   );
 
@@ -97,6 +97,8 @@ const EditStock = (props) => {
       name: filteredData.map((data) => data.name).toString(),
       price: parseInt(filteredData.map((data) => data.price)),
       quantity: parseInt(filteredData.map((data) => data.quantity)),
+      minimumQty: parseInt(filteredData.map((data) => data.minimumQty)),
+
     },
     validationSchema: stockSchema,
     onSubmit,
@@ -165,6 +167,23 @@ const EditStock = (props) => {
             />
             {errors.quantity && touched.quantity && (
               <p className={styles.error}>{errors.quantity}</p>
+            )}
+          </FormGroup>
+          <FormGroup className={styles.formgroup}>
+            <Label className={styles.label}>Minimum Quantity</Label>
+            <Input
+              id="minimumQty"
+              placeholder="Minimum Quantity"
+              className={
+                errors.minimumQty && touched.minimumQty
+                  ? styles.inputError
+                  : styles.input
+              }
+              onChange={handleChange}
+              value={values.minimumQty}
+            />
+            {errors.minimumQty && touched.minimumQty && (
+              <p className={styles.error}>{errors.minimumQty}</p>
             )}
           </FormGroup>
           <div className="d-flex">

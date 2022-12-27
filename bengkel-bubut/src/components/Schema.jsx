@@ -23,7 +23,8 @@ export const customerSchema = yup.object().shape({
 export const stockSchema = yup.object().shape({
   name: yup.string().required("Stock name cannot be empty!"),
   price: yup.number().required("Price cannot be empty!"),
-  quantity: yup.number().required("Quantity cannot be empty!")
+  quantity: yup.number().required("Quantity cannot be empty!"),
+  minimumQty: yup.number().required("Minimum Quantity cannot be empty!")
 });
 
 export const mechanicSchema = yup.object().shape({

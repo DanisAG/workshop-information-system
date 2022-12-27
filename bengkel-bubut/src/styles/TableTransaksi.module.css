@@ -40,8 +40,14 @@
 
 .headerBottom {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-top: 1rem;
+  width: 100%;
+}
+
+.headerBottomLeft{
+  display: flex;
+  width: 85%;
 }
 
 .headerTop {
@@ -97,7 +103,9 @@
 
 .divButton {
   display: flex;
-  justify-content: right;
+  margin-left: auto ;
+  width: fit-content;
+  justify-content: end;
 }
 
 .iconFilter {

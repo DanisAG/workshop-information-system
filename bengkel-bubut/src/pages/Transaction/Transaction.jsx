@@ -6,7 +6,7 @@ import { AiOutlineTransaction } from "react-icons/ai";
 
 const Transaction = () => {
   const allTableDatas = {
-    title: "ALL TRANSACTION",
+    title: "ALL TRANSACTIONS",
     buttonText: "Add Transaction",
     filterStatus: true,
     header: true,
