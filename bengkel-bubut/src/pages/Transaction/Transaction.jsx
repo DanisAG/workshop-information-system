@@ -11,7 +11,7 @@ const Transaction = () => {
     filterStatus: true,
     header: true,
     buttonNavigation: "/addTransaction",
-    editNavigation: "/editTransaksi",
+    editNavigation: "/editTransaction",
     iconTable: <AiOutlineTransaction size={40} />,
     tableHeaderTitles: [
       "TRANSACTION ID",
@@ -39,6 +39,12 @@ const Transaction = () => {
       "status",
     ],
     postAPIWithPagination: "http://localhost:8080/transaction/getList",
+    getAllCustomersAPI: "http://localhost:8080/customer/getAll",
+    getAllMechanicsAPI: "http://localhost:8080/mechanic/getAll",
+    getAllStocksAPI: "http://localhost:8080/stock/getAll",
+    addAPI: "http://localhost:8080/transaction/add",
+    updateAPI: "http://localhost:8080/transaction/update",
+    orderBy: {field: "updated", sort: "DESC"}
   };
 
   return (

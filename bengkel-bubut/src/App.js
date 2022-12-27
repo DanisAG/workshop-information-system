@@ -21,6 +21,7 @@ import AddMechanic from "./pages/Mechanic/AddMechanic";
 import EditMechanic from "./pages/Mechanic/EditMechanic";
 import Mechanic from "./pages/Mechanic/Mechanic";
 import Transaction from "./pages/Transaction/Transaction";
+import AddOrEdit from "./pages/Transaction/AddOrEdit";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -44,8 +45,10 @@ const App = () => {
               <Route path="/editStock" element={<EditStock />} />
               <Route path="/transaction" element={<Transaction />} />
               <Route path="/addStock" element={<AddStock />} />
-              <Route path="/addTransaction" element={<AddTransaction />} />
-              <Route path="/editTransaksi" element={<EditTransaksi />} />
+              <Route path="/addTransaction" element={<AddOrEdit />} />
+              <Route path="/editTransaction" element={<AddOrEdit />} />
+              {/* <Route path="/addTransaction" element={<AddTransaction />} />
+              <Route path="/editTransaksi" element={<EditTransaksi />} /> */}
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -67,8 +70,10 @@ const App = () => {
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/addCustomer" element={<AddCustomer />} />
             <Route path="/editCustomer" element={<EditCustomer />} />
-            <Route path="/addTransaction" element={<AddTransaction />} />
-            <Route path="/editTransaksi" element={<EditTransaksi />} />
+            <Route path="/addTransaction" element={<AddOrEdit />} />
+            <Route path="/editTransaction" element={<AddOrEdit />} />
+            {/* <Route path="/addTransaction" element={<AddTransaction />} />
+            <Route path="/editTransaksi" element={<EditTransaksi />} /> */}
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

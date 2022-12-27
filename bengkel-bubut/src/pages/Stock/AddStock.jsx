@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import { stockSchema } from "../../components/Schema.jsx";
 import moment from "moment";
 
-const AddStock = (props) => {
+const AddStock = () => {
   const navigate = useNavigate();
   const handleClickCancel = () => {
     swal
@@ -91,7 +91,6 @@ const AddStock = (props) => {
       name: "",
       price: "",
       quantity: "",
-      minimumQty: ""
     },
     validationSchema: stockSchema,
     onSubmit,

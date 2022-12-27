@@ -5,6 +5,7 @@ import {
   AiFillCheckCircle,
   AiFillRightCircle,
   AiFillLeftCircle,
+  AiOutlineTransaction,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
 import { useNavigate } from "react-router-dom";
@@ -179,7 +180,12 @@ const TableData = (props) => {
     postDataWithPagination(allData.current);
   };
 
-
+  const passedData = props.data;
+  console.log(allData);
+  const passedTableData = {
+    ...props.data,
+    iconTable: ""
+  }
   return (
     <>
       <div className={styles.divTable}>
@@ -228,7 +234,12 @@ const TableData = (props) => {
                 <Button
                   className={styles.button}
                   onClick={() => {
-                    navigate(props.data.buttonNavigation);
+                    navigate(props.data.buttonNavigation, {
+                      state: {
+                        status: "Add",
+                        allTableDatas: passedTableData
+                      }
+                    });
                   }}
                 >
                   <div>
@@ -268,6 +279,8 @@ const TableData = (props) => {
                           state: {
                             id: item.id,
                             allData: allData?.result,
+                            status: "Edit",
+                            allTableDatas: passedTableData
                           },
                         });
                       }}

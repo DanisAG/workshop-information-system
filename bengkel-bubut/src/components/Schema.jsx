@@ -38,10 +38,12 @@ export const mechanicSchema = yup.object().shape({
 
 export const transactionSchema = yup.object().shape({
   name: yup.string().required("Mechanic name cannot be empty"),
-  Type: yup.date().required("Date of Birth cannot be empty"),
-  Stock: yup.string().required("Gender cannot be empty"),
-  address: yup.string().required("Address cannot be empty"),
-  phone: yup.string().required("Phone cannot be empty"),
-  email: yup.string().required("Email cannot be empty")
+  type: yup.string().required("Service Type cannot be empty"),
+  mechanic: yup.string().required("Mechanic cannot be empty"),
+  customer: yup.string().required("Customer cannot be empty"),
+  stock: yup.string().required("Stock cannot be empty"),
+  price: yup.string().required("Price cannot be empty"),
+  quantity: yup.string().required("Quantity cannot be empty"),
+  status: yup.string().required("Status cannot be empty")
 });
 
