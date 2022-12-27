@@ -251,6 +251,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 transactions.setCustomer(transaction.getCustomer().getName());
                 transactions.setStock(transaction.getStock().getName());
                 transactions.setPrice(transaction.getPrice()); 
+                transactions.setStatus(transaction.getStatus()); 
                 transactions.setQuantity(transaction.getQuantity());
                 if(transaction.getCreated()!=null)
                 transactions.setCreated(transaction.getCreated().toString());
