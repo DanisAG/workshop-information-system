@@ -14,10 +14,9 @@ import { useFormik } from "formik";
 import { transactionSchema } from "../../components/Schema.jsx";
 import moment from "moment";
 
-const AddOrEdit = (props) => {
+const AddOrEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
   const [allCustomers, setAllCustomers] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
   const [allMechanics, setAllMechanics] = useState([]);
@@ -132,13 +131,9 @@ const AddOrEdit = (props) => {
   );
 
   const onSubmit = (values) => {
-    console.log(values.customer);
-
     const getCustomerId = typeof(values.customer) === "string" ? allCustomers.find(
       (data) => data.name === values.customer
     )?.id : values.customer;
-
-    console.log(getCustomerId);
 
     const getMechanicId = typeof(values.mechanic) === "string" ? allMechanics.find(
       (data) => data.name === values.mechanic
@@ -147,15 +142,7 @@ const AddOrEdit = (props) => {
     const getStockId = typeof(values.stock) === "string" ? allStocks.find(
       (data) => data.name === values.stock
     )?.id : values.stock;
-    // const getCustomerId = allCustomers.find(
-    //   (data) => data.name === values.customer
-    // )?.id;
-    // const getStockId = allStocks.find(
-    //   (data) => data.name === values.stock
-    // )?.id;
-    // const getMechanicId = allMechanics.find(
-    //   (data) => data.name === values.mechanic
-    // )?.id;
+
     const transaction =
       location.state.status === "Add"
         ? {

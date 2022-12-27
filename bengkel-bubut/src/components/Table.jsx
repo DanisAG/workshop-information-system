@@ -26,7 +26,8 @@ const TableData = (props) => {
   const [allData, setAllData] = useState([]);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
-
+  const [filter, setFilter] = useState({status: "",type: ""});
+  console.log(filter);
   const limitOptions = [
     {
       label: (
@@ -77,8 +78,8 @@ const TableData = (props) => {
     page: 1,
     keyword: search,
     filter: {
-      status: "",
-      type:""
+      status: filter.status,
+      type: filter.type
     },
     orderBy: {
       field: props?.data.orderBy?.field,
@@ -86,6 +87,7 @@ const TableData = (props) => {
     },
   };
   const dataPagination = useRef(initialDataPagination);
+  console.log(dataPagination);
 
   const handleClickDelete = (id) => {
     swal
@@ -163,7 +165,7 @@ const TableData = (props) => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, limit]);
+  }, [search, limit, filter]);
 
   console.log(allData);
 
@@ -180,7 +182,6 @@ const TableData = (props) => {
     postDataWithPagination(allData.current);
   };
 
-  const passedData = props.data;
   console.log(allData);
   const passedTableData = {
     ...props.data,
@@ -228,7 +229,7 @@ const TableData = (props) => {
               <div className={styles.divButton}>
                 {props.data.filterStatus && (
                   <div className="d-flex">
-                    <Filter reportfilterStatus={props.data.filterStatus} />
+                    <Filter reportfilterStatus={props.data.filterStatus} setFilter={setFilter} filter={filter} />
                   </div>
                 )}
                 <Button

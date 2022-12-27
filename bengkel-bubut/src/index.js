@@ -1,16 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import App from "./App";
 import { AuthContextProvider } from "./components/store/AuthContext";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <App />
     </AuthContextProvider>
   </React.StrictMode>,
-  document.getElementById("root")
 );
