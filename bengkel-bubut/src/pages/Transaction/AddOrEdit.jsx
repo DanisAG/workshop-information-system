@@ -131,15 +131,6 @@ const AddOrEdit = (props) => {
     (data) => data.id === location.state.id
   );
 
-  console.log(allCustomers);
-
-  console.log(
-    allCustomers.find(
-      (data) =>
-        data.name === filteredData.map((data) => data.customer).toString()
-    )?.id
-  );
-
   const onSubmit = (values) => {
     console.log(values.customer);
 
