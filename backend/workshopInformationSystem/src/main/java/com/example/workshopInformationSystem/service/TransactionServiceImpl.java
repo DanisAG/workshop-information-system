@@ -244,6 +244,7 @@ public class TransactionServiceImpl  implements TransactionService {
             users = entityManager.createQuery(query, Transaction.class).setMaxResults(limit).setFirstResult(offset).getResultList();
             users.forEach((Transaction transaction) -> {
                 TransactionRequest transactions = new TransactionRequest();
+                transactions.setId(transaction.getId());
                 transactions.setName(transaction.getName());
                 transactions.setType(transaction.getType());
                 transactions.setMechanic(transaction.getMechanic().getName());
