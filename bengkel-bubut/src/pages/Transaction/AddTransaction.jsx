@@ -81,7 +81,7 @@ const AddTransaction = (props) => {
       })
       .then((result) => {
         console.log(result);
-        setAllStocks(result);
+        setAllStocks(result.stock);
       });
   };
 
@@ -114,13 +114,12 @@ const AddTransaction = (props) => {
   };
 
   useEffect(() => {
-    // getAllStocks();
+    getAllStocks();
     getAllCustomers();
     getAllMechanics();
   }, []);
-  // console.log(allCustomers);
-  // console.log(allMechanics);
-  // console.log(allStocks);
+
+  console.log(allStocks);
 
   const onSubmit = (values) => {
     const transaction = {
@@ -302,7 +301,7 @@ const AddTransaction = (props) => {
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Item</Label>
-            {/* <Select
+            <Select
               id="Stock"
               options={stockOptions}
               styles={errors.Stock && touched.Stock ? errorStyle : style}
@@ -316,21 +315,9 @@ const AddTransaction = (props) => {
                     )
                   : ""
               }
-              onChange={(option) => setFieldValue("Mechanic", option.value)}
+              onChange={(option) => setFieldValue("Stock", option.value)}
               maxMenuHeight={500}
               placeholder="Item Name"
-            /> */}
-            <Input
-              placeholder="Stock"
-              id="Stock"
-              type="number"
-              onChange={handleChange}
-              value={values.Stock}
-              className={
-                errors.Stock && touched.Stock
-                  ? styles.inputError
-                  : styles.input
-              }
             />
             {errors.Stock && touched.Stock && (
               <p className={styles.error}>{errors.Stock}</p>

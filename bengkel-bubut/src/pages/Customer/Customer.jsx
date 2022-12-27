@@ -9,7 +9,7 @@ const Customer = () => {
   const allTableDatas = {
     title: "ALL CUSTOMER",
     buttonText: "Add Customer",
-    filterStatus: true,
+    filterStatus: false,
     header: true,
     buttonNavigation: "/addCustomer",
     editNavigation: "/editCustomer",
@@ -26,6 +26,8 @@ const Customer = () => {
     ],
     variableName: ["id", "name", "dob", "gender", "address", "phone", "email"],
     postAPIWithPagination: "http://localhost:8080/customer/getList",
+    deleteAPI: "http://localhost:8080/customer/delete/",
+    
   };
   return (
     <div>

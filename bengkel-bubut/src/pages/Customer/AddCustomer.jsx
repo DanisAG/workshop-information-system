@@ -4,9 +4,8 @@ import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
 import { MdSupervisedUserCircle } from "react-icons/md";
-import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import React, { useState } from "react";
+import React from "react";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -14,10 +13,8 @@ import AuthContext from "../../components/store/AuthContext.jsx";
 import { useFormik } from "formik";
 import { customerSchema } from "../../components/Schema.jsx";
 
-const AddCustomer = (props) => {
-  const location = useLocation();
+const AddCustomer = () => {
   const navigate = useNavigate();
-  console.log(location.state.userId);
   const style = {
     control: (base) => ({
       ...base,

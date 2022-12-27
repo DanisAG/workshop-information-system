@@ -118,9 +118,9 @@ const EditCustomer = (props) => {
   };
 
 
-  const filteredData = location.state.allCustomersData.filter(
+  const filteredData = location.state.allData.filter(
     (customer) => customer.id === location.state.id);
-    console.log()
+  console.log(location.state.allData)
 
   console.log(filteredData.map(data=> data.gender).toString());
 

@@ -23,6 +23,8 @@ const TableData = (props) => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [allData, setAllData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [limit, setLimit] = useState(5);
 
   const limitOptions = [
     {
@@ -70,11 +72,12 @@ const TableData = (props) => {
 
   const initialDataPagination = {
     start: 0,
-    limit: 5,
+    limit: limit,
     page: 1,
-    keyword: "",
+    keyword: search,
     filter: {
-      transaction: "",
+      status: "",
+      type:""
     },
     orderBy: {
       field: "",
@@ -83,27 +86,65 @@ const TableData = (props) => {
   };
   const dataPagination = useRef(initialDataPagination);
 
-  const handleClickDelete = () => {
+  const handleClickDelete = (id) => {
     swal
       .fire({
-        title: "KONFIRMASI",
-        text: "Anda yakin untuk menghapus data ini?",
+        title: "Confirmation",
+        text: "Are you sure to delete the data?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonColor: "#d33",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "Hapus",
+        confirmButtonText: "Delete",
+        allowOutsideClick: false,
       })
       .then((result) => {
         if (result.isConfirmed) {
-          swal.fire("Deleted!", "Your file has been deleted.", "success");
+          fetch(`${props.data.deleteAPI}${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${authCtx.token}` },
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(response.statusText);
+              } else {
+                fetch(props.data.postAPIWithPagination, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authCtx.token}`,
+                  },
+                  body: JSON.stringify(dataPagination.current),
+                })
+                  .then((res) => res.json())
+                  .then((result) => {
+                    console.log(result, "Result ");
+                    setAllData(result);
+                  });
+                swal.fire("Deleted!", "The data has been deleted.", "success");
+              }
+            })
+            .catch((error) => {
+              swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Request failed: ${error}`,
+              });
+            });
         }
       });
   };
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  };
 
-  // const handleChange = (e) => {
-  //   setSearch(e.target.value);
-  // };
+  const handleChangeLimit = (e) => {
+    console.log(e);
+    setLimit(e.value);
+  };
+
+  console.log(limitOptions);
+
 
   const postDataWithPagination = (data) => {
     fetch(props.data.postAPIWithPagination, {
@@ -124,7 +165,7 @@ const TableData = (props) => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [search, limit]);
 
   console.log(allData);
   console.log(dataPagination.current);
@@ -141,6 +182,7 @@ const TableData = (props) => {
     allData.current = newDataPagination;
     postDataWithPagination(allData.current);
   };
+
 
   return (
     <>
@@ -163,14 +205,20 @@ const TableData = (props) => {
                   placeholder="Limit"
                   styles={style}
                   className={styles.select}
+                   value={ limitOptions
+                    ? limitOptions.find(
+                        (option) => option.value === limit
+                      )
+                    : ""}
+                  onChange={handleChangeLimit}
                 />
                 <div lg={8} className={searchStyles.div}>
                   <Input
                     type="text"
-                    placeholder="Search Transaction"
+                    placeholder="Search"
                     className={searchStyles.searchBar}
-                    // value={search}
-                    // onChange={handleChange}
+                    value={search}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -220,10 +268,10 @@ const TableData = (props) => {
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {
-                        navigate("/editStock", {
+                        navigate(props.data.editNavigation, {
                           state: {
                             id: item.id,
-                            allStocksData: allData,
+                            allData: allData?.result,
                           },
                         });
                       }}
