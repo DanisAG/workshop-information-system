@@ -45,7 +45,7 @@
   width: 100%;
 }
 
-.headerBottomLeft{
+.headerBottomLeft {
   display: flex;
   width: 85%;
 }
@@ -67,7 +67,6 @@
 }
 
 .button {
-  height: 46px;
   background-color: #6f6af8;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -103,23 +102,36 @@
 
 .divButton {
   display: flex;
-  margin-left: auto ;
+  margin-left: auto;
   width: fit-content;
   justify-content: end;
 }
 
 .iconFilter {
-  margin-right: 24px;
   display: flex;
-  margin-top: auto;
   border-radius: 10px;
   color: #6f6af8;
-  margin-bottom: auto;
+  cursor: pointer;
+  height: 100%;
+  padding-top: auto;
+  padding-bottom: auto;
+}
+
+.dropdown {
+  position: relative;
+  margin-right: 1.5rem;
 }
 
 .formFilter {
-  width: 15rem;
-  margin: 12px 16px;
+  width: 20rem;
+  padding: 1rem 1.5rem;
+  position: absolute;
+  right: 4.2rem;
+  top: 0px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
 .datepicker {

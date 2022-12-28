@@ -8,8 +8,6 @@ import Customer from "./pages/Customer/Customer";
 import Stock from "./pages/Stock/Stock";
 import AddCustomer from "./pages/Customer/AddCustomer";
 import EditCustomer from "./pages/Customer/EditCustomer";
-import AddTransaction from "./pages/Transaction/AddTransaction";
-import EditTransaksi from "./pages/Transaction/EditTransaksi";
 import AddStock from "./pages/Stock/AddStock";
 import EditStock from "./pages/Stock/EditStock";
 import { useContext } from "react";
@@ -47,8 +45,6 @@ const App = () => {
               <Route path="/addStock" element={<AddStock />} />
               <Route path="/addTransaction" element={<AddOrEdit />} />
               <Route path="/editTransaction" element={<AddOrEdit />} />
-              {/* <Route path="/addTransaction" element={<AddTransaction />} />
-              <Route path="/editTransaksi" element={<EditTransaksi />} /> */}
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -72,8 +68,6 @@ const App = () => {
             <Route path="/editCustomer" element={<EditCustomer />} />
             <Route path="/addTransaction" element={<AddOrEdit />} />
             <Route path="/editTransaction" element={<AddOrEdit />} />
-            {/* <Route path="/addTransaction" element={<AddTransaction />} />
-            <Route path="/editTransaksi" element={<EditTransaksi />} /> */}
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
