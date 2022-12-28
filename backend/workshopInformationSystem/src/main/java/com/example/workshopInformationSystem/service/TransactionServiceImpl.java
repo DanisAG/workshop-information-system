@@ -40,7 +40,7 @@ public class TransactionServiceImpl  implements TransactionService {
             Transaction transactions = new Transaction();
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
-
+            transactions.setStatus(transaction.getStatus());
             String query = "FROM Mechanic WHERE id = "+transaction.getMechanic()+" ";
             Query queryResult = entityManager.createQuery(query,Mechanic.class);
             Mechanic mechanic = (Mechanic) queryResult.getSingleResult();
@@ -116,7 +116,7 @@ public class TransactionServiceImpl  implements TransactionService {
             query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
             queryResult = entityManager.createQuery(query,Stock.class);
             Stock stock = (Stock) queryResult.getSingleResult();
-
+            transactions.setStatus(transaction.getStatus());
             transactions.setStock(stock);
             transactions.setPrice(transaction.getPrice()); 
             transactions.setQuantity(transaction.getQuantity());
