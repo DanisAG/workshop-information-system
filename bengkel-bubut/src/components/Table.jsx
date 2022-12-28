@@ -19,6 +19,7 @@ import searchStyles from "../styles/Searchbar.module.css";
 import Select from "react-select";
 import formStyles from "../styles/Form.module.css";
 import ReactPaginate from "react-paginate";
+import moment from "moment";
 
 const TableData = (props) => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const TableData = (props) => {
   const [allData, setAllData] = useState([]);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
-  const [filter, setFilter] = useState({status: "",type: ""});
+  const [filter, setFilter] = useState({ status: "", type: "" });
   console.log(filter);
   const limitOptions = [
     {
@@ -79,7 +80,7 @@ const TableData = (props) => {
     keyword: search,
     filter: {
       status: filter.status,
-      type: filter.type
+      type: filter.type,
     },
     orderBy: {
       field: props?.data.orderBy?.field,
@@ -185,8 +186,8 @@ const TableData = (props) => {
   console.log(allData);
   const passedTableData = {
     ...props.data,
-    iconTable: ""
-  }
+    iconTable: "",
+  };
   return (
     <>
       <div className={styles.divTable}>
@@ -208,11 +209,11 @@ const TableData = (props) => {
                   placeholder="Limit"
                   styles={style}
                   className={styles.select}
-                   value={ limitOptions
-                    ? limitOptions.find(
-                        (option) => option.value === limit
-                      )
-                    : ""}
+                  value={
+                    limitOptions
+                      ? limitOptions.find((option) => option.value === limit)
+                      : ""
+                  }
                   onChange={handleChangeLimit}
                 />
                 <div lg={8} className={searchStyles.div}>
@@ -229,7 +230,11 @@ const TableData = (props) => {
               <div className={styles.divButton}>
                 {props.data.filterStatus && (
                   <div className="d-flex">
-                    <Filter reportfilterStatus={props.data.filterStatus} setFilter={setFilter} filter={filter} />
+                    <Filter
+                      reportfilterStatus={props.data.filterStatus}
+                      setFilter={setFilter}
+                      filter={filter}
+                    />
                   </div>
                 )}
                 <Button
@@ -238,8 +243,10 @@ const TableData = (props) => {
                     navigate(props.data.buttonNavigation, {
                       state: {
                         status: "Add",
-                        allTableDatas: passedTableData
-                      }
+                        allTableDatas: passedTableData,
+                        allData: allData?.result,
+
+                      },
                     });
                   }}
                 >
@@ -252,7 +259,10 @@ const TableData = (props) => {
             </div>
           </div>
         )}
-        <Table responsive className={`${styles.table} text-nowrap shadow-sm table-borderless`}>
+        <Table
+          responsive
+          className={`${styles.table} text-nowrap shadow-sm table-borderless`}
+        >
           <thead className={styles.thead}>
             <tr>
               {props.data.tableHeaderTitles.map((item) => {
@@ -263,16 +273,21 @@ const TableData = (props) => {
           <tbody>
             {allData?.result?.map((item) => {
               return (
-                <tr >
+                <tr>
                   {props.data.variableName.map((variable) => {
                     return (
                       <>
-                       <td>{item[variable]}</td>
+                        <td>
+                          {variable === "created"
+                            ? moment(item[variable]).format("DD MMMM YYYY")
+                            // : variable === "revenue"
+                            // ? item["price"] - 0
+                            : item[variable]}
+                        </td>
                       </>
                     );
                   })}
-                  <td
-                  >
+                  <td>
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {
@@ -281,7 +296,7 @@ const TableData = (props) => {
                             id: item.id,
                             allData: allData?.result,
                             status: "Edit",
-                            allTableDatas: passedTableData
+                            allTableDatas: passedTableData,
                           },
                         });
                       }}

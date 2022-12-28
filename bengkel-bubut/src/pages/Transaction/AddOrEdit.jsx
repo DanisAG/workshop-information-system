@@ -20,7 +20,7 @@ const AddOrEdit = () => {
   const [allCustomers, setAllCustomers] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
   const [allMechanics, setAllMechanics] = useState([]);
-
+  const [quantityById, setQuantityById] = useState();
   const style = {
     control: (base) => ({
       ...base,
@@ -123,25 +123,29 @@ const AddOrEdit = () => {
     getAllStocks();
     getAllCustomers();
     getAllMechanics();
-    console.log(allCustomers);
   }, []);
 
-  const filteredData = location.state?.allData?.filter(
+  console.log(allStocks);
+
+  const filteredData = location.state.allData.filter(
     (data) => data.id === location.state.id
   );
 
   const onSubmit = (values) => {
-    const getCustomerId = typeof(values.customer) === "string" ? allCustomers.find(
-      (data) => data.name === values.customer
-    )?.id : values.customer;
+    const getCustomerId =
+      typeof values.customer === "string"
+        ? allCustomers.find((data) => data.name === values.customer)?.id
+        : values.customer;
 
-    const getMechanicId = typeof(values.mechanic) === "string" ? allMechanics.find(
-      (data) => data.name === values.mechanic
-    )?.id : values.mechanic;
+    const getMechanicId =
+      typeof values.mechanic === "string"
+        ? allMechanics.find((data) => data.name === values.mechanic)?.id
+        : values.mechanic;
 
-    const getStockId = typeof(values.stock) === "string" ? allStocks.find(
-      (data) => data.name === values.stock
-    )?.id : values.stock;
+    const getStockId =
+      typeof values.stock === "string"
+        ? allStocks.find((data) => data.name === values.stock)?.id
+        : values.stock;
 
     const transaction =
       location.state.status === "Add"
@@ -249,13 +253,21 @@ const AddOrEdit = () => {
           status: filteredData.map((data) => data.status).toString(),
         };
 
-  console.log(initialValues);
-  const { handleSubmit, handleChange, values, touched, errors, setFieldValue } =
+  const quantity =
+    quantityById &&
+    allStocks.find((data) => data.id === quantityById)?.quantity;
+
+  const { handleSubmit, handleChange, handleBlur,values, touched, errors, setFieldValue } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: transactionSchema,
+      validationSchema: transactionSchema(quantity + 1),
       onSubmit,
     });
+
+  console.log(quantityById);
+
+  console.log(quantity);
+
   return (
     <div>
       <Row>
@@ -382,7 +394,10 @@ const AddOrEdit = () => {
                   ? stockOptions.find((option) => option.label === values.stock)
                   : ""
               }
-              onChange={(option) => setFieldValue("stock", option.value)}
+              onChange={(option) => {
+                setFieldValue("stock", option.value);
+                setQuantityById(option.value);
+              }}
               maxMenuHeight={500}
               placeholder="Item Name"
             />
@@ -396,7 +411,8 @@ const AddOrEdit = () => {
               placeholder="Quantity"
               id="quantity"
               type="number"
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
+              onBlur={handleBlur}
               value={values.quantity}
               className={
                 errors.quantity && touched.quantity
@@ -460,8 +476,8 @@ const AddOrEdit = () => {
               </Button>
               <Button className={styles.tambahTransaksi} type="submit">
                 {location.state.status === "Add"
-                  ? "ADD TRANSACTION"
-                  : "UPDATE TRANSACTION"}{" "}
+                  ? "Add Transaction"
+                  : "Update Transaction"}{" "}
               </Button>
             </div>
           </div>

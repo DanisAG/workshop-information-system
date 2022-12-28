@@ -22,7 +22,7 @@ const Transaction = () => {
       "SERVICE TYPE",
       "STOCK",
       "QUANTITY",
-      "PRICE",
+      "SALE",
       "STATUS",
       "ACTION",
     ],

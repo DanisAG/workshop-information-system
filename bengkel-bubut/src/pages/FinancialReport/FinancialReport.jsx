@@ -8,21 +8,32 @@ import Table from "../../components/Table";
 import {
   AiOutlineTransaction,
 } from "react-icons/ai";
-const LaporanFinancial = () => {
+const FinancialReport = () => {
   const allTableDatas = {
-    title: "LAPORAN KESELURUHAN",
-    buttonText: "Tambah Transaksi",
+    title: "OVERALL REPORT",
+    buttonText: "Add Transaction",
     filterStatus: true,
     header: true,
-    buttonNavigation: "/tambahTransaksi",
-    editNavigation: "/editTransaksi",
+    buttonNavigation: "/addTransaction",
+    editNavigation: "/editTransaction",
     iconTable: <AiOutlineTransaction size={40}/>,
-    tableHeaderTitles: ["ID TRANSAKSI", "TGL TRANSAKSI", "PENJUALAN", "PENGELUARAN", "PENDAPATAN", "AKSI"]
+    tableHeaderTitles: ["TRANSACTION ID", "TRANSACTION DATE", "SALE", "EXPENSE", "REVENUE", "ACTION"],
+    variableName: [
+      "id",
+      "created",
+      "price",
+      "expense",
+      "revenue"
+    ],
+    postAPIWithPagination: "http://localhost:8080/transaction/getList",
+    addAPI: "http://localhost:8080/transaction/add",
+    updateAPI: "http://localhost:8080/transaction/update",
+    orderBy: {field: "updated", sort: "DESC"}
   };
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} activeName="Laporan Financial" />
+        <Breadcrumbs icon={icon} activeName="Financial Report" />
       </Row>
       <div>
         <TableRangkumanLaporan />
@@ -34,4 +45,4 @@ const LaporanFinancial = () => {
   );
 };
 
-export default LaporanFinancial;
+export default FinancialReport;
