@@ -6,7 +6,6 @@ public class FinancialRequest {
     private int sale;
     private int expense;
     private int revenue;
-    private int quantity;
     private String created;
     private String name;
 
@@ -14,12 +13,11 @@ public class FinancialRequest {
     }
 
 
-    public FinancialRequest(int id, int sale, int expense, int revenue, int quantity, String created, String name) {
+    public FinancialRequest(int id, int sale, int expense, int revenue, String created, String name) {
         this.id = id;
         this.sale = sale;
         this.expense = expense;
         this.revenue = revenue;
-        this.quantity = quantity;
         this.created = created;
         this.name = name;
     }
@@ -54,14 +52,6 @@ public class FinancialRequest {
 
     public void setRevenue(int revenue) {
         this.revenue = revenue;
-    }
-
-    public int getQuantity() {
-        return this.quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public String getCreated() {
