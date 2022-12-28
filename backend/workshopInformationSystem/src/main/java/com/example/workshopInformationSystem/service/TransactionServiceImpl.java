@@ -14,6 +14,7 @@ import com.example.workshopInformationSystem.model.Customer;
 import com.example.workshopInformationSystem.model.Mechanic;
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.Transaction;
+import com.example.workshopInformationSystem.model.request.FinancialRequest;
 import com.example.workshopInformationSystem.model.request.TransactionPayload;
 import com.example.workshopInformationSystem.model.request.TransactionRequest;
 import com.example.workshopInformationSystem.repository.StockRepository;
@@ -258,6 +259,139 @@ public class TransactionServiceImpl  implements TransactionService {
                 if(transaction.getUpdated()!=null)
                 transactions.setUpdated(transaction.getUpdated().toString());
                 listUsers.add(transactions);
+            });
+            pagination.put("totalPage", totalPage);
+            pagination.put("totalItem", totalData);
+            pagination.put("limit", limit);
+            pagination.put("currentPage", currentPage);
+            pagination.put("hasPrevious", hasPrev);
+            pagination.put("hasNext", hasNext);
+
+            data.put("result", listUsers);
+            data.put("pagination", pagination);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.put("result", listUsers);
+            data.put("pagination", pagination);
+            return data;
+        }
+    }
+
+    @Override
+    public Integer getTransactionTotalFinancial(Map<String, Object> reqData) {
+        Long totalData = null;
+        try {
+
+            String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
+            String type = "";
+            String status = "";
+            Map<String, Object> filtered = new HashMap<>();
+            
+            if (reqData.get("filter")!=null) {
+                filtered = (Map<String, Object>) reqData.get("filter");
+                type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
+                status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+            }
+
+            String query = "SELECT COUNT(a) FROM Transaction a WHERE a.id>0 ";
+
+            if(!type.isEmpty()){  
+                query += "AND (a.type LIKE '%" + type + "%') ";                
+            }
+            if(!status.isEmpty()){  
+                query += "AND (a.status LIKE '%" + status + "%') ";                
+            }
+            if(!key.isEmpty()){
+                query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
+            }
+
+            Query queryResult = entityManager.createQuery(query,Long.class);
+            
+            totalData = (Long) queryResult.getSingleResult();System.out.println("trace "+ totalData);
+            return totalData.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getTransactionPaginationFinancial(Map<String, Object> reqData, int totalData) {
+        List<FinancialRequest> listUsers = new LinkedList<>();
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> pagination = new HashMap<>();
+        try {
+            int limit =reqData.get("limit") != null ? Integer.parseInt(reqData.get("limit").toString()) : 0;
+            int currentPage =reqData.get("page") !=null ? Integer.parseInt(reqData.get("page").toString()) : 0;
+            String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toUpperCase() : "";
+            String type = "";
+            String status = "";
+            Map<String, Object> filtered = new HashMap<>();
+            String orderBy = "";
+            String sort = "";
+            if (reqData.get("filter")!=null) {
+                filtered = (Map<String, Object>) reqData.get("filter");
+                type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
+                status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+            }
+            if (reqData.get("orderBy")!=null) {
+                filtered = (Map<String, Object>) reqData.get("orderBy");
+                String field = filtered.get("field")!=null?filtered.get("field").toString():"";
+                String sortField = filtered.get("sort")!=null?filtered.get("sort").toString():"";
+                orderBy = !field.isEmpty() ? "a." + field : "";
+                sort = !sortField.isEmpty()  ? sortField.toString().toUpperCase() : "";
+            }
+            int totalPage = (totalData % limit) == 0 ? (totalData/limit) : (totalData/limit) + 1;
+            int offset = 0;
+            int page = currentPage - 1;
+            boolean hasPrev = false;
+            boolean hasNext = false;
+            if(currentPage > 0 && currentPage <= totalPage) offset = page*limit;
+            if(currentPage < 2 && currentPage < totalPage) hasNext = true;
+            if(currentPage >=2 && currentPage < totalPage){
+                hasPrev = true;
+                hasNext = true;
+            }
+            if(currentPage == totalPage) hasPrev = true;
+            if(totalPage == 1){
+                hasPrev = false;
+                hasNext = false;
+            }
+            
+            List<Transaction> users = new LinkedList<>();
+            String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
+
+            if(!type.isEmpty()){  
+                query += "AND (a.type LIKE '%" + type + "%') ";                
+            }
+            if(!status.isEmpty()){  
+                query += "AND (a.status LIKE '%" + status + "%') ";                
+            }
+            if(!key.isEmpty()){
+                query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
+            }
+
+            if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
+            else query += " ORDER BY a.created DESC";
+            System.out.println(query);
+            users = entityManager.createQuery(query, Transaction.class).setMaxResults(limit).setFirstResult(offset).getResultList();
+            users.forEach((Transaction transaction) -> {
+                FinancialRequest financial = new FinancialRequest();
+                financial.setId(transaction.getId());
+                financial.setName(transaction.getName());
+                financial.setSale(transaction.getPrice());
+                int expense = 0;
+                if(transaction.getQuantity()!=0){
+                    expense = transaction.getQuantity() * transaction.getStock().getPrice();
+                }
+                
+                financial.setExpense(expense);
+                financial.setRevenue(transaction.getPrice() - expense);
+
+                if(transaction.getCreated()!=null)
+                financial.setCreated(transaction.getCreated().toString());
+                listUsers.add(financial);
             });
             pagination.put("totalPage", totalPage);
             pagination.put("totalItem", totalData);

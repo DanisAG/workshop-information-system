@@ -64,4 +64,16 @@ public class TransactionController {
         return result;
     }
 
+    @PostMapping("/getList/financial")
+    public Map<String,Object> getPaginationFinancial(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+        Map<String,Object> result = new HashMap<>();
+        if(userService.checkToken(token)==false){
+            result.put("transaction", "Invalid Token");
+            return result;
+        }
+        int totalData = transactionService.getTransactionTotalFinancial(reqData);
+        result = transactionService.getTransactionPaginationFinancial(reqData, totalData);
+        return result;
+    }
+
 }
