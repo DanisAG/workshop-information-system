@@ -76,4 +76,14 @@ public class TransactionController {
         return result;
     }
 
+    @PostMapping("/getReport")
+    public Map<String,Object> getReport(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+        Map<String,Object> result = new HashMap<>();
+        if(userService.checkToken(token)==false){
+            result.put("transaction", "Invalid Token");
+            return result;
+        }
+        result = transactionService.getReport(reqData);
+        return result;
+    }
 }

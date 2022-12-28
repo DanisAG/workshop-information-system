@@ -411,4 +411,76 @@ public class TransactionServiceImpl  implements TransactionService {
         }
     }
 
+    @Override
+    public Map<String, Object> getReport(Map<String, Object> reqData) {
+        Map<String, Object> datas = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        List<FinancialRequest> listUsers = new LinkedList<>();
+        try {
+
+            String month = "";
+            String year = "";
+            Map<String, Object> filtered = new HashMap<>();
+
+            if (reqData.get("filter")!=null) {
+                filtered = (Map<String, Object>) reqData.get("filter");
+                month = filtered.get("month") != null ? filtered.get("month").toString().toLowerCase() : "";
+                year = filtered.get("year") != null ? filtered.get("year").toString().toLowerCase() : "";
+            }
+            List<Transaction> users = new LinkedList<>();
+            String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
+
+            if(!month.isEmpty()){  
+                query += "AND (MONTH(a.created)="+ month +") ";                
+            }
+            if(!year.isEmpty()){  
+                query += "AND (YEAR(a.created)="+ year +") ";                
+            }
+            System.out.println(query);
+            users = entityManager.createQuery(query, Transaction.class).getResultList();
+
+            users.forEach((Transaction transaction) -> {
+                FinancialRequest financial = new FinancialRequest();
+                financial.setId(transaction.getId());
+                financial.setName(transaction.getName());
+                financial.setSale(transaction.getPrice());
+                int expense = 0;
+                if(transaction.getQuantity()!=0){
+                    expense = transaction.getQuantity() * transaction.getStock().getPrice();
+                }
+                
+                financial.setExpense(expense);
+                financial.setRevenue(transaction.getPrice() - expense);
+
+                if(transaction.getCreated()!=null)
+                financial.setCreated(transaction.getCreated().toString());
+                listUsers.add(financial);
+
+            });
+
+            int sale = 0;
+            int expenses = 0;
+            int revenue = 0;
+
+            for(int i = 0;i<listUsers.size();i++){
+                FinancialRequest totalFinancial = listUsers.get(i);
+                sale += totalFinancial.getSale();
+                expenses += totalFinancial.getExpense();
+                revenue += totalFinancial.getRevenue();
+            }
+            revenue = sale - expenses;
+            
+            datas.put("sale", sale);
+            datas.put("expense", expenses);
+            datas.put("revenue", revenue);
+
+            data.put("result", datas);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.put("result", datas);
+            return data;
+        }
+    }
+
 }

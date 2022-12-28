@@ -14,4 +14,5 @@ public interface TransactionService {
     public Map<String, Object> getTransactionPagination(Map<String, Object> reqData, int totalData);
     public Integer getTransactionTotalFinancial(Map<String, Object> reqData);
     public Map<String, Object> getTransactionPaginationFinancial(Map<String, Object> reqData, int totalData);
+    public Map<String, Object> getReport(Map<String, Object> reqData);
 }
