@@ -109,5 +109,20 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User tokenUser(Map<String, Object> reqData) {
+        try{
+            String query = "FROM User WHERE token=:token ";
+            Query queryResult = entityManager.createQuery(query);
+            queryResult.setParameter("token", reqData.get("token"));
+            User resultList = (User) queryResult.getSingleResult();
+        return resultList;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
     
 }

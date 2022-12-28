@@ -47,4 +47,18 @@ public class UserController {
 
         return result;
     }
+
+    @PostMapping("/getbytoken")
+    public Map<String,Object> tokenUser(@RequestBody Map<String, Object> reqData){
+        Map<String,Object> result = new HashMap<>();
+        User res = userService.tokenUser(reqData);
+        if(res==null){
+            result.put("user","user nor found");
+            return result;
+        }
+        result.put("user",res);
+
+        return result;
+    }
+
 }

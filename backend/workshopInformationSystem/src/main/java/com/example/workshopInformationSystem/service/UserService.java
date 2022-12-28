@@ -1,6 +1,7 @@
 package com.example.workshopInformationSystem.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.workshopInformationSystem.model.User;
 public interface UserService{
@@ -8,5 +9,5 @@ public interface UserService{
     public User logInUser(User user);
     public Boolean checkToken(String token);
     public List<User> getAllUsers();
-
+    public User tokenUser(Map<String, Object> reqData);
 }
