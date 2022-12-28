@@ -41,7 +41,8 @@ const AddOrEdit = () => {
   };
   const serviceOptions = [
     { value: "Repair", label: "Repair" },
-    { value: "Customization", label: "Customization" },
+    { value: "Custom", label: "Custom" },
+    { value: "Fabrication", label: "Fabrication" },
   ];
 
   const customerOptions = allCustomers.map(function (data) {
@@ -57,8 +58,8 @@ const AddOrEdit = () => {
   });
 
   const statusOptions = [
-    { value: "ON PROGRESS", label: "ON PROGRESS" },
-    { value: "DONE", label: "DONE" },
+    { value: "On Progress", label: "On Progress" },
+    { value: "Done", label: "Done" },
   ];
 
   const authCtx = useContext(AuthContext);
@@ -260,9 +261,9 @@ const AddOrEdit = () => {
   const { handleSubmit, handleChange, handleBlur,values, touched, errors, setFieldValue } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: transactionSchema(quantity + 1),
+      validationSchema:  location.state.status === "Add" ? transactionSchema(quantity + 1) : transactionSchema(100000000),
       onSubmit,
-    });
+    }) ;
 
   console.log(quantityById);
 
@@ -407,7 +408,8 @@ const AddOrEdit = () => {
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Quantity</Label>
-            <Input
+            {location.state.status === "Add" ? 
+            <Input         
               placeholder="Quantity"
               id="quantity"
               type="number"
@@ -419,7 +421,20 @@ const AddOrEdit = () => {
                   ? styles.inputError
                   : styles.input
               }
-            />
+            /> : <Input      
+            disabled   
+            placeholder="Quantity"
+            id="quantity"
+            type="number"
+            onChange={(e) => handleChange(e)}
+            onBlur={handleBlur}
+            value={values.quantity}
+            className={
+              errors.quantity && touched.quantity
+                ? styles.inputError
+                : styles.input
+            }
+          />}
             {errors.quantity && touched.quantity && (
               <p className={styles.error}>{errors.quantity}</p>
             )}

@@ -45,7 +45,7 @@ export const transactionSchema = (data) =>
     type: yup.string().required("Service Type cannot be empty"),
     mechanic: yup.string().required("Mechanic cannot be empty"),
     customer: yup.string().required("Customer cannot be empty"),
-    stock: yup.number().required("Stock cannot be empty"),
+    stock: yup.string().required("Stock cannot be empty"),
     price: yup.string().required("Price cannot be empty"),
     quantity: yup
       .number()
@@ -55,7 +55,6 @@ export const transactionSchema = (data) =>
           data - 1
         }`
       )
-      .required("Quantity cannot be empty")
       .when(["stock"], {
         is: (stock) => isNaN(stock),
         then: yup
