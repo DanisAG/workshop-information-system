@@ -1,23 +1,13 @@
 import icon from "../../Images/notSelected/Stok.png";
 import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
   Button,
-  Row,
 } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import styles from "../../styles/Stock.module.css";
 import { MdInventory2 } from "react-icons/md";
 import { Chart } from "../../components/Stock/Chart";
-import StokTable from "../../components/Stock/Table.jsx";
 import { useState } from "react";
-import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
-import pelangganStyles from "../../styles/Customer.module.css";
-import { FaPlus } from "react-icons/fa";
 import { AiFillWarning, AiFillStar } from "react-icons/ai";
 import { TbNumber1, TbNumber2, TbNumber3, TbNumber4 } from "react-icons/tb";
 import { BsArrowUpShort } from "react-icons/bs";

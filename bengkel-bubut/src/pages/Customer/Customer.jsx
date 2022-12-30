@@ -1,5 +1,4 @@
 import { Row, Col } from "reactstrap";
-import CustomerList from "../../components/Customer/Table.jsx";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import { MdSupervisedUserCircle } from "react-icons/md";

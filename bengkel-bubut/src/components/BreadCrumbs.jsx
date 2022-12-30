@@ -41,7 +41,6 @@ const Breadcrumbs = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setUserData(result.user);
       });
   }, []);  

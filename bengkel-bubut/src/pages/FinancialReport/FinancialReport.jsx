@@ -8,6 +8,9 @@ import Table from "../../components/Table";
 import {
   AiOutlineTransaction,
 } from "react-icons/ai";
+import { Chart } from "../../components/Chart.jsx";
+import { useContext } from "react";
+import AuthContext from "../../components/store/AuthContext.jsx";
 const FinancialReport = () => {
   const allTableDatas = {
     title: "OVERALL REPORT",
@@ -31,11 +34,15 @@ const FinancialReport = () => {
     updateAPI: "http://localhost:8080/transaction/update",
     orderBy: {field: "updated", sort: "DESC"}
   };
+
   return (
     <div>
       <Row>
         <Breadcrumbs icon={icon} activeName="Financial Report" />
       </Row>
+      <div className={styles.chart}>
+        <Chart />
+      </div>
       <div>
         <TableRangkumanLaporan data={allTableDatas}/>
       </div>

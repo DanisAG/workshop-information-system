@@ -34,7 +34,6 @@ const TableRangkumanLaporan = (props) => {
   const monthInString = monthLists.find(
     (data) => data.value === filterDataPerPeriod.month
   )?.label;
-  console.log(monthInString);
   const initialFilterData = {
     filter: {
       month: filterDataPerPeriod.month,
@@ -57,9 +56,6 @@ const TableRangkumanLaporan = (props) => {
         setReportData(result.result);
       });
   };
-
-  console.log(props);
-  console.log(initialFilterData);
 
   const checkFilterData =
     filterDataPerPeriod.month === "" && filterDataPerPeriod.year === ""

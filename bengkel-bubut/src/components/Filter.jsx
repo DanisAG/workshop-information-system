@@ -44,14 +44,14 @@ const Filter = (props) => {
     }),
   };
 
-  console.log(props.setFilter)
-
   const clearFilter = () => {
-    props.reportfilterStatus ?  props?.setFilter({ status: "", type: "" }) :
-    props.reportFilter &&  props?.setFilterDataPerPeriod({month: "", year: ""});
+    props.reportfilterStatus
+      ? props?.setFilter({ status: "", type: "" })
+      : props.reportFilter ?
+        props?.setFilterDataPerPeriod({ month: "", year: "" })
+      : props.chart && props?.setFilterChart({ month: "", year: "" });
   };
 
-  console.log(props.filterDataPerPeriod)
   return (
     <div className={styles.dropdown}>
       <BsFilterSquare
@@ -146,6 +146,27 @@ const Filter = (props) => {
             </>
           )}
 
+          {props.chart && (
+            <FormGroup>
+              <Label className={formStyles.label}>Input Year</Label>
+              <Input
+                placeholder="Year"
+                className={formStyles.input}
+                value={props.filterChart.year}
+                onChange={(e) =>
+                  props.setFilterChart({
+                    ...props.filterChart,
+                    year: e.target.value,
+                  })
+                }
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </FormGroup>
+          )}
           {props.reportFilter && (
             <>
               <FormGroup>

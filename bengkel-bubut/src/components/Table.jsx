@@ -2,10 +2,8 @@ import { Input, Table } from "reactstrap";
 import {
   AiOutlineDelete,
   AiOutlineEdit,
-  AiFillCheckCircle,
   AiFillRightCircle,
   AiFillLeftCircle,
-  AiOutlineTransaction,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
 import { useNavigate } from "react-router-dom";
@@ -17,10 +15,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "./store/AuthContext";
 import searchStyles from "../styles/Searchbar.module.css";
 import Select from "react-select";
-import formStyles from "../styles/Form.module.css";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
 import { NumericFormat } from "react-number-format";
+import "../styles/Pagination.css";
 
 const TableData = (props) => {
   const navigate = useNavigate();
@@ -29,7 +27,6 @@ const TableData = (props) => {
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
   const [filter, setFilter] = useState({ status: "", type: "" });
-  console.log(filter);
   const limitOptions = [
     {
       label: (
@@ -122,7 +119,6 @@ const TableData = (props) => {
                 })
                   .then((res) => res.json())
                   .then((result) => {
-                    console.log(result, "Result ");
                     setAllData(result);
                   });
                 swal.fire("Deleted!", "The data has been deleted.", "success");
@@ -143,7 +139,6 @@ const TableData = (props) => {
   };
 
   const handleChangeLimit = (e) => {
-    console.log(e);
     setLimit(e.value);
   };
 
@@ -168,8 +163,6 @@ const TableData = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, limit, filter]);
 
-  console.log(allData);
-
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * allData?.pagination.limit) %
@@ -183,7 +176,6 @@ const TableData = (props) => {
     postDataWithPagination(allData.current);
   };
 
-  console.log(allData);
   const passedTableData = {
     ...props.data,
     iconTable: "",
@@ -265,37 +257,49 @@ const TableData = (props) => {
           <thead className={styles.thead}>
             <tr>
               {props.data.tableHeaderTitles.map((item) => {
-                return <th>{item}</th>;
+                return item === "SALE" ||
+                  item === "EXPENSE" ||
+                  item === "REVENUE" ? (
+                  <th style={{ textAlign: "left" }}>{item}</th>
+                ) : (
+                  <th>{item}</th>
+                );
               })}
             </tr>
           </thead>
           <tbody>
             {allData?.result?.map((item) => {
               return (
-                <tr>
+                <tr className={styles.tr}>
                   {props.data.variableName.map((variable) => {
                     return (
                       <>
-                        <td                               styles={{textAligh : "right"}}
->
-                          {variable === "created" ? (
-                            moment(item[variable]).format("DD MMMM YYYY")
-                          ) : variable === "sale" ||
-                            variable === "price" ||
-                            variable === "revenue" ||
-                            variable === "expense" ? (
-                            <NumericFormat
-                              value={item[variable]}
-                              displayType={"text"}
-                              decimalScale={2}
-                              thousandSeparator=","
-                              prefix="Rp. "
-                              fixedDecimalScale={2}
-                            />
-                          ) : (
-                            item[variable]
-                          )}
-                        </td>
+                        {variable === "created" ? (
+                          <td>
+                            {" "}
+                            {moment(item[variable]).format("DD MMMM YYYY")}
+                          </td>
+                        ) : variable === "sale" ||
+                        variable === "price" ||
+                          variable === "revenue" ||
+                          variable === "expense" ? (
+                          <td>
+                            {/* <span>Rp.</span> */}
+                            {/* <span style={{float: "right"}}> */}
+                              <NumericFormat
+                                value={item[variable]}
+                                displayType={"text"}
+                                decimalScale={2}
+                                thousandSeparator=","
+                                prefix="Rp. "
+                                fixedDecimalScale={2}
+                              />
+                              
+                            {/* </span> */}
+                          </td>
+                        ) : (
+                          <td>{item[variable]}</td>
+                        )}
                       </>
                     );
                   })}
