@@ -35,6 +35,7 @@
 .collapsible {
   /* margin-left: auto; */
   cursor: pointer;
+  width: fit-content;
 
 }
 
@@ -52,6 +53,7 @@
   width: 175px;
   margin-top: 17px;
   display: flex;
+  width: max-content;
   
 }
 
@@ -65,17 +67,18 @@
   width: 175px;
   margin-top: 17px;
   display: flex;
-  
+  width: max-content;
+
 }
 
 .profilePictureDiv {
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 16px;
+  margin-left: 0.6rem;
 }
 
 .profilePictureDivExpand {
-  margin-left: 16px;
+  margin-left: 0.6rem;
   margin-top: 10.547px;
 }
 .profilePicture {
@@ -89,6 +92,8 @@
   letter-spacing: 0em;
   text-align: left;
   padding-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 .username {
   font-family: Montserrat;
@@ -117,26 +122,33 @@
   line-height: 15px;
   letter-spacing: 0em;
   text-align: left;
+  display: flex;
+  justify-content: center;
 }
 
 .userDetail {
   margin: auto;
   width: fit-content;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .userDetailExpand {
   margin-top: 7px;
-  margin-left: 17px;
+  /* margin-left: 17px; */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .dropdownDiv {
   margin-bottom: auto;
   margin-top: auto;
-  margin-right: 12px;
+  margin-right: 0.6rem;
 
 }
 .dropdownDivExpand {
   margin-top: 10.547px;
-  margin-left: 17px;
+  margin-right: 0.6rem;
+
 
 }
 .dropdown {

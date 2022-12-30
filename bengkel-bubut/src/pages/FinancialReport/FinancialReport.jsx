@@ -3,7 +3,7 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Laporan Financial.png";
 import styles from "../../styles/LaporanFinancial.module.css";
 import { HiDocumentReport } from "react-icons/hi";
-import TableRangkumanLaporan from "../../components/Laporan Financial/TableRangkumanLaporan";
+import TableRangkumanLaporan from "../../components/Financial Report/TableRangkumanLaporan";
 import Table from "../../components/Table";
 import {
   AiOutlineTransaction,
@@ -17,15 +17,16 @@ const FinancialReport = () => {
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",
     iconTable: <AiOutlineTransaction size={40}/>,
-    tableHeaderTitles: ["TRANSACTION ID", "TRANSACTION DATE", "SALE", "EXPENSE", "REVENUE", "ACTION"],
+    tableHeaderTitles: ["TRANSACTION NAME", "TRANSACTION DATE", "SALE", "EXPENSE", "REVENUE", "ACTION"],
     variableName: [
-      "id",
+      "name",
       "created",
-      "price",
+      "sale",
       "expense",
       "revenue"
     ],
-    postAPIWithPagination: "http://localhost:8080/transaction/getList",
+    postAPIWithPagination: "http://localhost:8080/transaction/getList/financial",
+    financialReportFilterAPI: "http://localhost:8080/transaction/getReport",
     addAPI: "http://localhost:8080/transaction/add",
     updateAPI: "http://localhost:8080/transaction/update",
     orderBy: {field: "updated", sort: "DESC"}
@@ -36,7 +37,7 @@ const FinancialReport = () => {
         <Breadcrumbs icon={icon} activeName="Financial Report" />
       </Row>
       <div>
-        <TableRangkumanLaporan />
+        <TableRangkumanLaporan data={allTableDatas}/>
       </div>
       <div>
         <Table data={allTableDatas} />

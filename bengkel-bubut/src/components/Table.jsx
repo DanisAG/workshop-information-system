@@ -20,6 +20,7 @@ import Select from "react-select";
 import formStyles from "../styles/Form.module.css";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
+import { NumericFormat } from "react-number-format";
 
 const TableData = (props) => {
   const navigate = useNavigate();
@@ -88,7 +89,6 @@ const TableData = (props) => {
     },
   };
   const dataPagination = useRef(initialDataPagination);
-  console.log(dataPagination);
 
   const handleClickDelete = (id) => {
     swal
@@ -245,7 +245,6 @@ const TableData = (props) => {
                         status: "Add",
                         allTableDatas: passedTableData,
                         allData: allData?.result,
-
                       },
                     });
                   }}
@@ -277,12 +276,25 @@ const TableData = (props) => {
                   {props.data.variableName.map((variable) => {
                     return (
                       <>
-                        <td>
-                          {variable === "created"
-                            ? moment(item[variable]).format("DD MMMM YYYY")
-                            // : variable === "revenue"
-                            // ? item["price"] - 0
-                            : item[variable]}
+                        <td                               styles={{textAligh : "right"}}
+>
+                          {variable === "created" ? (
+                            moment(item[variable]).format("DD MMMM YYYY")
+                          ) : variable === "sale" ||
+                            variable === "price" ||
+                            variable === "revenue" ||
+                            variable === "expense" ? (
+                            <NumericFormat
+                              value={item[variable]}
+                              displayType={"text"}
+                              decimalScale={2}
+                              thousandSeparator=","
+                              prefix="Rp. "
+                              fixedDecimalScale={2}
+                            />
+                          ) : (
+                            item[variable]
+                          )}
                         </td>
                       </>
                     );

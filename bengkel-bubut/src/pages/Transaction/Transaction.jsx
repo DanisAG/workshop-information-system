@@ -14,7 +14,6 @@ const Transaction = () => {
     editNavigation: "/editTransaction",
     iconTable: <AiOutlineTransaction size={40} />,
     tableHeaderTitles: [
-      "TRANSACTION ID",
       "TRANSACTION NAME",
       "TRANSACTION DATE",
       "CUSTOMER",
@@ -27,7 +26,6 @@ const Transaction = () => {
       "ACTION",
     ],
     variableName: [
-      "id",
       "name",
       "created",
       "customer",

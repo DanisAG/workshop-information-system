@@ -15,7 +15,6 @@ const Customer = () => {
     editNavigation: "/editCustomer",
     iconTable: <MdSupervisedUserCircle size={40} />,
     tableHeaderTitles: [
-      "CUSTOMER ID",
       "CUSTOMER NAME",
       "DATE OF BIRTH",
       "GENDER",
@@ -24,7 +23,7 @@ const Customer = () => {
       "EMAIL",
       "ACTION",
     ],
-    variableName: ["id", "name", "dob", "gender", "address", "phone", "email"],
+    variableName: ["name", "dob", "gender", "address", "phone", "email"],
     postAPIWithPagination: "http://localhost:8080/customer/getList",
     deleteAPI: "http://localhost:8080/customer/delete/",
     orderBy: {field: "name", sort: "ASC"}

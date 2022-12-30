@@ -5,7 +5,6 @@ const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 export const loginSchema = yup.object().shape({
   username: yup
     .string()
-    .email("Please enter a valid email")
     .required("Required"),
   password: yup
     .string()

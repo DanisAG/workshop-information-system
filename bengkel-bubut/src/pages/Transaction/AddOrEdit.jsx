@@ -58,7 +58,7 @@ const AddOrEdit = () => {
   });
 
   const statusOptions = [
-    { value: "On Progress", label: "On Progress" },
+    { value: "In Progress", label: "In Progress" },
     { value: "Done", label: "Done" },
   ];
 
@@ -261,7 +261,7 @@ const AddOrEdit = () => {
   const { handleSubmit, handleChange, handleBlur,values, touched, errors, setFieldValue } =
     useFormik({
       initialValues: initialValues,
-      validationSchema:  location.state.status === "Add" ? transactionSchema(quantity + 1) : transactionSchema(100000000),
+      validationSchema:  location.state.status === "Add" ? transactionSchema(quantity + 1) : transactionSchema(Infinity),
       onSubmit,
     }) ;
 

@@ -1,16 +1,5 @@
 import { BsFilterSquare } from "react-icons/bs";
-import {
-  Dropdown,
-  DropdownMenu,
-  DropdownToggle,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  UncontrolledDropdown,
-  Button,
-  DropdownItem,
-} from "reactstrap";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { useState } from "react";
 import styles from "../styles/TableTransaksi.module.css";
 import Select from "react-select";
@@ -22,18 +11,29 @@ const Filter = (props) => {
     setFilterOpen((prevState) => !prevState);
   };
   const optionsForTransactionStatus = [
-    { value: "IN PROGRESS", label: "IN PROGRESS" },
-    { value: "DONE", label: "DONE" },
+    { value: "In Progress", label: "In Progress" },
+    { value: "Done", label: "Done" },
   ];
 
-  const optionsForTransactionReport = [
-    { value: "Januari", label: "Januari" },
-    { value: "Februari", label: "Februari" },
+  const monthOptions = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
   ];
 
   const transactionOptions = [
     { value: "Repair", label: "Repair" },
-    { value: "Customization", label: "Customization" },
+    { value: "Custom", label: "Custom" },
+    { value: "Fabrication", label: "Fabrication" },
   ];
   const style = {
     control: (base) => ({
@@ -44,11 +44,14 @@ const Filter = (props) => {
     }),
   };
 
-  console.log(filterOpen);
+  console.log(props.setFilter)
+
   const clearFilter = () => {
-    props.setFilter({ status: "", type: "" });
+    props.reportfilterStatus ?  props?.setFilter({ status: "", type: "" }) :
+    props.reportFilter &&  props?.setFilterDataPerPeriod({month: "", year: ""});
   };
 
+  console.log(props.filterDataPerPeriod)
   return (
     <div className={styles.dropdown}>
       <BsFilterSquare
@@ -144,15 +147,51 @@ const Filter = (props) => {
           )}
 
           {props.reportFilter && (
-            <FormGroup>
-              <Label className={formStyles.label}>Pilih Periode</Label>
-              <Select
-                options={optionsForTransactionReport}
-                styles={style}
-                className={formStyles.input}
-                placeholder="Pilih Periode"
-              />
-            </FormGroup>
+            <>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Year</Label>
+                <Input
+                  placeholder="Year"
+                  className={formStyles.input}
+                  value={props.filterDataPerPeriod.year}
+                  onChange={(e) =>
+                    props.setFilterDataPerPeriod({
+                      ...props.filterDataPerPeriod,
+                      year: e.target.value,
+                    })
+                  }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Select Month</Label>
+                <Select
+                  options={monthOptions}
+                  value={
+                    props.filterDataPerPeriod?.month !== ""
+                      ? monthOptions.find(
+                          (option) =>
+                            option.value === props.filterDataPerPeriod?.month
+                        )
+                      : ""
+                  }
+                  styles={style}
+                  className={formStyles.input}
+                  onChange={(e) =>
+                    props.setFilterDataPerPeriod({
+                      ...props.filterDataPerPeriod,
+                      month: e.value,
+                    })
+                  }
+                  maxMenuHeight={500}
+                  placeholder="Month"
+                />
+              </FormGroup>
+            </>
           )}
           <Button
             className="w-100 mt-3"

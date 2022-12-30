@@ -14,7 +14,6 @@ const Mechanic = () => {
     editNavigation: "/editMechanic",
     iconTable: <GiMechanicGarage size={40} />,
     tableHeaderTitles: [
-      "MECHANIC ID",
       "MECHANIC NAME",
       "DATE OF BIRTH",
       "GENDER",
@@ -23,7 +22,7 @@ const Mechanic = () => {
       "EMAIL",
       "ACTION",
     ],
-    variableName: ["id", "name", "dob", "gender", "address", "phone", "email"],
+    variableName: ["name", "dob", "gender", "address", "phone", "email"],
     postAPIWithPagination: "http://localhost:8080/mechanic/getList",
     deleteAPI: "http://localhost:8080/mechanic/delete/",
     orderBy: { field: "name", sort: "ASC" },

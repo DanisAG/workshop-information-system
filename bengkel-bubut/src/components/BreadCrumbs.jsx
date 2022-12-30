@@ -8,7 +8,7 @@ import {
   DropdownItem,
   Button,
 } from "reactstrap";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import Collapsible from "react-collapsible";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
@@ -23,11 +23,28 @@ const Breadcrumbs = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
-
+  const [userData, setUserData] = useState([]);
   const logoutHandler = () => {
     authCtx.logout();
     navigate("/login");
   }
+
+
+  useEffect(() => {
+    const data = {token: authCtx.token};
+    fetch("http://localhost:8080/user/getbytoken",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setUserData(result.user);
+      });
+  }, []);  
   
   return (
     <div className="d-flex justify-content-between">
@@ -40,6 +57,7 @@ const Breadcrumbs = (props) => {
               className={styles.icon}
               width="17px"
               height="18px"
+              alt=""
             />
             <small className={styles.slash}>/</small>
             <Breadcrumb>
@@ -67,7 +85,7 @@ const Breadcrumbs = (props) => {
           </div>
           <div className={isOpen ? styles.userDetailExpand : styles.userDetail}>
             <div className={isOpen ? styles.usernameExpand : styles.username}>
-              Staff Name
+              {userData.username}
             </div>
             <div className={styles.userRole}>Administrator</div>
             {isOpen ? <div className={styles.logout} onClick={logoutHandler}>Log Out</div> : ""}
