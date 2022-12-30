@@ -15,6 +15,7 @@ import { useContext } from "react";
 import AuthContext from "./store/AuthContext";
 import Filter from "./Filter";
 import styles from "../styles/Chart.module.css";
+import moment from "moment";
 
 ChartJS.register(
   CategoryScale,
@@ -30,7 +31,7 @@ export const Chart = () => {
   const [saleData, setSaleData] = useState([]);
   const [filterChart, setFilterChart] = useState({
     month: "",
-    year: "",
+    year: moment().year().toString(),
   });
   const options = {
     responsive: true,
@@ -60,10 +61,11 @@ export const Chart = () => {
     "December",
   ];
 
+  console.log()
   const initialFilterData = {
     filter: {
       month: filterChart.month,
-      year: filterChart.year,
+      year: filterChart.year
     },
   };
   const filterData = useRef(initialFilterData);
