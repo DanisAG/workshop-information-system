@@ -46,11 +46,11 @@ const Transaction = () => {
   };
 
   return (
-    <div>
+    <div >
       <Row>
         <Breadcrumbs icon={icon} activeName="Transaction" url="/Transaction" />
       </Row>
-      <Col>
+      <Col >
         <Table data={allTableDatas} />
       </Col>
     </div>

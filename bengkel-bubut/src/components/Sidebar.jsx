@@ -65,7 +65,7 @@ const Sidebar = ({ children }) => {
     <div className={styles.container}>
       <div
         className={styles.sidebar}
-        style={{ width: isOpen ? "12vw" : "8vw" }}
+        style={{ minWidth: isOpen ? "170px" : "110px" }}
       >
         <div className={styles.logo}>
           <img
@@ -95,7 +95,7 @@ const Sidebar = ({ children }) => {
                       }
                     >
                       <div className={styles.icon}>
-                        <img src={file} width="34px" height="38px" />
+                        <img src={file} width="34px" height="38px" alt=""/>
                       </div>
 
                       <div

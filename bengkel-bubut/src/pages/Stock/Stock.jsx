@@ -141,7 +141,7 @@ const Stock = () => {
             </TabContent> */}
           </div>
         </div>
-        <div className="">
+        <div className={styles.right}>
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />

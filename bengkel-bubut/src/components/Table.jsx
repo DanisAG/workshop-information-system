@@ -180,6 +180,8 @@ const TableData = (props) => {
     ...props.data,
     iconTable: "",
   };
+
+  console.log(props);
   return (
     <>
       <div className={styles.divTable}>

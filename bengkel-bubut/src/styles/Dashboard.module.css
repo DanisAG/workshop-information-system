@@ -2,8 +2,21 @@
   font-family: "Helvetica";
 }
 .leftTop {
-  min-width: 65vw;
+  width: 100%;
   display: flex;
+}
+
+.chart {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+  min-width: 65vw;
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 .leftTop > * {
@@ -16,7 +29,10 @@
 
 .right{
   margin-left: 2rem;
-  min-width: 18vw;
+  margin-top: 1rem;
+  /* width: 28%; */
+  width: 100%;
+  min-width: 15vw;
 
 
 }
@@ -68,18 +84,7 @@
   display: flex;
   justify-content: center;
 }
-.chart {
-  border: none;
-  background: #ffffff;
-  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-top: 2rem;
-  min-width: 65vw;
-  position: relative;
-  margin-bottom: 1rem;
-}
+
 
 .lowStock {
   box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
