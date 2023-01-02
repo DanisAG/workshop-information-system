@@ -81,8 +81,8 @@
   border-radius: 12px;
   margin-bottom: 2rem;
   margin-left: 2rem;
-  min-width: 25vw;
-  float: right;
+  min-width: 23vw;
+  /* float: right; */
 }
 
 .nodata{

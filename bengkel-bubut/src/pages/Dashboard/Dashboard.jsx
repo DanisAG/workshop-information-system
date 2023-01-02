@@ -19,7 +19,11 @@ import TableData from "../../components/Table.jsx";
 const Dashboard = (props) => {
   const [reportData, setReportData] = useState([]);
   const [previousReportData, setPreviousReportData] = useState([]);
+  const [currentDayFilter, setCurrentDayFilter] = useState([]);
+  const [previousReportDataByDay, setPreviousReportDataByDay] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
+  const navigate = useNavigate();
+
   const filterTransaction = {
     filter: {
       month: moment().month() + 1,
@@ -27,7 +31,7 @@ const Dashboard = (props) => {
     },
   };
 
-  const navigate = useNavigate();
+
   const previousFilterTransaction =
     moment().month() === 0
       ? {
@@ -42,6 +46,22 @@ const Dashboard = (props) => {
             year: moment().year(),
           },
         };
+
+  const previousDay = moment().subtract(1, "days");
+  const currentDayFilterTransaction = {
+    filter: {
+      month: moment().month()+1,
+      year: moment().year(),
+      day: moment().date()
+    },
+  };
+  const previousDayFilterTransaction = {
+    filter: {
+      month: previousDay.month()+1,
+      year: previousDay.year(),
+      day: previousDay.date()
+    },
+  };
 
   const authCtx = useContext(AuthContext);
 
@@ -74,6 +94,35 @@ const Dashboard = (props) => {
         setPreviousReportData(result.result);
       });
   };
+  const postCurrentDayFilterData = (data) => {
+    fetch("http://localhost:8080/transaction/getReport", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setCurrentDayFilter(result.result);
+      });
+  };
+
+  const postPreviousDayFilterData = (data) => {
+    fetch("http://localhost:8080/transaction/getReport", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setPreviousReportDataByDay(result.result);
+      });
+  };
   const getAllStocks = async () => {
     await fetch("http://localhost:8080/stock/getAll", {
       headers: {
@@ -92,9 +141,13 @@ const Dashboard = (props) => {
       });
   };
 
+
   const filteredStocks = allStocks?.filter(
     (data) => data.quantity < data.minimumQty
   );
+
+  console.log(currentDayFilter)
+  console.log(previousReportDataByDay)
 
   const allTableDatas = {
     title: "OVERALL REPORT",
@@ -104,25 +157,28 @@ const Dashboard = (props) => {
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",
-    iconTable: <AiOutlineTransaction size={40}/>,
-    tableHeaderTitles: ["TRANSACTION NAME", "TRANSACTION DATE","SERVICE TYPE", "STATUS", "ACTION"  ],
-    variableName: [
-      "name",
-      "created",
-      "type",
-      "status"
+    iconTable: <AiOutlineTransaction size={40} />,
+    tableHeaderTitles: [
+      "TRANSACTION NAME",
+      "TRANSACTION DATE",
+      "SERVICE TYPE",
+      "STATUS",
+      "ACTION",
     ],
-    postAPIWithPagination: "http://localhost:8080/transaction/getList/financial",
+    variableName: ["name", "created", "type", "status"],
+    postAPIWithPagination:
+      "http://localhost:8080/transaction/getList/financial",
     financialReportFilterAPI: "http://localhost:8080/transaction/getReport",
     addAPI: "http://localhost:8080/transaction/add",
     updateAPI: "http://localhost:8080/transaction/update",
-    orderBy: {field: "updated", sort: "DESC"}
+    orderBy: { field: "updated", sort: "DESC" },
   };
-
 
   useEffect(() => {
     postFilterData(filterTransaction);
     postPreviousFilterData(previousFilterTransaction);
+    postPreviousDayFilterData(previousDayFilterTransaction)
+    postCurrentDayFilterData(currentDayFilterTransaction)
     getAllStocks();
   }, []);
   return (
@@ -140,13 +196,21 @@ const Dashboard = (props) => {
                 <div>
                   <div className={styles.saleValue}>Rp100.000,00</div>
                   <div className={styles.saleValueDifference}>
+                  {currentDayFilter.sale - previousReportDataByDay.sale > 0 ? (
+                    "+"
+                  ) : currentDayFilter.sale - previousReportDataByDay.sale < 0 ? (
+                    "-"
+                  ) : (
+                    ""
+                  )}
+
                     + Rp100.000,00
                   </div>
                 </div>
               </div>
             </div>
             <div className={styles.leftTopCard}>
-              <div className={styles.saleTitle}>TOTAL TRANSACTION TODAY</div>
+              <div className={styles.saleTitle}>TOTAL TRANSACTIONS TODAY</div>
               <div className="d-flex ">
                 <AiOutlineTransaction size={35} className={styles.icon} />
                 <div>
@@ -156,7 +220,7 @@ const Dashboard = (props) => {
               </div>
             </div>{" "}
             <div className={styles.leftTopCard}>
-              <div className={styles.saleTitle}>TOTAL CUSTOMER TODAY</div>
+              <div className={styles.saleTitle}>TOTAL CUSTOMERS TODAY</div>
               <div className="d-flex">
                 <AiOutlineTransaction size={35} className={styles.icon} />
                 <div>
@@ -170,8 +234,7 @@ const Dashboard = (props) => {
             <Chart />
           </div>
           <div>
-          <TableData data={allTableDatas} />
-
+            <TableData data={allTableDatas} />
           </div>
         </div>
         <div className={styles.right}>
@@ -184,15 +247,19 @@ const Dashboard = (props) => {
               {filteredStocks.length > 0 ? (
                 filteredStocks.map((item) => {
                   return (
-                    <div className={styles.clickedItem} key={item.id} onClick={() => {
-                      navigate("/editStock", {
-                        state: {
-                          id: item.id,
-                          allData: allStocks,
-                          status: "Edit",
-                        },
-                      });
-                    }}>
+                    <div
+                      className={styles.clickedItem}
+                      key={item.id}
+                      onClick={() => {
+                        navigate("/editStock", {
+                          state: {
+                            id: item.id,
+                            allData: allStocks,
+                            status: "Edit",
+                          },
+                        });
+                      }}
+                    >
                       <div className={styles.leftData}>
                         <div className={styles.namaBarang}>{item.name}</div>
                         <div className={styles.minQuantity}>
@@ -206,7 +273,6 @@ const Dashboard = (props) => {
               ) : (
                 <div className={styles.nodata}>NO DATA FOUND</div>
               )}
-             
             </div>
           </div>
           <div className={styles.lowStock}>

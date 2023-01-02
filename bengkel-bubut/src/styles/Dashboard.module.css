@@ -16,7 +16,7 @@
 
 .right{
   margin-left: 2rem;
-  min-width: 22vw;
+  min-width: 18vw;
 
 
 }
@@ -47,6 +47,14 @@
   letter-spacing: 0em;
   text-align: left;
   color: #23b064;
+}
+.saleValueDifference2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 0.9rem;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #bf1f1f;
 }
 
 .saleTitle {
@@ -119,6 +127,8 @@
   margin-bottom: auto;
   margin-top: auto;
   margin-left: 0.7rem;
+  padding-right: 0.7rem;
+  text-align: center;
 }
 
 .leftData {

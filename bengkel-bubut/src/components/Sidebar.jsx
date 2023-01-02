@@ -65,7 +65,7 @@ const Sidebar = ({ children }) => {
     <div className={styles.container}>
       <div
         className={styles.sidebar}
-        style={{ width: isOpen ? "170px" : "110px" }}
+        style={{ width: isOpen ? "12vw" : "8vw" }}
       >
         <div className={styles.logo}>
           <img
@@ -73,6 +73,7 @@ const Sidebar = ({ children }) => {
             width="70px"
             onClick={toggle}
             style={{ cursor: "pointer" }}
+            alt=""
           />
         </div>
         {menuItem.map((item, index) => (

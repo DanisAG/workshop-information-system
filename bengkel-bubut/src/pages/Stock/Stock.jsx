@@ -67,7 +67,7 @@ const Stock = () => {
       <div className={styles.breadcrumbs}>
         <Breadcrumbs icon={icon} activeName="Stock" />
       </div>
-      <div className="d-flex">
+      <div className="d-flex justify-content-between">
         <div>
           <div className={styles.overview}>
             <div className={styles.overviewHeader}>
@@ -141,7 +141,7 @@ const Stock = () => {
             </TabContent> */}
           </div>
         </div>
-        <div>
+        <div className="">
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />
