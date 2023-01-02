@@ -150,10 +150,32 @@
   padding-left: 12px;
 }
 
-.tr{
+.tr {
   font-family: Montserrat;
   font-size: 1rem;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0em;
+}
+
+.done {
+  color: #23b064;
+  background-color: #23b0641a;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.1rem 1rem;
+}
+
+.inprogress {
+  color: #f9bd6c;
+  background-color: #f9bd6c1a;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 0.1rem 0.3rem;
 }

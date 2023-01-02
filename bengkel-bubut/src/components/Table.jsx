@@ -226,7 +226,7 @@ const TableData = (props) => {
                   <div className="d-flex">
                     <Filter
                       reportfilterStatus={props.data.filterStatus}
-                      filterDashboard = {props.filterDashboard}
+                      filterDashboard={props.filterDashboard}
                       setFilter={setFilter}
                       filter={filter}
                     />
@@ -295,6 +295,19 @@ const TableData = (props) => {
                               prefix="Rp. "
                               fixedDecimalScale={2}
                             />
+                          </td>
+                        ) : variable === "status" ? (
+                          <td>
+                            <div
+                              className={
+                                item[variable] === "In Progress"
+                                  ? styles.inprogress
+                                  : styles.done
+                              }
+                            >
+                              {" "}
+                              {item[variable]}
+                            </div>
                           </td>
                         ) : (
                           <td>{item[variable]}</td>
