@@ -15,6 +15,7 @@ import { BsArrowUpShort } from "react-icons/bs";
 import { BsArrowDownShort } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import TableData from "../../components/Table.jsx";
+import { MdSupervisedUserCircle } from "react-icons/md";
 
 const Dashboard = (props) => {
   const [reportData, setReportData] = useState([]);
@@ -30,7 +31,6 @@ const Dashboard = (props) => {
       year: moment().year(),
     },
   };
-
 
   const previousFilterTransaction =
     moment().month() === 0
@@ -50,16 +50,16 @@ const Dashboard = (props) => {
   const previousDay = moment().subtract(1, "days");
   const currentDayFilterTransaction = {
     filter: {
-      month: moment().month()+1,
+      month: moment().month() + 1,
       year: moment().year(),
-      day: moment().date()
+      day: moment().date(),
     },
   };
   const previousDayFilterTransaction = {
     filter: {
-      month: previousDay.month()+1,
+      month: previousDay.month() + 1,
       year: previousDay.year(),
-      day: previousDay.date()
+      day: previousDay.date(),
     },
   };
 
@@ -141,13 +141,13 @@ const Dashboard = (props) => {
       });
   };
 
-
   const filteredStocks = allStocks?.filter(
     (data) => data.quantity < data.minimumQty
   );
 
-  console.log(currentDayFilter)
-  console.log(previousReportDataByDay)
+  console.log(currentDayFilter.totalTransaction -
+    previousReportDataByDay.totalTransaction);
+  console.log(previousReportDataByDay);
 
   const allTableDatas = {
     title: "OVERALL REPORT",
@@ -177,8 +177,8 @@ const Dashboard = (props) => {
   useEffect(() => {
     postFilterData(filterTransaction);
     postPreviousFilterData(previousFilterTransaction);
-    postPreviousDayFilterData(previousDayFilterTransaction)
-    postCurrentDayFilterData(currentDayFilterTransaction)
+    postPreviousDayFilterData(previousDayFilterTransaction);
+    postCurrentDayFilterData(currentDayFilterTransaction);
     getAllStocks();
   }, []);
   return (
@@ -194,17 +194,65 @@ const Dashboard = (props) => {
               <div className="d-flex">
                 <AiOutlineTransaction size={35} className={styles.icon} />
                 <div>
-                  <div className={styles.saleValue}>Rp100.000,00</div>
+                  <div className={styles.saleValue}>
+                    {" "}
+                    <NumericFormat
+                      value={currentDayFilter.sale}
+                      displayType={"text"}
+                      decimalScale={2}
+                      thousandSeparator=","
+                      prefix="Rp. "
+                      fixedDecimalScale={2}
+                    />
+                  </div>
                   <div className={styles.saleValueDifference}>
-                  {currentDayFilter.sale - previousReportDataByDay.sale > 0 ? (
-                    "+"
-                  ) : currentDayFilter.sale - previousReportDataByDay.sale < 0 ? (
-                    "-"
-                  ) : (
-                    ""
-                  )}
+                    {currentDayFilter.sale - previousReportDataByDay.sale > 0
+                      ? "+ "
+                      : currentDayFilter.sale - previousReportDataByDay.sale < 0
+                      ? "- "
+                      : ""}
 
-                    + Rp100.000,00
+                    {currentDayFilter.sale - previousReportDataByDay.sale > 0
+                      ? currentDayFilter.sale - previousReportDataByDay.sale
+                      : previousReportDataByDay.sale - currentDayFilter.sale}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.leftTopCard}>
+              <div className={styles.saleTitle}>TOTAL REVENUE TODAY</div>
+              <div className="d-flex ">
+                <HiDocumentReport size={35} className={styles.icon} />
+                <div>
+                  <div className={styles.saleValue}>
+                    {" "}
+                    <NumericFormat
+                      value={currentDayFilter.revenue}
+                      displayType={"text"}
+                      decimalScale={2}
+                      thousandSeparator=","
+                      prefix="Rp. "
+                      fixedDecimalScale={2}
+                    />
+                  </div>
+                  <div className={styles.saleValueDifference}>
+                    {currentDayFilter.revenue -
+                      previousReportDataByDay.revenue >
+                    0
+                      ? "+ "
+                      : currentDayFilter.revenue -
+                          previousReportDataByDay.revenue <
+                        0
+                      ? "- "
+                      : ""}
+
+                    {currentDayFilter.revenue -
+                      previousReportDataByDay.revenue >
+                    0
+                      ? currentDayFilter.revenue -
+                        previousReportDataByDay.revenue
+                      : previousReportDataByDay.revenue -
+                        currentDayFilter.revenue}
                   </div>
                 </div>
               </div>
@@ -212,20 +260,30 @@ const Dashboard = (props) => {
             <div className={styles.leftTopCard}>
               <div className={styles.saleTitle}>TOTAL TRANSACTIONS TODAY</div>
               <div className="d-flex ">
-                <AiOutlineTransaction size={35} className={styles.icon} />
+                <HiDocumentReport size={35} className={styles.icon} />
                 <div>
-                  <div className={styles.saleValue}>5000</div>
-                  <div className={styles.saleValueDifference}>+ 20</div>
-                </div>
-              </div>
-            </div>{" "}
-            <div className={styles.leftTopCard}>
-              <div className={styles.saleTitle}>TOTAL CUSTOMERS TODAY</div>
-              <div className="d-flex">
-                <AiOutlineTransaction size={35} className={styles.icon} />
-                <div>
-                  <div className={styles.saleValue}>1231</div>
-                  <div className={styles.saleValueDifference}>+ 30</div>
+                  <div className={styles.saleValue}>
+                    {currentDayFilter.totalTransaction}
+                  </div>
+                  <div className={styles.saleValueDifference}>
+                    {currentDayFilter.totalTransaction -
+                      previousReportDataByDay.totalTransaction >
+                    0
+                      ? "+ "
+                      : currentDayFilter.totalTransaction -
+                          previousReportDataByDay.totalTransaction <
+                        0
+                      ? "- "
+                      : ""}
+
+                    {currentDayFilter.totalTransaction -
+                      previousReportDataByDay.totalTransaction >
+                    0
+                      ? currentDayFilter.totalTransaction -
+                        previousReportDataByDay.totalTransaction
+                      : previousReportDataByDay.totalTransaction -
+                        currentDayFilter.totalTransaction}
+                  </div>
                 </div>
               </div>
             </div>
