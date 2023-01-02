@@ -14,6 +14,7 @@ import { NumericFormat } from "react-number-format";
 import { BsArrowUpShort } from "react-icons/bs";
 import { BsArrowDownShort } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import TableData from "../../components/Table.jsx";
 
 const Dashboard = (props) => {
   const [reportData, setReportData] = useState([]);
@@ -95,6 +96,30 @@ const Dashboard = (props) => {
     (data) => data.quantity < data.minimumQty
   );
 
+  const allTableDatas = {
+    title: "OVERALL REPORT",
+    buttonText: "Add Transaction",
+    filterStatus: true,
+    filterDashboard: true,
+    header: true,
+    buttonNavigation: "/addTransaction",
+    editNavigation: "/editTransaction",
+    iconTable: <AiOutlineTransaction size={40}/>,
+    tableHeaderTitles: ["TRANSACTION NAME", "TRANSACTION DATE","SERVICE TYPE", "STATUS", "ACTION"  ],
+    variableName: [
+      "name",
+      "created",
+      "type",
+      "status"
+    ],
+    postAPIWithPagination: "http://localhost:8080/transaction/getList/financial",
+    financialReportFilterAPI: "http://localhost:8080/transaction/getReport",
+    addAPI: "http://localhost:8080/transaction/add",
+    updateAPI: "http://localhost:8080/transaction/update",
+    orderBy: {field: "updated", sort: "DESC"}
+  };
+
+
   useEffect(() => {
     postFilterData(filterTransaction);
     postPreviousFilterData(previousFilterTransaction);
@@ -143,6 +168,10 @@ const Dashboard = (props) => {
           </div>
           <div className={styles.chart}>
             <Chart />
+          </div>
+          <div>
+          <TableData data={allTableDatas} />
+
           </div>
         </div>
         <div className={styles.right}>

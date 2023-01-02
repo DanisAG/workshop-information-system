@@ -2,7 +2,7 @@
   font-family: "Helvetica";
 }
 .leftTop {
-  width: 65vw;
+  min-width: 65vw;
   display: flex;
 }
 
@@ -16,6 +16,9 @@
 
 .right{
   margin-left: 2rem;
+  min-width: 22vw;
+
+
 }
 .leftTopCard:not(:first-child) {
   margin-left: 3.5rem;
@@ -65,16 +68,19 @@
   padding-left: 1rem;
   padding-right: 1rem;
   margin-top: 2rem;
-  width: 65vw;
+  min-width: 65vw;
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .lowStock {
   box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   margin-bottom: 2rem;
-  width: 22vw;
-  float: right;
+}
+
+.lowStock:not(:first-child){
+  padding-bottom: 0.5rem;
 }
 
 .lowStockTitleDiv {
@@ -235,7 +241,6 @@
   padding: 0.1rem 0.5rem;
   padding-left: 0.1rem !important;
   border-radius: 12px;
-  margin-bottom: 1rem;
 }
 
 .difference2 {
@@ -252,5 +257,4 @@
   padding: 0.1rem 0.5rem;
   padding-left: 0.1rem !important;
   border-radius: 12px;
-  margin-bottom: 1rem;
 }

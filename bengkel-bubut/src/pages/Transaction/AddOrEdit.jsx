@@ -126,7 +126,7 @@ const AddOrEdit = () => {
     getAllMechanics();
   }, []);
 
-  console.log(allStocks);
+  console.log(location.state.allData);
 
   const filteredData = location.state.allData.filter(
     (data) => data.id === location.state.id
@@ -249,7 +249,10 @@ const AddOrEdit = () => {
           mechanic: filteredData.map((data) => data.mechanic).toString(),
           customer: filteredData.map((data) => data.customer).toString(),
           stock: filteredData.map((data) => data.stock).toString(),
-          price: parseInt(filteredData.map((data) => data.price)),
+          price:
+            isNaN(parseInt(filteredData.map((data) => data.price)))
+              ? parseInt(filteredData.map((data) => data.sale))
+              : parseInt(filteredData.map((data) => data.price)),
           quantity: parseInt(filteredData.map((data) => data.quantity)),
           status: filteredData.map((data) => data.status).toString(),
         };
@@ -258,12 +261,22 @@ const AddOrEdit = () => {
     quantityById &&
     allStocks.find((data) => data.id === quantityById)?.quantity;
 
-  const { handleSubmit, handleChange, handleBlur,values, touched, errors, setFieldValue } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema:  location.state.status === "Add" ? transactionSchema(quantity + 1) : transactionSchema(Infinity),
-      onSubmit,
-    }) ;
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    touched,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema:
+      location.state.status === "Add"
+        ? transactionSchema(quantity + 1)
+        : transactionSchema(Infinity),
+    onSubmit,
+  });
 
   console.log(quantityById);
 
@@ -408,33 +421,36 @@ const AddOrEdit = () => {
           </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Quantity</Label>
-            {location.state.status === "Add" ? 
-            <Input         
-              placeholder="Quantity"
-              id="quantity"
-              type="number"
-              onChange={(e) => handleChange(e)}
-              onBlur={handleBlur}
-              value={values.quantity}
-              className={
-                errors.quantity && touched.quantity
-                  ? styles.inputError
-                  : styles.input
-              }
-            /> : <Input      
-            disabled   
-            placeholder="Quantity"
-            id="quantity"
-            type="number"
-            onChange={(e) => handleChange(e)}
-            onBlur={handleBlur}
-            value={values.quantity}
-            className={
-              errors.quantity && touched.quantity
-                ? styles.inputError
-                : styles.input
-            }
-          />}
+            {location.state.status === "Add" ? (
+              <Input
+                placeholder="Quantity"
+                id="quantity"
+                type="number"
+                onChange={(e) => handleChange(e)}
+                onBlur={handleBlur}
+                value={values.quantity}
+                className={
+                  errors.quantity && touched.quantity
+                    ? styles.inputError
+                    : styles.input
+                }
+              />
+            ) : (
+              <Input
+                disabled
+                placeholder="Quantity"
+                id="quantity"
+                type="number"
+                onChange={(e) => handleChange(e)}
+                onBlur={handleBlur}
+                value={values.quantity}
+                className={
+                  errors.quantity && touched.quantity
+                    ? styles.inputError
+                    : styles.input
+                }
+              />
+            )}
             {errors.quantity && touched.quantity && (
               <p className={styles.error}>{errors.quantity}</p>
             )}

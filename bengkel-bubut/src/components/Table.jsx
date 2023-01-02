@@ -224,6 +224,7 @@ const TableData = (props) => {
                   <div className="d-flex">
                     <Filter
                       reportfilterStatus={props.data.filterStatus}
+                      filterDashboard = {props.filterDashboard}
                       setFilter={setFilter}
                       filter={filter}
                     />
@@ -274,7 +275,7 @@ const TableData = (props) => {
                   {props.data.variableName.map((variable) => {
                     return (
                       <>
-                        {variable === "created" ? (
+                        {variable === "created" || variable === "dob" ? (
                           <td>
                             {" "}
                             {moment(item[variable]).format("DD MMMM YYYY")}

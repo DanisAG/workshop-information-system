@@ -1,11 +1,9 @@
 import * as yup from "yup";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
-
+const phonenumber = /^08[0-9]{10,}$/;
 export const loginSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required("Required"),
+  username: yup.string().required("Required"),
   password: yup
     .string()
     .min(5)
@@ -18,8 +16,12 @@ export const customerSchema = yup.object().shape({
   dob: yup.date().required("Date of Birth cannot be empty"),
   gender: yup.string().required("Gender cannot be empty"),
   address: yup.string().required("Address cannot be empty"),
-  phone: yup.string().required("Phone cannot be empty"),
-  email: yup.string().required("Email cannot be empty"),
+  phone: yup
+    .string()
+    .matches(phonenumber, { message: "Invalid Phone Number" })
+    .max(12)
+    .required("Phone cannot be empty"),
+  email: yup.string().email("Invalid Email").required("Email cannot be empty"),
 });
 
 export const stockSchema = yup.object().shape({
@@ -34,8 +36,12 @@ export const mechanicSchema = yup.object().shape({
   dob: yup.date().required("Date of Birth cannot be empty"),
   gender: yup.string().required("Gender cannot be empty"),
   address: yup.string().required("Address cannot be empty"),
-  phone: yup.string().required("Phone cannot be empty"),
-  email: yup.string().required("Email cannot be empty"),
+  phone: yup
+    .string()
+    .required("Phone cannot be empty")
+    .matches(phonenumber, { message: "Invalid Phone Number" })
+    .max(12),
+  email: yup.string().email("Invalid Email").required("Email cannot be empty"),
 });
 
 export const transactionSchema = (data) =>
@@ -56,10 +62,7 @@ export const transactionSchema = (data) =>
       )
       .when(["stock"], {
         is: (stock) => isNaN(stock),
-        then: yup
-          .number()
-          .required("Item Field should be filled first")
-          ,
+        then: yup.number().required("Item Field should be filled first"),
       }),
     status: yup.string().required("Status cannot be empty"),
   });

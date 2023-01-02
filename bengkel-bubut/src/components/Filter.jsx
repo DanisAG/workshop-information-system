@@ -15,6 +15,8 @@ const Filter = (props) => {
     { value: "Done", label: "Done" },
   ];
 
+  console.log(props);
+
   const monthOptions = [
     { value: "1", label: "January" },
     { value: "2", label: "February" },
@@ -146,7 +148,7 @@ const Filter = (props) => {
             </>
           )}
 
-          {props.chart && (
+          {(props.chart || props.filterDashboard) && (
             <FormGroup>
               <Label className={formStyles.label}>Input Year</Label>
               <Input
