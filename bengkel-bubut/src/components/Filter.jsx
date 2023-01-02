@@ -49,10 +49,12 @@ const Filter = (props) => {
   const clearFilter = () => {
     props.reportfilterStatus
       ? props?.setFilter({ status: "", type: "" })
-      : props.reportFilter ?
-        props?.setFilterDataPerPeriod({ month: "", year: "" })
+      : props.reportFilter
+      ? props?.setFilterDataPerPeriod({ month: "", year: "" })
       : props.chart && props?.setFilterChart({ month: "", year: "" });
   };
+
+  console.log(props);
 
   return (
     <div className={styles.dropdown}>
@@ -63,45 +65,7 @@ const Filter = (props) => {
       ></BsFilterSquare>
       {filterOpen && (
         <Form className={styles.formFilter}>
-          {props.transactionFilter && (
-            <>
-              {" "}
-              <FormGroup>
-                <Label className={formStyles.label}>Status Transaksi</Label>
-                <Select
-                  options={optionsForTransactionStatus}
-                  styles={style}
-                  className={formStyles.input}
-                  placeholder="Pilih Status Transaksi"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label className={formStyles.label}>Pelanggan</Label>
-                <Input
-                  placeholder="Nama Pelanggan"
-                  className={formStyles.input}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label className={formStyles.label}>Mekanik</Label>
-                <Input
-                  placeholder="Nama Mekanik"
-                  className={formStyles.input}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label className={formStyles.label}>Jenis Layanan</Label>
-                <Select
-                  options={optionsForTransactionStatus}
-                  styles={style}
-                  className={formStyles.input}
-                  placeholder="Pilih Jenis Layanan"
-                />
-              </FormGroup>{" "}
-            </>
-          )}
-
-          {props.reportfilterStatus && (
+          {(props.transactionFilterStatus || props.filterDashboard) && (
             <>
               <FormGroup>
                 <Label className={formStyles.label}>Status</Label>
@@ -145,10 +109,40 @@ const Filter = (props) => {
                   placeholder="Service Type"
                 />
               </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Customer</Label>
+                <Input
+                  placeholder="Customer"
+                  className={formStyles.input}
+                  value={props.filter.customer}
+                  onChange={(e) =>
+                    props.setFilter({
+                      ...props.filter,
+                      customer: e.target.value,
+                    })
+                  }
+                 
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Mechanic</Label>
+                <Input
+                  placeholder="Mechanic"
+                  className={formStyles.input}
+                  value={props.filter.mechanic}
+                  onChange={(e) =>
+                    props.setFilter({
+                      ...props.filter,
+                      mechanic: e.target.value,
+                    })
+                  }
+          
+                />
+              </FormGroup>
             </>
           )}
 
-          {(props.chart || props.filterDashboard) && (
+          {props.chart && (
             <FormGroup>
               <Label className={formStyles.label}>Input Year</Label>
               <Input
@@ -212,6 +206,91 @@ const Filter = (props) => {
                   }
                   maxMenuHeight={500}
                   placeholder="Month"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Day</Label>
+                <Input
+                  placeholder="Day"
+                  className={formStyles.input}
+                  value={props.filterDataPerPeriod.day}
+                  onChange={(e) =>
+                    props.setFilterDataPerPeriod({
+                      ...props.filterDataPerPeriod,
+                      day: e.target.value,
+                    })
+                  }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                />
+              </FormGroup>
+            </>
+          )}
+
+          {props.financialReportFilterStatus && (
+            <>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Year</Label>
+                <Input
+                  placeholder="Year"
+                  className={formStyles.input}
+                  value={props.filter.year}
+                  onChange={(e) =>
+                    props.setFilter({
+                      ...props.filter,
+                      year: e.target.value,
+                    })
+                  }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Select Month</Label>
+                <Select
+                  options={monthOptions}
+                  value={
+                    props.filter?.month !== ""
+                      ? monthOptions.find(
+                          (option) => option.value === props.filter?.month
+                        )
+                      : ""
+                  }
+                  styles={style}
+                  className={formStyles.input}
+                  onChange={(e) =>
+                    props.setFilter({
+                      ...props.filter,
+                      month: e.value,
+                    })
+                  }
+                  maxMenuHeight={100}
+                  placeholder="Month"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label className={formStyles.label}>Input Day</Label>
+                <Input
+                  placeholder="Day"
+                  className={formStyles.input}
+                  value={props.filter.day}
+                  onChange={(e) =>
+                    props.setFilter({
+                      ...props.filter,
+                      day: e.target.value,
+                    })
+                  }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </FormGroup>
             </>

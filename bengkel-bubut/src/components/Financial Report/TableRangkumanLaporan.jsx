@@ -14,6 +14,7 @@ const TableRangkumanLaporan = (props) => {
   const [filterDataPerPeriod, setFilterDataPerPeriod] = useState({
     month: "",
     year: "",
+    day: ""
   });
 
   const monthLists = [
@@ -38,6 +39,7 @@ const TableRangkumanLaporan = (props) => {
     filter: {
       month: filterDataPerPeriod.month,
       year: filterDataPerPeriod.year,
+      day: filterDataPerPeriod.day
     },
   };
   const filterData = useRef(initialFilterData);
@@ -83,7 +85,7 @@ const TableRangkumanLaporan = (props) => {
               : checkFilterData === "monthOnly"
               ? `TRANSACTION REPORT DETAIL`
               : checkFilterData === "yearMonth"
-              ? `TRANSACTION REPORT DETAIL - ${monthInString}, ${filterDataPerPeriod.year}`
+              ? `TRANSACTION REPORT DETAIL - ${monthInString}${filterDataPerPeriod.day === "" ? "": ` ${filterDataPerPeriod.day}`}, ${filterDataPerPeriod.year}`
               : "TRANSACTION REPORT DETAIL"}
           </div>
         </div>

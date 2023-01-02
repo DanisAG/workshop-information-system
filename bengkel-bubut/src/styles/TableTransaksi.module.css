@@ -132,6 +132,7 @@
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  z-index: 10;
 }
 
 .datepicker {
@@ -165,9 +166,7 @@
   border-radius: 6px;
   text-align: center;
   display: flex;
-  justify-content: center;
   width: fit-content;
-  margin-left: auto;
   margin-right: auto;
   padding: 0.1rem 1rem;
 }
@@ -178,4 +177,7 @@
   box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   padding: 0.1rem 0.3rem;
+  width: fit-content;
+  margin-right: auto;
+
 }

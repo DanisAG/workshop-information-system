@@ -26,7 +26,15 @@ const TableData = (props) => {
   const [allData, setAllData] = useState([]);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
-  const [filter, setFilter] = useState({ status: "", type: "" });
+  const [filter, setFilter] = useState({
+    status: "",
+    type: "",
+    month: "",
+    year: "",
+    day: "",
+    customer: "",
+    mechanic: ""
+  });
   const limitOptions = [
     {
       label: (
@@ -79,6 +87,11 @@ const TableData = (props) => {
     filter: {
       status: filter.status,
       type: filter.type,
+      month: filter.month,
+      year: filter.year,
+      day: filter.day,
+      customer: filter.customer,
+      mechanic: filter.mechanic
     },
     orderBy: {
       field: props?.data.orderBy?.field,
@@ -226,7 +239,13 @@ const TableData = (props) => {
                   <div className="d-flex">
                     <Filter
                       reportfilterStatus={props.data.filterStatus}
-                      filterDashboard={props.filterDashboard}
+                      filterDashboard={props.data.filterDashboard}
+                      financialReportFilterStatus={
+                        props.data.financialReportFilterStatus
+                      }
+                      transactionFilterStatus={
+                        props.data.transactionFilterStatus
+                      }
                       setFilter={setFilter}
                       filter={filter}
                     />

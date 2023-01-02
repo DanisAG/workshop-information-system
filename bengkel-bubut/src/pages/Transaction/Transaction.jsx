@@ -9,6 +9,7 @@ const Transaction = () => {
     title: "ALL TRANSACTIONS",
     buttonText: "Add Transaction",
     filterStatus: true,
+    transactionFilterStatus: true,
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",

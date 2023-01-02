@@ -14,6 +14,7 @@ const FinancialReport = () => {
     title: "OVERALL REPORT",
     buttonText: "Add Transaction",
     filterStatus: true,
+    financialReportFilterStatus: true,
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",
