@@ -13,7 +13,8 @@ const AuthContext = React.createContext({
 const calculateRemainingTime = (expirationTime) => {
   const currentTime = new Date().getTime();
   const adjExpirationTime = new Date(expirationTime).getTime();
-
+  console.log(currentTime,"currenttime");
+  console.log(adjExpirationTime,"dataTime");
   const remainingDuration = adjExpirationTime - currentTime;
 
   return remainingDuration;
@@ -22,6 +23,7 @@ const calculateRemainingTime = (expirationTime) => {
 export const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState(initialToken);
+  const [dataLogin, setDataLogin] = useState();
   const authCtx = useContext(AuthContext);
   const userIsLoggedIn = !!token;
 
@@ -30,15 +32,15 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("token");
   };
 
-  const loginHandler = (token) => {
-    setToken(token);
-
+  const loginHandler = (token,data) => {
+    setToken(token,data);
+    setDataLogin(data);
     localStorage.setItem("token", token);
   };
 
-  fetch("http://localhost:8080/user/getAll", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${authCtx.token}` },
+  fetch("http://localhost:8080/user/login", {
+    method: "POST",
+    body: JSON.stringify(dataLogin),
   })
     .then((res) => res.json())
     .then((result) => {
@@ -46,6 +48,7 @@ export const AuthContextProvider = (props) => {
         const expirationTime = new Date(data.expiredDate).getTime();
         let remainingTime = calculateRemainingTime(expirationTime);
         if (remainingTime < 0) remainingTime = 0;
+        console.log(remainingTime, "tracetime");
         setTimeout(logoutHandler, remainingTime);
       });
     });

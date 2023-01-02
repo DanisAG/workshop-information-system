@@ -49,6 +49,10 @@ const FormUser = (props) => {
   const authCtx = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState(false);
   const onSubmit = (values, actions) => {
+    const dataLogin = {
+      username: values.username,
+      password: values.password,
+    }
     fetch("http://localhost:8080/user/login", {
       method: "POST",
       body: JSON.stringify({
@@ -79,7 +83,7 @@ const FormUser = (props) => {
           return;
         }
         console.log(data.user.token);
-        authCtx.login(data.user.token);
+        authCtx.login(data.user.token,dataLogin);
         navigate("/");
       })
       
