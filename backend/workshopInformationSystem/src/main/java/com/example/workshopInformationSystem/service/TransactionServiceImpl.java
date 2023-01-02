@@ -153,12 +153,16 @@ public class TransactionServiceImpl  implements TransactionService {
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
             String type = "";
             String status = "";
+            String mechanic = "";
+            String customer = "";
             Map<String, Object> filtered = new HashMap<>();
             
             if (reqData.get("filter")!=null) {
                 filtered = (Map<String, Object>) reqData.get("filter");
                 type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
                 status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+                mechanic = filtered.get("mechanic") != null ? filtered.get("mechanic").toString().toLowerCase() : "";
+                customer = filtered.get("customer") != null ? filtered.get("customer").toString().toLowerCase() : "";
             }
 
             String query = "SELECT COUNT(a) FROM Transaction a WHERE a.id>0 ";
@@ -172,7 +176,12 @@ public class TransactionServiceImpl  implements TransactionService {
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
-
+            if(!mechanic.isEmpty()){
+                query += " AND (UPPER(a.mechanic.name) LIKE '%" + mechanic + "%') ";
+            }
+            if(!customer.isEmpty()){
+                query += " AND (UPPER(a.customer.name) LIKE '%" + customer + "%') ";
+            }
             Query queryResult = entityManager.createQuery(query,Long.class);
             
             totalData = (Long) queryResult.getSingleResult();System.out.println("trace "+ totalData);
@@ -194,6 +203,8 @@ public class TransactionServiceImpl  implements TransactionService {
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toUpperCase() : "";
             String type = "";
             String status = "";
+            String mechanic = "";
+            String customer = "";
             Map<String, Object> filtered = new HashMap<>();
             String orderBy = "";
             String sort = "";
@@ -201,6 +212,8 @@ public class TransactionServiceImpl  implements TransactionService {
                 filtered = (Map<String, Object>) reqData.get("filter");
                 type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
                 status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+                mechanic = filtered.get("mechanic") != null ? filtered.get("mechanic").toString().toLowerCase() : "";
+                customer = filtered.get("customer") != null ? filtered.get("customer").toString().toLowerCase() : "";
             }
             if (reqData.get("orderBy")!=null) {
                 filtered = (Map<String, Object>) reqData.get("orderBy");
@@ -238,7 +251,12 @@ public class TransactionServiceImpl  implements TransactionService {
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
-
+            if(!mechanic.isEmpty()){
+                query += " AND (UPPER(a.mechanic.name) LIKE '%" + mechanic + "%') ";
+            }
+            if(!customer.isEmpty()){
+                query += " AND (UPPER(a.customer.name) LIKE '%" + customer + "%') ";
+            }
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
             else query += " ORDER BY a.created DESC";
             System.out.println(query);
