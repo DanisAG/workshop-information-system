@@ -286,12 +286,18 @@ public class TransactionServiceImpl  implements TransactionService {
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
             String type = "";
             String status = "";
+            String month = "";
+            String year = "";
+            String day = "";
             Map<String, Object> filtered = new HashMap<>();
             
             if (reqData.get("filter")!=null) {
                 filtered = (Map<String, Object>) reqData.get("filter");
                 type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
                 status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+                month = filtered.get("month") != null ? filtered.get("month").toString().toLowerCase() : "";
+                year = filtered.get("year") != null ? filtered.get("year").toString().toLowerCase() : "";
+                day = filtered.get("day") != null ? filtered.get("day").toString().toLowerCase() : "";
             }
 
             String query = "SELECT COUNT(a) FROM Transaction a WHERE a.id>0 ";
@@ -305,7 +311,15 @@ public class TransactionServiceImpl  implements TransactionService {
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
-
+            if(!day.isEmpty()){  
+                query += "AND (DAY(a.created)="+ day +") ";                
+            }
+            if(!month.isEmpty()){  
+                query += "AND (MONTH(a.created)="+ month +") ";                
+            }
+            if(!year.isEmpty()){  
+                query += "AND (YEAR(a.created)="+ year +") ";                
+            }
             Query queryResult = entityManager.createQuery(query,Long.class);
             
             totalData = (Long) queryResult.getSingleResult();System.out.println("trace "+ totalData);
@@ -330,10 +344,16 @@ public class TransactionServiceImpl  implements TransactionService {
             Map<String, Object> filtered = new HashMap<>();
             String orderBy = "";
             String sort = "";
+            String month = "";
+            String year = "";
+            String day = "";
             if (reqData.get("filter")!=null) {
                 filtered = (Map<String, Object>) reqData.get("filter");
                 type = filtered.get("type") != null ? filtered.get("type").toString().toLowerCase() : "";
                 status = filtered.get("status") != null ? filtered.get("status").toString().toLowerCase() : "";
+                month = filtered.get("month") != null ? filtered.get("month").toString().toLowerCase() : "";
+                year = filtered.get("year") != null ? filtered.get("year").toString().toLowerCase() : "";
+                day = filtered.get("day") != null ? filtered.get("day").toString().toLowerCase() : "";
             }
             if (reqData.get("orderBy")!=null) {
                 filtered = (Map<String, Object>) reqData.get("orderBy");
@@ -371,7 +391,15 @@ public class TransactionServiceImpl  implements TransactionService {
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%') ";
             }
-
+            if(!day.isEmpty()){  
+                query += "AND (DAY(a.created)="+ day +") ";                
+            }
+            if(!month.isEmpty()){  
+                query += "AND (MONTH(a.created)="+ month +") ";                
+            }
+            if(!year.isEmpty()){  
+                query += "AND (YEAR(a.created)="+ year +") ";                
+            }
             if(!orderBy.isEmpty() && !sort.isEmpty()) query += " ORDER BY " + orderBy + " " + sort;
             else query += " ORDER BY a.created DESC";
             System.out.println(query);
