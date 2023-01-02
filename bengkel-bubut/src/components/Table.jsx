@@ -280,22 +280,18 @@ const TableData = (props) => {
                             {moment(item[variable]).format("DD MMMM YYYY")}
                           </td>
                         ) : variable === "sale" ||
-                        variable === "price" ||
+                          variable === "price" ||
                           variable === "revenue" ||
                           variable === "expense" ? (
                           <td>
-                            {/* <span>Rp.</span> */}
-                            {/* <span style={{float: "right"}}> */}
-                              <NumericFormat
-                                value={item[variable]}
-                                displayType={"text"}
-                                decimalScale={2}
-                                thousandSeparator=","
-                                prefix="Rp. "
-                                fixedDecimalScale={2}
-                              />
-                              
-                            {/* </span> */}
+                            <NumericFormat
+                              value={item[variable]}
+                              displayType={"text"}
+                              decimalScale={2}
+                              thousandSeparator=","
+                              prefix="Rp. "
+                              fixedDecimalScale={2}
+                            />
                           </td>
                         ) : (
                           <td>{item[variable]}</td>

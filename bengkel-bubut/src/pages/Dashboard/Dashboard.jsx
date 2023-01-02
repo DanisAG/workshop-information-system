@@ -13,10 +13,12 @@ import { useEffect } from "react";
 import { NumericFormat } from "react-number-format";
 import { BsArrowUpShort } from "react-icons/bs";
 import { BsArrowDownShort } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = (props) => {
   const [reportData, setReportData] = useState([]);
   const [previousReportData, setPreviousReportData] = useState([]);
+  const [allStocks, setAllStocks] = useState([]);
   const filterTransaction = {
     filter: {
       month: moment().month() + 1,
@@ -24,6 +26,7 @@ const Dashboard = (props) => {
     },
   };
 
+  const navigate = useNavigate();
   const previousFilterTransaction =
     moment().month() === 0
       ? {
@@ -70,13 +73,32 @@ const Dashboard = (props) => {
         setPreviousReportData(result.result);
       });
   };
+  const getAllStocks = async () => {
+    await fetch("http://localhost:8080/stock/getAll", {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // eslint-disable-next-line no-throw-literal
+          throw "Error";
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setAllStocks(result.stock);
+      });
+  };
 
-  console.log(reportData);
-  console.log(moment().year());
+  const filteredStocks = allStocks?.filter(
+    (data) => data.quantity < data.minimumQty
+  );
 
   useEffect(() => {
     postFilterData(filterTransaction);
     postPreviousFilterData(previousFilterTransaction);
+    getAllStocks();
   }, []);
   return (
     <>
@@ -123,34 +145,39 @@ const Dashboard = (props) => {
             <Chart />
           </div>
         </div>
-        <div>
+        <div className={styles.right}>
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />
               <div className={styles.lowStockTitle}>LOW STOCK ITEM</div>
             </div>
             <div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 1</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>10</div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 2</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>20</div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 3</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>30</div>
-              </div>
+              {filteredStocks.length > 0 ? (
+                filteredStocks.map((item) => {
+                  return (
+                    <div className={styles.clickedItem} key={item.id} onClick={() => {
+                      navigate("/editStock", {
+                        state: {
+                          id: item.id,
+                          allData: allStocks,
+                          status: "Edit",
+                        },
+                      });
+                    }}>
+                      <div className={styles.leftData}>
+                        <div className={styles.namaBarang}>{item.name}</div>
+                        <div className={styles.minQuantity}>
+                          Min Qty : {item.minimumQty}
+                        </div>
+                      </div>
+                      <div className={styles.quantity}>{item.quantity}</div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className={styles.nodata}>NO DATA FOUND</div>
+              )}
+             
             </div>
           </div>
           <div className={styles.lowStock}>

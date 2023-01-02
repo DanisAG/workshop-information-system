@@ -44,6 +44,7 @@ const EditStock = (props) => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
+      minimumQty: values.minimumQty,
       updated: moment().format(),
     };
 
@@ -109,9 +110,9 @@ const EditStock = (props) => {
       <Row>
         <Breadcrumbs
           icon={icon}
-          name="Stok"
+          name="Stock"
           activeName="Edit Stock"
-          url="/stok"
+          url="/stock"
         />
       </Row>
       <div className={styles.card}>

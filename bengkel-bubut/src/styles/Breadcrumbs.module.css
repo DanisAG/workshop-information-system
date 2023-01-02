@@ -1,5 +1,4 @@
 .text {
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 600;
   line-height: 17px;
@@ -12,7 +11,6 @@
 }
 
 .slash{
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 600;
   line-height: 17px;
@@ -85,7 +83,6 @@
 }
 
 .logout {
-  font-family: Montserrat;
   font-size: 15px;
   font-weight: 700;
   line-height: 18px;
@@ -96,7 +93,6 @@
   justify-content: center;
 }
 .username {
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 700;
   line-height: 17px;
@@ -107,7 +103,6 @@
 }
 
 .usernameExpand {
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 700;
   line-height: 17px;
@@ -116,7 +111,6 @@
 }
 
 .userRole {
-  font-family: Montserrat;
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;

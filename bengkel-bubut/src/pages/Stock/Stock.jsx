@@ -1,7 +1,5 @@
 import icon from "../../Images/notSelected/Stok.png";
-import {
-  Button,
-} from "reactstrap";
+import { Button } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import styles from "../../styles/Stock.module.css";
 import { MdInventory2 } from "react-icons/md";
@@ -12,9 +10,14 @@ import { AiFillWarning, AiFillStar } from "react-icons/ai";
 import { TbNumber1, TbNumber2, TbNumber3, TbNumber4 } from "react-icons/tb";
 import { BsArrowUpShort } from "react-icons/bs";
 import TableData from "../../components/Table";
+import { useContext } from "react";
+import AuthContext from "../../components/store/AuthContext";
+import { useEffect } from "react";
 
 const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
+  const [allStocks, setAllStocks] = useState([]);
+  const authCtx = useContext(AuthContext);
   const toggle = (tab) => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
   };
@@ -28,18 +31,37 @@ const Stock = () => {
     buttonNavigation: "/addStock",
     editNavigation: "/editStock",
     iconTable: <MdInventory2 size={40} />,
-    tableHeaderTitles: [
-      "ITEM NAME",
-      "PRICE",
-      "QUANTITY",
-      "ACTION"
-    ],
+    tableHeaderTitles: ["ITEM NAME", "PRICE", "QUANTITY", "ACTION"],
     variableName: ["name", "price", "quantity"],
     postAPIWithPagination: "http://localhost:8080/stock/getList",
     deleteAPI: "http://localhost:8080/stock/delete/",
-    orderBy: {field: "updated", sort: "DESC"}
-    
+    orderBy: { field: "updated", sort: "DESC" },
   };
+
+  const getAllStocks = async () => {
+    await fetch("http://localhost:8080/stock/getAll", {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // eslint-disable-next-line no-throw-literal
+          throw "Error";
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setAllStocks(result.stock);
+      });
+  };
+
+  const filteredStocks = allStocks?.filter(
+    (data) => data.quantity < data.minimumQty
+  );
+  useEffect(() => {
+    getAllStocks();
+  }, []);
   return (
     <div className={styles.content}>
       <div className={styles.breadcrumbs}>
@@ -62,7 +84,7 @@ const Stock = () => {
             </div>
           </div>
           <div className={styles.table}>
-          <TableData data={allTableDatas} />
+            <TableData data={allTableDatas} />
 
             {/* <div className="d-flex">
               <Nav tabs style={{ width: "82%" }}>
@@ -123,33 +145,34 @@ const Stock = () => {
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />
-              <div className={styles.lowStockTitle}>STOK BARANG</div>
+              <div className={styles.lowStockTitle}>LOW STOCK ITEM</div>
             </div>
             <div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 1</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>10</div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 2</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>20</div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.leftData}>
-                  <div className={styles.namaBarang}>Besi 3</div>
-                  <div className={styles.minQuantity}>Min Qty : 50</div>
-                </div>
-                <div className={styles.quantity}>30</div>
-              </div>
-              <div className={styles.buttonProdukDiv}>
-                <Button className={styles.buttonProduk}>Tambah Produk</Button>
-              </div>
+              {filteredStocks.length > 0 ? (
+                filteredStocks.map((item) => {
+                  return (
+                    <div className={styles.clickedItem} key={item.id} onClick={() => {
+                      navigate("/editStock", {
+                        state: {
+                          id: item.id,
+                          allData: allStocks,
+                          status: "Edit",
+                        },
+                      });
+                    }}>
+                      <div className={styles.leftData}>
+                        <div className={styles.namaBarang}>{item.name}</div>
+                        <div className={styles.minQuantity}>
+                          Min Qty : {item.minimumQty}
+                        </div>
+                      </div>
+                      <div className={styles.quantity}>{item.quantity}</div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className={styles.nodata}>NO DATA FOUND</div>
+              )}
             </div>
           </div>
           <div className={styles.lowStock}>
