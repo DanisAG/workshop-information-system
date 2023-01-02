@@ -420,16 +420,21 @@ public class TransactionServiceImpl  implements TransactionService {
 
             String month = "";
             String year = "";
+            String day = "";
             Map<String, Object> filtered = new HashMap<>();
 
             if (reqData.get("filter")!=null) {
                 filtered = (Map<String, Object>) reqData.get("filter");
                 month = filtered.get("month") != null ? filtered.get("month").toString().toLowerCase() : "";
                 year = filtered.get("year") != null ? filtered.get("year").toString().toLowerCase() : "";
+                day = filtered.get("day") != null ? filtered.get("day").toString().toLowerCase() : "";
             }
             List<Transaction> users = new LinkedList<>();
             String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
 
+            if(!day.isEmpty()){  
+                query += "AND (DAY(a.created)="+ day +") ";                
+            }
             if(!month.isEmpty()){  
                 query += "AND (MONTH(a.created)="+ month +") ";                
             }
