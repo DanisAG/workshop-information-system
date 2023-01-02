@@ -484,6 +484,7 @@ public class TransactionServiceImpl  implements TransactionService {
             datas.put("sale", sale);
             datas.put("expense", expenses);
             datas.put("revenue", revenue);
+            datas.put("totalTransaction", users.size());
 
             data.put("result", datas);
             return data;
