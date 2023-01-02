@@ -2,15 +2,13 @@ import { Row } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Laporan Financial.png";
 import styles from "../../styles/LaporanFinancial.module.css";
-import { HiDocumentReport } from "react-icons/hi";
 import TableRangkumanLaporan from "../../components/Financial Report/TableRangkumanLaporan";
 import Table from "../../components/Table";
 import {
   AiOutlineTransaction,
 } from "react-icons/ai";
 import { Chart } from "../../components/Chart.jsx";
-import { useContext } from "react";
-import AuthContext from "../../components/store/AuthContext.jsx";
+
 const FinancialReport = () => {
   const allTableDatas = {
     title: "OVERALL REPORT",

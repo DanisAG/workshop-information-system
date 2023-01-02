@@ -48,7 +48,7 @@ const Transaction = () => {
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} activeName="Transaksi" url="/Transaksi" />
+        <Breadcrumbs icon={icon} activeName="Transaction" url="/Transaction" />
       </Row>
       <Col>
         <Table data={allTableDatas} />

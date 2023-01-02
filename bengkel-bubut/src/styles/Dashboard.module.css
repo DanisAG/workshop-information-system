@@ -1,12 +1,231 @@
+*{
+  font-family: "Helvetica";
+}
 .leftTop {
-    min-width: 65vw;
-    display: flex;
+  width: 65vw;
+  display: flex;
 }
 
 .leftTop > * {
-    margin-right: 2rem;
-    box-shadow: 0px 4px 1px #5046BB;
-    padding: 2rem 2rem;
-    border-radius: 12px;
-    border: none;
+  box-shadow: 0px 4px 1px #5046bb;
+  padding: 1.4rem 2rem;
+  border-radius: 12px;
+  border: none;
+  width: 33.33%;
+}
+.leftTopCard:not(:first-child) {
+  margin-left: 3.5rem;
+}
+
+.icon {
+  color: #5046bb;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0.5rem;
+}
+
+.saleValue {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #5046bb;
+  width: max-content;
+}
+.saleValueDifference {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 0.9rem;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #23b064;
+}
+
+.saleTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+.saleValueDiv {
+  display: flex;
+  justify-content: center;
+}
+.chart {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+  width: 65vw;
+  position: relative;
+}
+
+.lowStock {
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  width: 22vw;
+  float: right;
+}
+
+.lowStockTitleDiv {
+  background-color: #bf1f1f1a;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+  letter-spacing: 0.05em;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  background-color: #f58a6d1a;
+  color: #f58a6d;
+  display: flex;
+  justify-content: start;
+  padding-left: 1rem;
+}
+
+.lowStock:nth-of-type(2) .lowStockTitleDiv {
+  color: #f9bd6c;
+  background-color: #f9bd6c1a;
+}
+
+.lowStock:nth-of-type(3) .lowStockTitleDiv {
+  color: #bf1f1f;
+  background-color: #f58a6d1a;
+}
+
+.lowStock:nth-of-type(4) .lowStockTitleDiv {
+  color: #23b064;
+  background-color: #23b0641a;
+}
+
+.lowStockTitle {
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: 0.7rem;
+}
+
+.leftData {
+  padding: 1rem;
+}
+
+.bottomData {
+  padding: 1rem;
+  display: flex;
+}
+
+.number {
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #f58a6d;
+  border-radius: 50%;
+  color: white;
+  padding: 0.2rem;
+  margin-right: 0.4rem;
+}
+
+.quantity {
+  margin-left: auto;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.transaction {
+  margin-left: auto;
+  background-color: rgb(234, 247, 238);
+  color: #23b064;
+  height: 1.8rem;
+  padding: 0.2rem 0.4rem;
+  padding-right: 0.6rem;
+  margin-right: 0.7rem;
+  margin-top: 1rem;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.namaBarang {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  margin-top: auto;
+  margin-left: 0.2rem;
+  margin-bottom: auto;
+}
+
+.minQuantity {
+  font-size: 0.7rem;
+  font-weight: 300;
+  line-height: 0.7rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  margin-top: 0.1rem;
+}
+
+.dateTransaction {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #79839c;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+.nominal {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+}
+
+.difference {
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13px;
+  letter-spacing: 0em;
+  text-align: left;
+  background-color: #23b0641a;
+  color: #23b064;
+  width: fit-content;
+  padding: 0.1rem 0.5rem;
+  padding-left: 0.1rem !important;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.difference2 {
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13px;
+  letter-spacing: 0em;
+  text-align: left;
+  background-color: #f58a6d1a;
+  color: #bf1f1f;
+  width: fit-content;
+  padding: 0.1rem 0.5rem;
+  padding-left: 0.1rem !important;
+  border-radius: 12px;
+  margin-bottom: 1rem;
 }

@@ -61,7 +61,6 @@ export const Chart = () => {
     "December",
   ];
 
-  console.log()
   const initialFilterData = {
     filter: {
       month: filterChart.month,
@@ -101,7 +100,6 @@ export const Chart = () => {
           year: filterChart.year,
         },
       };
-      console.log(filterData.current);
       await fetch("http://localhost:8080/transaction/getReport", {
         method: "POST",
         headers: {
@@ -113,11 +111,8 @@ export const Chart = () => {
         .then((res) => res.json())
         .then((response) => {
           const updated = newData.slice(0);
-          console.log(i);
-
           updated.splice(i, 1, response.result);
           newData = updated;
-          console.log(newData);
         });
     }
     setSaleData(newData);

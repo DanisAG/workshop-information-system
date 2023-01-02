@@ -38,7 +38,7 @@ const Sidebar = ({ children }) => {
     },
     {
       path: "/laporanFinancial",
-      name: "Laporan Financial",
+      name: "Financial Report",
       activeIcon: laporanFinancialActiveIcon,
       notActiveIcon: laporanFinancialNotActiveIcon,
     },
