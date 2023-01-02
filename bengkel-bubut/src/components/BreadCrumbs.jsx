@@ -46,7 +46,7 @@ const Breadcrumbs = (props) => {
   }, []);  
   
   return (
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between" style={{marginBottom : "1.6rem"}}>
       <div className="d-flex" style={{minWidth: "70vw"}}>
         <h3 className={styles.breadcrumbs}>
           <b>{moment().format("dddd, MMMM Do YYYY")}</b>
