@@ -72,7 +72,7 @@ const AddStock = () => {
                   "The Data has been added.",
                   "success"
                 );
-                navigate("/stock");
+                navigate(-1);
               }
             })
             .catch((error) => {

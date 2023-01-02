@@ -79,7 +79,7 @@ const EditStock = (props) => {
                   "The Data has been updated.",
                   "success"
                 );
-                navigate("/stock");
+                navigate(-1);
               }
             })
             .catch((error) => {

@@ -217,7 +217,7 @@ const AddOrEdit = () => {
                       "The Data has been updated.",
                       "success"
                     );
-                navigate("/transaction");
+                navigate(-1);
               }
             })
             .catch((error) => {
