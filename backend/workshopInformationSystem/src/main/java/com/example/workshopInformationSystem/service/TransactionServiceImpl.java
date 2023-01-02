@@ -391,6 +391,12 @@ public class TransactionServiceImpl  implements TransactionService {
 
                 if(transaction.getCreated()!=null)
                 financial.setCreated(transaction.getCreated().toString());
+                financial.setCustomer(transaction.getCustomer().getName());
+                financial.setMechanic(transaction.getMechanic().getName());
+                financial.setStock(transaction.getStock().getName());
+                financial.setQuantity(transaction.getQuantity());
+                financial.setStatus(transaction.getStatus());
+                financial.setType(transaction.getType());
                 listUsers.add(financial);
             });
             pagination.put("totalPage", totalPage);
