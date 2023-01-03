@@ -44,7 +44,7 @@ const Login = () => {
       </div>
       <div className={styles.rightContentDiv}>
         <div className={styles.rightTop}>
-          Belum Punya Akun?{" "}
+          Don't Have An Account Yet?{" "}
           <Link to="/signup" style={{ color: "#6F6AF8" }}>
             Sign Up
           </Link>

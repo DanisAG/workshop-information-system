@@ -58,9 +58,19 @@ const EditStock = (props) => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Update",
       })
-      .then((result) => {
+      .then(async(result) => {
+        
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/stock/update", {
+          await swal.fire({
+            title: "Please Wait...",
+            timer: 1000,
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+
+            }
+          });
+          await fetch("http://localhost:8080/stock/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

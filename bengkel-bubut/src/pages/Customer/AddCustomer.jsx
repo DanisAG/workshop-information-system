@@ -57,8 +57,6 @@ const AddCustomer = () => {
       });
   };
 
-
-
   const onSubmit = (values) => {
     const customer = {
       name: values.name,
@@ -79,9 +77,19 @@ const AddCustomer = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Add",
       })
-      .then((result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/customer/add", {
+          await swal.fire({
+            title: "Please Wait...",
+            timer: 1000,
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+
+            }
+          });
+
+          await fetch("http://localhost:8080/customer/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -89,11 +97,11 @@ const AddCustomer = () => {
             },
             body: JSON.stringify(customer),
           })
-            .then(async (response) => {
+            .then( (response) => {
               if (!response.ok) {
                 throw new Error(response.statusText);
               } else {
-                await swal.fire(
+                 swal.fire(
                   "Added!",
                   "The Data has been added.",
                   "success"

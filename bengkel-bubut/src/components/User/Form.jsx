@@ -153,7 +153,7 @@ const FormUser = (props) => {
         {props.loginStatus && (
           <>
             <FormGroup className={styles.formgroup}>
-              <Label className={styles.label}>Email</Label>
+              <Label className={styles.label}>Username</Label>
               <Input
                 id="username"
                 placeholder="username@user.com"
@@ -166,7 +166,6 @@ const FormUser = (props) => {
                     ? styles.inputError
                     : styles.input
                 }
-                // className={styles.input}
               />
               {loginFormik.errors.username && loginFormik.touched.username && (
                 <p className={styles.error}>{loginFormik.errors.username}</p>

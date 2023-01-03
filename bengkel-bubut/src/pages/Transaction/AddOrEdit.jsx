@@ -183,9 +183,18 @@ const AddOrEdit = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: location.state.status === "Add" ? "Add" : "Update",
       })
-      .then((result) => {
+      .then(async(result) => {
         if (result.isConfirmed) {
-          fetch(
+          await swal.fire({
+            title: "Please Wait...",
+            timer: 1000,
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+
+            }
+          });
+         await fetch(
             location.state.status === "Add"
               ? location.state.allTableDatas.addAPI
               : location.state.allTableDatas.updateAPI,

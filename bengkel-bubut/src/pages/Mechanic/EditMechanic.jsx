@@ -80,9 +80,17 @@ const EditMechanic = (props) => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Update",
       })
-      .then((result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/mechanic/update", {
+          await swal.fire({
+            title: "Please Wait...",
+            timer: 1000,
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+            },
+          });
+          await fetch("http://localhost:8080/mechanic/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -239,7 +247,6 @@ const EditMechanic = (props) => {
                   : styles.input
               }
               value={values.phone}
-
             />
             {errors.phone && touched.phone && (
               <p className={styles.error}>{errors.phone}</p>
@@ -255,7 +262,6 @@ const EditMechanic = (props) => {
                 errors.email && touched.email ? styles.inputError : styles.input
               }
               value={values.email}
-
             />
             {errors.email && touched.email && (
               <p className={styles.error}>{errors.email}</p>

@@ -79,9 +79,18 @@ const AddMechanic = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Add",
       })
-      .then((result) => {
+      .then(async(result) => {
         if (result.isConfirmed) {
-          fetch("http://localhost:8080/mechanic/add", {
+          await swal.fire({
+            title: "Please Wait...",
+            timer: 1000,
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+
+            }
+          });
+          await fetch("http://localhost:8080/mechanic/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
