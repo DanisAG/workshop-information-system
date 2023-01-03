@@ -126,8 +126,6 @@ const AddOrEdit = () => {
     getAllMechanics();
   }, []);
 
-  console.log(location.state.allData);
-
   const filteredData = location.state.allData.filter(
     (data) => data.id === location.state.id
   );
@@ -171,8 +169,6 @@ const AddOrEdit = () => {
             quantity: values.quantity,
             status: values.status,
           };
-
-    console.log(transaction);
 
     swal
       .fire({
@@ -277,10 +273,6 @@ const AddOrEdit = () => {
         : transactionSchema(Infinity),
     onSubmit,
   });
-
-  console.log(quantityById);
-
-  console.log(quantity);
 
   return (
     <div>

@@ -68,7 +68,6 @@ const AddMechanic = () => {
       updated: moment().format()
 
     };
-    console.log(mechanic);
 
     swal
       .fire({

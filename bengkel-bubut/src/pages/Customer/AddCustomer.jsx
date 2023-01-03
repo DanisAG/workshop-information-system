@@ -68,7 +68,6 @@ const AddCustomer = () => {
       phone: values.phone,
       email: values.email,
     };
-    console.log(customer);
 
     swal
       .fire({
@@ -92,7 +91,6 @@ const AddCustomer = () => {
           })
             .then(async (response) => {
               if (!response.ok) {
-                console.log(response);
                 throw new Error(response.statusText);
               } else {
                 await swal.fire(

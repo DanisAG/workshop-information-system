@@ -145,9 +145,6 @@ const Dashboard = (props) => {
     (data) => data.quantity < data.minimumQty
   );
 
-  console.log(currentDayFilter.totalTransaction -
-    previousReportDataByDay.totalTransaction);
-  console.log(previousReportDataByDay);
 
   const allTableDatas = {
     title: "OVERALL REPORT",

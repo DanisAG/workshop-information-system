@@ -16,7 +16,6 @@ import AuthContext from "../../components/store/AuthContext.jsx";
 import moment from "moment";
 
 const EditMechanic = (props) => {
-  console.log(props);
   const style = {
     control: (base) => ({
       ...base,
@@ -70,7 +69,6 @@ const EditMechanic = (props) => {
       email: values.email,
       updated: moment().format(),
     };
-    console.log(mechanic);
 
     swal
       .fire({
@@ -94,7 +92,6 @@ const EditMechanic = (props) => {
           })
             .then(async (response) => {
               if (!response.ok) {
-                console.log(response);
                 throw new Error(response.statusText);
               } else {
                 await swal.fire(

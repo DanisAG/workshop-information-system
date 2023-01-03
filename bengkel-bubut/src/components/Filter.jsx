@@ -15,8 +15,6 @@ const Filter = (props) => {
     { value: "Done", label: "Done" },
   ];
 
-  console.log(props);
-
   const monthOptions = [
     { value: "1", label: "January" },
     { value: "2", label: "February" },
@@ -53,8 +51,6 @@ const Filter = (props) => {
       ? props?.setFilterDataPerPeriod({ month: "", year: "" })
       : props.chart && props?.setFilterChart({ month: "", year: "" });
   };
-
-  console.log(props);
 
   return (
     <div className={styles.dropdown}>

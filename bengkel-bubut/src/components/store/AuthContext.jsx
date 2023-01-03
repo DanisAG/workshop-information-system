@@ -1,20 +1,17 @@
 import { useState } from "react";
 import React from "react";
-import { useRef } from "react";
-import { useContext } from "react";
 
 const AuthContext = React.createContext({
   token: "",
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
+  expiredDate: "",
 });
 
 const calculateRemainingTime = (expirationTime) => {
   const currentTime = new Date().getTime();
   const adjExpirationTime = new Date(expirationTime).getTime();
-  console.log(currentTime,"currenttime");
-  console.log(adjExpirationTime,"dataTime");
   const remainingDuration = adjExpirationTime - currentTime;
 
   return remainingDuration;
@@ -22,9 +19,9 @@ const calculateRemainingTime = (expirationTime) => {
 
 export const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
+  const initialExpiredDate = localStorage.getItem("expiredDate");
   const [token, setToken] = useState(initialToken);
-  const [dataLogin, setDataLogin] = useState();
-  const authCtx = useContext(AuthContext);
+  const [expiredDate, setExpiredDate] = useState(initialExpiredDate);
   const userIsLoggedIn = !!token;
 
   const logoutHandler = () => {
@@ -32,32 +29,29 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("token");
   };
 
-  const loginHandler = (token,data) => {
-    setToken(token,data);
-    setDataLogin(data);
+  const loginHandler = (token, data) => {
+    setToken(token);
+    setExpiredDate(data);
+
     localStorage.setItem("token", token);
+    localStorage.setItem("expiredDate", data);
   };
 
-  fetch("http://localhost:8080/user/login", {
-    method: "POST",
-    body: JSON.stringify(dataLogin),
-  })
-    .then((res) => res.json())
-    .then((result) => {
-      result.map((data) => {
-        const expirationTime = new Date(data.expiredDate).getTime();
-        let remainingTime = calculateRemainingTime(expirationTime);
-        if (remainingTime < 0) remainingTime = 0;
-        console.log(remainingTime, "tracetime");
-        setTimeout(logoutHandler, remainingTime);
-      });
-    });
+  const expirationTime = new Date(expiredDate).getTime();
+  let remainingTime = calculateRemainingTime(expirationTime);
+  if (remainingTime <= 0) {
+    remainingTime = 0;
+    localStorage.removeItem("expiredDate");
+  }
+
+  setTimeout(logoutHandler, remainingTime);
 
   const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    expiredDate: expiredDate,
   };
 
   return (

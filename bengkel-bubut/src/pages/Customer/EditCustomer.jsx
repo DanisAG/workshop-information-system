@@ -15,7 +15,6 @@ import AuthContext from "../../components/store/AuthContext.jsx";
 import moment from "moment";
 
 const EditCustomer = (props) => {
-  console.log(props);
   const style = {
     control: (base) => ({
       ...base,
@@ -71,7 +70,6 @@ const EditCustomer = (props) => {
       email: values.email,
       updated: moment().format()
     };
-    console.log(customer);
 
     swal
       .fire({
@@ -95,7 +93,6 @@ const EditCustomer = (props) => {
           })
             .then(async (response) => {
               if (!response.ok) {
-                console.log(response);
                 throw new Error(response.statusText);
               } else {
                 await swal.fire(
@@ -121,7 +118,6 @@ const EditCustomer = (props) => {
   const filteredData = location.state.allData.filter(
     (customer) => customer.id === location.state.id);
 
-  console.log(filteredData.map(data=> data.gender).toString());
 
   const { handleSubmit, handleChange, values, errors, touched, setFieldValue } =
     useFormik({

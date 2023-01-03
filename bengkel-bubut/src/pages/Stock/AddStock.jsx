@@ -41,7 +41,6 @@ const AddStock = () => {
       created: moment().format()
     };
 
-    console.log(stock);
 
     swal
       .fire({
@@ -99,14 +98,12 @@ const AddStock = () => {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(authCtx);
     fetch("http://localhost:8080/stock/getAll", {
       method: "GET",
       headers: { Authorization: `Bearer ${authCtx.token}` },
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
       });
   }, []);
   return (

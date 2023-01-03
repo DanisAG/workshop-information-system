@@ -48,8 +48,6 @@ const EditStock = (props) => {
       updated: moment().format(),
     };
 
-    console.log(submittedData);
-
     swal
       .fire({
         title: "Confirmation",

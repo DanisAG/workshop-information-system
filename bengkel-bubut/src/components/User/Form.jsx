@@ -14,7 +14,6 @@ import { loginSchema } from "../Schema";
 import { UserContext } from "../../App.js";
 import AuthContext from "../store/AuthContext.jsx";
 const FormUser = (props) => {
-  // console.log(props);
   const style = {
     control: (base) => ({
       ...base,
@@ -72,7 +71,6 @@ const FormUser = (props) => {
           res.json().then((data) => {
             let errorMessage = "Authentication failed!";
             errorMessage = data?.error?.message;
-            console.log(data);
             throw new Error(errorMessage);
           });
         }
@@ -83,7 +81,7 @@ const FormUser = (props) => {
           return;
         }
         console.log(data.user.token);
-        authCtx.login(data.user.token,dataLogin);
+        authCtx.login(data.user.token,data.user.expiredDate);
         navigate("/");
       })
       

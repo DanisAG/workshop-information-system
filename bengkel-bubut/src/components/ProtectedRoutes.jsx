@@ -7,7 +7,7 @@ import AuthContext from "./store/AuthContext";
 const ProtectedRoutes = () => {
     const location = useLocation();
     const isAuth = useContext(AuthContext)
-
+  console.log(isAuth);
     return isAuth.isLoggedIn ? <Outlet/> : (
         <Navigate to="/login" replace state={{ from: location }} />
       )

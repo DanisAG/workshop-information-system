@@ -85,60 +85,6 @@ const Stock = () => {
           </div>
           <div className={styles.table}>
             <TableData data={allTableDatas} />
-
-            {/* <div className="d-flex">
-              <Nav tabs style={{ width: "82%" }}>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: currentActiveTab === "1",
-                    })}
-                    onClick={() => {
-                      toggle("1");
-                    }}
-                    activeStyle={{ color: "red", display: "none" }}
-                    href="#"
-                  >
-                    <b>Semua Stok Barang</b>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: currentActiveTab === "2",
-                    })}
-                    onClick={() => {
-                      toggle("2");
-                    }}
-                    href="#"
-                  >
-                    <b>Stok Barang Habis</b>
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <div className={styles.buttonTambah}>
-                <Button
-                  className={styles.button}
-                  onClick={() => {
-                    navigate("/addStock");
-                  }}
-                >
-                  <div>
-                    <FaPlus className={pelangganStyles.plusIcon} />
-                  </div>
-                  <div>Add Stock</div>
-                </Button>
-              </div>
-            </div>
-
-            <TabContent activeTab={currentActiveTab}>
-              <TabPane tabId="1">
-                <StokTable tabId={currentActiveTab} />
-              </TabPane>
-              <TabPane tabId="2">
-                <StokTable tabId={currentActiveTab} />
-              </TabPane>
-            </TabContent> */}
           </div>
         </div>
         <div className={styles.right}>
