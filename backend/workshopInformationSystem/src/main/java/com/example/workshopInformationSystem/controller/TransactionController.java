@@ -86,4 +86,15 @@ public class TransactionController {
         result = transactionService.getReport(reqData);
         return result;
     }
+
+    @GetMapping("/mostStock")
+    public Map<String,Object> mostStock(@RequestHeader (name="Authorization") String token){
+        Map<String,Object> result = new HashMap<>();
+        if(userService.checkToken(token)==false){
+            result.put("transaction", "Invalid Token");
+            return result;
+        }
+        result = transactionService.mostStock();
+        return result;
+    }
 }

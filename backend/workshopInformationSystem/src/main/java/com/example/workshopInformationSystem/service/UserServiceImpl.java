@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
             User users = new User();
             users.setUsername(user.getUsername());
+            users.setEmail(user.getEmail());
             users.setPassword(user.getPassword()); 
             users.setToken(new CommonMethod().generateToken());
             // LocalDate now = LocalDate.now();
@@ -64,9 +65,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User logInUser(User user){
         try {            
-            String query = "FROM User WHERE username=:username and password=:password";
+            String query = "FROM User WHERE email=:email and password=:password";
             Query queryResult = entityManager.createQuery(query);
-            queryResult.setParameter("username", user.getUsername());
+            queryResult.setParameter("email", user.getEmail());
             queryResult.setParameter("password", user.getPassword());
             User resultList = (User) queryResult.getSingleResult();
 

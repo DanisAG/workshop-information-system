@@ -19,6 +19,9 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -68,4 +71,13 @@ public class User {
     public void setExpiredDate(Date ExpiredDate) {
         this.ExpiredDate = ExpiredDate;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
