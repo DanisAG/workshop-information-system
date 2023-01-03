@@ -543,32 +543,33 @@ public class TransactionServiceImpl  implements TransactionService {
 
     @Override
     public Map<String, Object> mostStock() {
-        Map<String, Object> datas = new HashMap<>();
+        
         Map<String, Object> data = new HashMap<>();
         List<Map<String, Object>> listStock = new LinkedList<>();
         try {
 
 
-            List<Transaction> users = new LinkedList<>();
-            String query = "SELECT DISTINCT(stock) FROM Transaction ";
+            List<Object[]> results = new LinkedList<>();
+            String query = "SELECT stock.name, COUNT(stock) FROM Transaction GROUP BY stock ";
 
             System.out.println(query);
-            users = entityManager.createQuery(query, Transaction.class).getResultList();
-            int index = 0;
-            for(Transaction transaction: users){
-                datas.put("name", transaction.getStock().getName());
-                index++;
-                datas.put("count", index);
-                listStock.add(datas);
-            }
-
-        
+            results = entityManager.createQuery(query, Object[].class).getResultList();
+    
+            if (results != null) {
+                for (Object[] row : results) {
+                    Map<String, Object> datas = new HashMap<>();
+                    datas.put("name", row[0]);
+                    System.out.println("tracename "+row[0]);
+                    datas.put("count", row[1]);
+                    listStock.add(datas);
+                }
+            }      
 
             data.put("result", listStock);
             return data;
         } catch (Exception e) {
             e.printStackTrace();
-            data.put("result", datas);
+            data.put("result", listStock);
             return data;
         }
     }
