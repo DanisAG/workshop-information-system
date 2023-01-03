@@ -145,7 +145,6 @@ const Dashboard = (props) => {
     (data) => data.quantity < data.minimumQty
   );
 
-
   const allTableDatas = {
     title: "OVERALL REPORT",
     buttonText: "Add Transaction",
@@ -202,7 +201,13 @@ const Dashboard = (props) => {
                       fixedDecimalScale={2}
                     />
                   </div>
-                  <div className={styles.saleValueDifference}>
+                  <div
+                    className={
+                      currentDayFilter.sale - previousReportDataByDay.sale > 0
+                        ? styles.saleValueDifference
+                        : styles.saleValueDifference2
+                    }
+                  >
                     {currentDayFilter.sale - previousReportDataByDay.sale > 0
                       ? "+ "
                       : currentDayFilter.sale - previousReportDataByDay.sale < 0
@@ -232,7 +237,13 @@ const Dashboard = (props) => {
                       fixedDecimalScale={2}
                     />
                   </div>
-                  <div className={styles.saleValueDifference}>
+                  <div
+                    className={
+                      currentDayFilter.revenue - previousReportDataByDay.revenue > 0
+                        ? styles.saleValueDifference
+                        : styles.saleValueDifference2
+                    }
+                  >
                     {currentDayFilter.revenue -
                       previousReportDataByDay.revenue >
                     0
@@ -262,7 +273,13 @@ const Dashboard = (props) => {
                   <div className={styles.saleValue}>
                     {currentDayFilter.totalTransaction}
                   </div>
-                  <div className={styles.saleValueDifference}>
+                  <div
+                    className={
+                      currentDayFilter.totalTransaction - previousReportDataByDay.totalTransaction > 0
+                        ? styles.saleValueDifference
+                        : styles.saleValueDifference2
+                    }
+                  >
                     {currentDayFilter.totalTransaction -
                       previousReportDataByDay.totalTransaction >
                     0
