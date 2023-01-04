@@ -66,13 +66,13 @@ export const Chart = ({ sortedStocks }) => {
         borderColor: "#6F6AF8",
         borderWidth: 2,
         fill: false,
-        data: sortedStocks.map((data) => data.count),
+        data: sortedStocks.map((data) => data.minimumQty),
       },
       {
         type: "bar",
         label: "Quantity",
         backgroundColor: "#F58A6D",
-        data: sortedStocks.map((data) => data.count),
+        data: sortedStocks.map((data) => data.quantity),
       },
     ],
   };

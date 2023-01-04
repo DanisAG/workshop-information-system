@@ -91,6 +91,7 @@
   padding-top: 20px;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 .username {
   font-size: 14px;

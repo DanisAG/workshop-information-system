@@ -85,8 +85,6 @@ const Stock = () => {
   }
 
   const averageStocks = mostStocks.reduce(myFunc,0) / mostStocks.length
-  console.log(mostStocks)
-
   const sortedStocks = mostStocks.filter(data => data.count >= averageStocks).sort(function (a, b) {
     return b.count - a.count;
   });

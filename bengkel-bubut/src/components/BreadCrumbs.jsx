@@ -1,32 +1,39 @@
 import moment from "moment";
 import styles from "../styles/Breadcrumbs.module.css";
 import { FaRegUserCircle } from "react-icons/fa";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "reactstrap";
+
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
-import Collapsible from "react-collapsible";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import AuthContext from "./store/AuthContext";
 import {useNavigate} from "react-router-dom";
+import swal from "sweetalert2";
 
 const Breadcrumbs = (props) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const authCtx = useContext(AuthContext);
-  // const toggle = () => setDropdownOpen((prevState) => !prevState);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const logoutHandler = () => {
-    authCtx.logout();
-    navigate("/login");
+    swal
+    .fire({
+      title: "Confirmation",
+      text: "Are you sure to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Add",
+    })
+    .then( async(result) => {
+      if (result.isConfirmed) {
+        authCtx.logout();
+        navigate("/login");    
+      }
+    });
+   
   }
 
 

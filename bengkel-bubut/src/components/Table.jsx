@@ -11,7 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import { Button } from "reactstrap";
 import Filter from "./Filter";
 import swal from "sweetalert2";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "./store/AuthContext";
 import searchStyles from "../styles/Searchbar.module.css";
 import Select from "react-select";
@@ -26,6 +26,9 @@ const TableData = (props) => {
   const [allData, setAllData] = useState([]);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
+  const [pageCount, setPageCount] = useState(allData?.pagination?.currentPage);
+  const [refresh, setRefresh] = useState(true);
+
   const [filter, setFilter] = useState({
     status: "",
     type: "",
@@ -33,7 +36,7 @@ const TableData = (props) => {
     year: "",
     day: "",
     customer: "",
-    mechanic: ""
+    mechanic: "",
   });
   const limitOptions = [
     {
@@ -79,10 +82,12 @@ const TableData = (props) => {
     }),
   };
 
+  // console.log(Math.ceil(allData?.pagination?.totalPage))
+
   const initialDataPagination = {
     start: 0,
     limit: limit,
-    page: 1,
+    page: allData?.pagination?.currentPage  ,
     keyword: search,
     filter: {
       status: filter.status,
@@ -91,13 +96,16 @@ const TableData = (props) => {
       year: filter.year,
       day: filter.day,
       customer: filter.customer,
-      mechanic: filter.mechanic
+      mechanic: filter.mechanic,
     },
     orderBy: {
       field: props?.data.orderBy?.field,
       sort: props?.data.orderBy?.sort,
     },
   };
+
+  console.log(initialDataPagination)
+  //props?.data.orderBy?.sort
   const dataPagination = useRef(initialDataPagination);
 
   const handleClickDelete = (id) => {
@@ -118,7 +126,14 @@ const TableData = (props) => {
             method: "DELETE",
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
-            .then((response) => {
+            .then(async(response) => {
+              const errorMessage = await response.text()
+              console.log(errorMessage)
+
+              if(errorMessage.includes("Failed to Delete")){
+                throw new Error(errorMessage)
+              }
+
               if (!response.ok) {
                 throw new Error(response.statusText);
               } else {
@@ -130,9 +145,14 @@ const TableData = (props) => {
                   },
                   body: JSON.stringify(dataPagination.current),
                 })
-                  .then((res) => res.json())
+                  .then((res) => {
+                    if (res.ok) res.json();
+                    console.log(res)
+                  })
                   .then((result) => {
-                    setAllData(result);
+                    console.log(result);
+                    setRefresh(!refresh);
+                    // setAllData(result);
                   });
                 swal.fire("Deleted!", "The data has been deleted.", "success");
               }
@@ -174,7 +194,7 @@ const TableData = (props) => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, limit, filter]);
+  }, [search, limit, filter, refresh]);
 
   const handlePageClick = (event) => {
     const newOffset =
@@ -363,6 +383,7 @@ const TableData = (props) => {
         nextLabel={<AiFillRightCircle color="#6f6af8" size={35} />}
         onPageChange={handlePageClick}
         pageRangeDisplayed={2}
+        // forcePage={tes }
         pageCount={Math.ceil(allData?.pagination?.totalPage)}
         previousLabel={<AiFillLeftCircle color="#6f6af8" size={35} />}
         renderOnZeroPageCount={null}
