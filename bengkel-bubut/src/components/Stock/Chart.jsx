@@ -10,8 +10,7 @@ import {
   Tooltip,
   LineController,
   BarController,
-  Title
-} from 'chart.js';
+} from "chart.js";
 import { Bar } from "react-chartjs-2";
 import zoomPlugin from "chartjs-plugin-zoom";
 import styles from "../../styles/Chart.module.css";
@@ -26,7 +25,6 @@ ChartJS.register(
   Tooltip,
   LineController,
   BarController,
-  Title,
   zoomPlugin
 );
 
@@ -35,10 +33,6 @@ export const options = {
   plugins: {
     legend: {
       position: "top",
-    },
-    title: {
-      display: true,
-      text: "Overview Stok Barang",
     },
     zoom: {
       pan: {
@@ -58,31 +52,35 @@ export const options = {
   },
 };
 
-
 const backgroundColor = ["#F58A6D", "#F9BD6C", "#6F6AF8", "#23B064"];
 
-export const Chart = ({sortedStocks}) => {
-  console.log(sortedStocks)
-  const labels = sortedStocks.map(data => data.name);
+export const Chart = ({ sortedStocks }) => {
+  console.log(sortedStocks);
+  const labels = sortedStocks.map((data) => data.name);
   const data = {
     labels,
     datasets: [
       {
-        type: 'line',
-        label: 'Minimum Quantity',
-        borderColor: '#6F6AF8',
+        type: "line",
+        label: "Minimum Quantity",
+        borderColor: "#6F6AF8",
         borderWidth: 2,
         fill: false,
-        data: sortedStocks.map((data) => data.count ),
+        data: sortedStocks.map((data) => data.count),
       },
       {
-        type: 'bar' ,
-        label: 'Quantity',
-        backgroundColor: '#F58A6D',
-        data: sortedStocks.map((data) => data.count ),
+        type: "bar",
+        label: "Quantity",
+        backgroundColor: "#F58A6D",
+        data: sortedStocks.map((data) => data.count),
       },
-    ]
+    ],
   };
-  return <Bar options={{options,maintainAspectRatio: false}} data={data}  className={styles.bar} 
-  />;
+  return (
+    <Bar
+      options={ options }
+      data={data}
+      // className={styles.bar}
+    />
+  );
 };

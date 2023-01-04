@@ -13,6 +13,7 @@ import TableData from "../../components/Table";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext";
 import { useEffect } from "react";
+import moment from "moment";
 
 const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
@@ -107,9 +108,9 @@ const Stock = () => {
             <div className={styles.overviewHeader}>
               <MdInventory2 size={40} className={styles.icon} />
               <div className="mb-auto mt-auto">
-                <div className={styles.title}>OVERVIEW STOK BARANG</div>
+                <div className={styles.title}>OVERVIEW AVERAGE COMMONLY USED ITEMS</div>
                 <div className={styles.updateDate}>
-                  Update Terakhir: Hari Ini, 20 Oktober 2022 12.00 WIB
+                  Last Updated: {moment().format("dddd, MMMM Do YYYY, h:mm:ss A")}
                 </div>
               </div>
             </div>

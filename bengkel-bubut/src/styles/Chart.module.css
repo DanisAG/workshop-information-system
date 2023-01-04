@@ -1,9 +1,8 @@
 .filterDiv {
-    margin-left: auto;
-    
+  margin-left: auto;
 }
 
-.filter{
+.filter {
 }
 
 .bar {
@@ -11,14 +10,14 @@
 }
 
 .overview {
-  min-height: 50vh;
+  min-height: auto;
   border: none;
   background: #ffffff;
   box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
-  /* margin-left: 0.4rem; */
   border-radius: 12px;
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .overviewHeader {
@@ -31,23 +30,21 @@
 }
 
 .title {
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 0.5rem;
-    font-size: 1rem;
-    font-weight: 900;
-    line-height: 1.3rem;
-    letter-spacing: 0.05em;
-    text-align: left;
-  }
-  
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.3rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
 
-  
-  .updateDate {
-    font-size: 0.6rem;
-    font-weight: 400;
-    line-height: 0.7rem;
-    letter-spacing: 0em;
-    text-align: left;
-    margin-left: 0.5rem;
-  }
+.updateDate {
+  font-size: 0.6rem;
+  font-weight: 400;
+  line-height: 0.7rem;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-left: 0.5rem;
+}

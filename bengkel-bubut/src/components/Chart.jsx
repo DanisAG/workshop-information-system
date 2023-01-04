@@ -130,9 +130,11 @@ export const Chart = () => {
         <div className={styles.overviewHeader}>
           <AiOutlineTransaction size={40} className={styles.icon} />
           <div className="mb-auto mt-auto">
-            <div className={styles.title}>Overview Transaction Report - Year {filterChart.year}</div>
+            <div className={styles.title}>
+              OVERVIEW TRANSACTION REPORT - YEAR {filterChart.year}
+            </div>
             <div className={styles.updateDate}>
-              Update Terakhir: Hari Ini, 20 Oktober 2022 12.00 WIB
+              Last Updated: {moment().format("dddd, MMMM Do YYYY, h:mm:ss A")}
             </div>
           </div>
           <div className={styles.filterDiv}>
