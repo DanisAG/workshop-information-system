@@ -550,7 +550,7 @@ public class TransactionServiceImpl  implements TransactionService {
 
 
             List<Object[]> results = new LinkedList<>();
-            String query = "SELECT stock.name, COUNT(stock) FROM Transaction GROUP BY stock ";
+            String query = "SELECT stock.name, stock.minimumQty, COUNT(stock) FROM Transaction GROUP BY stock ";
 
             System.out.println(query);
             results = entityManager.createQuery(query, Object[].class).getResultList();
@@ -560,7 +560,8 @@ public class TransactionServiceImpl  implements TransactionService {
                     Map<String, Object> datas = new HashMap<>();
                     datas.put("name", row[0]);
                     System.out.println("tracename "+row[0]);
-                    datas.put("count", row[1]);
+                    datas.put("minimumQty", row[1]);
+                    datas.put("count", row[2]);
                     listStock.add(datas);
                 }
             }      
