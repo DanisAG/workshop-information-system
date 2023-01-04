@@ -1,5 +1,10 @@
 package com.example.workshopInformationSystem.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,6 +14,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.workshopInformationSystem.model.Customer;
 import com.example.workshopInformationSystem.model.Mechanic;
@@ -19,7 +26,15 @@ import com.example.workshopInformationSystem.model.request.TransactionPayload;
 import com.example.workshopInformationSystem.model.request.TransactionRequest;
 import com.example.workshopInformationSystem.repository.StockRepository;
 import com.example.workshopInformationSystem.repository.TransactionRepository;
+import com.example.workshopInformationSystem.util.CommonMethod;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
@@ -577,4 +592,167 @@ public class TransactionServiceImpl  implements TransactionService {
             return data;
         }
     }
+
+    @Override
+    public void exportData(HttpServletResponse response, Map<String, Object> payload, Integer userId) {
+        try {
+
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            ServletOutputStream outputStream = response.getOutputStream();
+            try {
+                DateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy");
+   
+                String headerKey = "Content-Disposition";
+                String headerValue = "attachment; filename=Report_Transaction__"+dateFormatter.format(new Date())+".xlsx";
+                response.setHeader(headerKey, headerValue);
+                response.setContentType("application/octet-stream");
+
+                String startDateString = "";
+                String endDateString = "";
+                Map<String, Object> filtered = new HashMap<>();
+
+                if (payload.get("filter")!=null) {
+                    filtered = (Map<String, Object>) payload.get("filter");
+                    startDateString = filtered.get("startDate") != null ? filtered.get("startDate").toString().trim() : "";
+                    endDateString = filtered.get("endDate") != null ? filtered.get("endDate").toString().toLowerCase() : "";
+                }
+
+                XSSFSheet sheet = workbook.createSheet("Report Medical Record_" + startDateString);
+
+                LocalDate startDate = null, now = LocalDate.now(), endDate = now;
+
+                if(!startDateString.isEmpty()){
+                    if(!endDateString.isEmpty()){
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        startDate = LocalDate.parse(startDateString, dtf);
+                        endDate = LocalDate.parse(endDateString, dtf);
+                    }
+                }
+
+
+                //set title
+                Row title = sheet.createRow(0);
+                Row title2 = sheet.createRow(1);
+
+                Cell titleCell = title.createCell(0);
+                Cell titleCell2 = title2.createCell(0);
+                XSSFFont font = workbook.createFont(); 
+                CellStyle cs = titleCell.getCellStyle();
+                font.setBold(true);
+                cs.setFont(font);
+                titleCell.setCellStyle(cs);
+                titleCell.setCellValue("DATA TRANSAKSI");
+                if(!startDateString.isEmpty()){
+                    if(!endDateString.isEmpty()){
+                        titleCell2.setCellValue("Periode Tanggal: "+startDateString +" - " + endDateString);
+                    }
+                }else{
+                    titleCell2.setCellValue("Periode Tanggal: Seluruh Transaksi");
+                }
+                
+
+                //set headers
+                List<String> headers = Arrays.asList("NO", "TGL", "NAMA TRANSAKSI", "TIPE TRANSAKSI", "CUSTOMER", "MECHANIC"
+                , "STOCK" , "HARGA" , "STATUS", "QTY");
+                Row header = sheet.createRow(3);
+                Row header2 = sheet.createRow(4);
+                for(int i = 0; i< headers.size(); i++) {
+                    header.createCell(i).setCellValue(headers.get(i));
+                    sheet.addMergedRegion(new CellRangeAddress(header.getRowNum(), header2.getRowNum(), 
+                    i, i));
+                }
+
+                //get data 
+                Map<String, Object> result = exportDatas(payload, startDate, endDate, userId);
+                if(result.isEmpty()) throw new Exception("data not found");
+                List<Map<String,Object>> data = (List<Map<String,Object>>) result.get("data");
+                if(data.isEmpty()) throw new Exception("data not found");
+                //mapping inventory medicine to table
+                int count = 5;
+                int index = 1;
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                for(Map<String,Object> map: data) {
+                    Row row = sheet.createRow(count);
+                    row.createCell(0).setCellValue(index);
+                    if(map.get("date") != null){
+                        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = inputFormat.parse(map.get("date").toString());
+                        row.createCell(1).setCellValue(df.format(date));
+                    }
+                    row.createCell(2).setCellValue((String) map.get("name").toString());
+                    row.createCell(3).setCellValue((String) map.get("type").toString());
+                    row.createCell(4).setCellValue((String) map.get("customer").toString());
+                    row.createCell(5).setCellValue((String) map.get("mechanic").toString());
+                    row.createCell(6).setCellValue((String) map.get("stock").toString());
+                    row.createCell(7).setCellValue((String) map.get("price").toString());
+                    row.createCell(8).setCellValue((String) map.get("status").toString());
+                    row.createCell(9).setCellValue((String) map.get("quantity").toString());
+              
+                    index++;
+                    count++;
+                }
+
+                workbook.write(outputStream);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw ex;
+            } finally {
+                workbook.close();
+                outputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<String, Object> exportDatas(Map<String, Object> payload, LocalDate startDate, LocalDate endDate, Integer userId) {
+        try {            
+    
+
+            
+            
+            String orderBy=" ORDER BY created DESC";
+    
+            String strQuery =   "FROM Transaction "
+                                +" WHERE userId = " +userId+ "";          
+
+            if(startDate!=null) {
+              endDate = endDate.plusDays(1);
+              strQuery = strQuery + " AND (created >= '"+startDate+"' AND created <= '"+endDate+"')";
+            }
+            strQuery = strQuery + orderBy;
+            List<Transaction> users = entityManager.createQuery(strQuery, Transaction.class).getResultList();
+    
+    
+            System.out.println("tracequery "+strQuery);
+            List<Map<String,Object>> resultDataList = new LinkedList<>();
+            users.forEach((Transaction transaction) -> {
+                Map<String,Object> resultData = new HashMap<>();
+                resultData.put("name", transaction.getName());
+                resultData.put("type", transaction.getType());
+                resultData.put("mechanic", transaction.getMechanic().getName());
+                resultData.put("customer", transaction.getCustomer().getName());
+                resultData.put("stock", transaction.getStock().getName());
+                resultData.put("price", transaction.getPrice());
+                resultData.put("status", transaction.getStatus());
+                resultData.put("quantity", transaction.getQuantity());
+                resultData.put("date", transaction.getCreated());
+                resultDataList.add(resultData);
+            });
+
+            
+
+            Map<String,Object> result = new HashMap<>();
+            if(resultDataList.isEmpty()) throw new Exception("no data found");
+            
+
+            result.put("data", resultDataList);
+            return result;
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } 
+    }
+
 }

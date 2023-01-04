@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.example.workshopInformationSystem.model.Stock;
 import com.example.workshopInformationSystem.model.Transaction;
 import com.example.workshopInformationSystem.model.request.TransactionPayload;
@@ -96,5 +98,14 @@ public class TransactionController {
         }
         result = transactionService.mostStock(userService.getId(token));
         return result;
+    }
+
+    @PostMapping("/export")
+    public void exportRecord(@RequestHeader (name="Authorization") String token, HttpServletResponse response, @RequestBody Map<String, Object> payload) {
+        try { 
+            transactionService.exportData(response, payload, userService.getId(token));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
