@@ -32,14 +32,14 @@ public class MechanicController {
     @PostMapping("/add")
     public String add(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        mechanicService.saveMechanic(mechanic);
+        mechanicService.saveMechanic(mechanic, userService.getId(token));
         return "New Mechanic is added";
     }
 
     @PostMapping("/update")
     public String update(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        mechanicService.updateMechanic(mechanic);
+        mechanicService.updateMechanic(mechanic, userService.getId(token));
         return "Mechanic is Updated";
     }
 
@@ -56,14 +56,14 @@ public class MechanicController {
             result.put("mechanic", "Invalid Token");
             return result;
         }
-        int totalData = mechanicService.getMechanicTotal(reqData);
-        result = mechanicService.getMechanicPagination(reqData, totalData);
+        int totalData = mechanicService.getMechanicTotal(reqData, userService.getId(token));
+        result = mechanicService.getMechanicPagination(reqData, totalData, userService.getId(token));
         return result;
     }
 
     @GetMapping("/getAll")
-    public List<Mechanic> getAllMechanic(){
-        return mechanicService.getAllMechanics();
+    public List<Mechanic> getAllMechanic(@RequestHeader (name="Authorization") String token){
+        return mechanicService.getAllMechanics(userService.getId(token));
     }
 
 }

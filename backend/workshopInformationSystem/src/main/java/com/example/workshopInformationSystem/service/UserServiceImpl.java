@@ -107,6 +107,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer getId(String token){
+        try {            
+            String[] tokens = token.split(" ");
+            String query = "SELECT id FROM User WHERE token=:token and ExpiredDate>:ExpiredDate";
+            Query queryResult = entityManager.createQuery(query);
+            queryResult.setParameter("token", tokens[1]);
+            queryResult.setParameter("ExpiredDate", new Date());
+            Integer resultList = (Integer) queryResult.getSingleResult();
+
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

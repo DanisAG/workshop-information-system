@@ -35,14 +35,14 @@ public class TransactionController {
     @PostMapping("/add")
     public String add(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        transactionService.saveTransaction(transaction);
+        transactionService.saveTransaction(transaction, userService.getId(token));
         return "New Transaction is added";
     }
 
     @PostMapping("/update")
     public String update(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        transactionService.updateTransaction(transaction);
+        transactionService.updateTransaction(transaction, userService.getId(token));
         return "Transaction is Updated";
     }
 
@@ -59,8 +59,8 @@ public class TransactionController {
             result.put("transaction", "Invalid Token");
             return result;
         }
-        int totalData = transactionService.getTransactionTotal(reqData);
-        result = transactionService.getTransactionPagination(reqData, totalData);
+        int totalData = transactionService.getTransactionTotal(reqData, userService.getId(token));
+        result = transactionService.getTransactionPagination(reqData, totalData, userService.getId(token));
         return result;
     }
 
@@ -71,8 +71,8 @@ public class TransactionController {
             result.put("transaction", "Invalid Token");
             return result;
         }
-        int totalData = transactionService.getTransactionTotalFinancial(reqData);
-        result = transactionService.getTransactionPaginationFinancial(reqData, totalData);
+        int totalData = transactionService.getTransactionTotalFinancial(reqData, userService.getId(token));
+        result = transactionService.getTransactionPaginationFinancial(reqData, totalData, userService.getId(token));
         return result;
     }
 
@@ -83,7 +83,7 @@ public class TransactionController {
             result.put("transaction", "Invalid Token");
             return result;
         }
-        result = transactionService.getReport(reqData);
+        result = transactionService.getReport(reqData, userService.getId(token));
         return result;
     }
 
@@ -94,7 +94,7 @@ public class TransactionController {
             result.put("transaction", "Invalid Token");
             return result;
         }
-        result = transactionService.mostStock();
+        result = transactionService.mostStock(userService.getId(token));
         return result;
     }
 }

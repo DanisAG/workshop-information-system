@@ -34,10 +34,13 @@ public class Mechanic {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "userId")
+    private int userId;
+
     public Mechanic() {
     }
 
-    public Mechanic(int id, String name, Date dob, String gender, String address, String phone, String email) {
+    public Mechanic(int id, String name, Date dob, String gender, String address, String phone, String email, int userId) {
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -45,6 +48,7 @@ public class Mechanic {
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -101,6 +105,14 @@ public class Mechanic {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     
 }

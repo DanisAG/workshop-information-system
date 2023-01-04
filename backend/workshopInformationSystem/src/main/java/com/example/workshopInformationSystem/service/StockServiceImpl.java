@@ -25,7 +25,7 @@ public class StockServiceImpl implements StockService {
     private EntityManager entityManager;
     
     @Override
-    public Stock saveStock(Stock stock){
+    public Stock saveStock(Stock stock, Integer userId){
         try {            
 
             Stock stocks = new Stock();
@@ -35,6 +35,7 @@ public class StockServiceImpl implements StockService {
             stocks.setCreated(new Date());
             stocks.setUpdated(new Date());
             stocks.setMinimumQty(stock.getMinimumQty());
+            stocks.setUserId(userId);
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();
@@ -48,10 +49,10 @@ public class StockServiceImpl implements StockService {
     
     
     @Override
-    public Stock updateStock(Stock stock){
+    public Stock updateStock(Stock stock, Integer userId){
         try {            
 
-            String query = "FROM Stock WHERE id = "+stock.getId()+" ";
+            String query = "FROM Stock WHERE id = "+stock.getId()+" AND userId = "+userId+" ";
 
             Query queryResult = entityManager.createQuery(query,Stock.class);
 
@@ -63,7 +64,7 @@ public class StockServiceImpl implements StockService {
             stocks.setUpdated(new Date());
             stocks.setQuantity(stock.getQuantity());
             stocks.setMinimumQty(stock.getMinimumQty());
-
+            stocks.setUserId(userId);
             stockRepository.save(stocks);
 
             Map<String, Object> userData = new HashMap<>();
@@ -87,12 +88,20 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
+    public List<Stock> getAllStocks(Integer userId) {
+        try {
+            List<Stock> listUsers = new LinkedList<>();
+            String query = "SELECT a FROM Stock a WHERE a.userId="+userId+" ";
+            listUsers = entityManager.createQuery(query, Stock.class).getResultList();
+            return listUsers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     @Override
-    public Integer getStockTotal(Map<String, Object> reqData) {
+    public Integer getStockTotal(Map<String, Object> reqData, Integer userId) {
         Long totalData = null;
         try {
 
@@ -105,7 +114,7 @@ public class StockServiceImpl implements StockService {
                 stockFilter = filtered.get("stock") != null ? filtered.get("stock").toString().toLowerCase() : "";
             }
 
-            String query = "SELECT COUNT(a) FROM Stock a WHERE a.id>0 ";
+            String query = "SELECT COUNT(a) FROM Stock a WHERE a.userId="+userId+" ";
             if(!stockFilter.isEmpty()){
                 if(stockFilter.equalsIgnoreCase("EMPTY")){
                     query += "AND a.quantity = 0 ";
@@ -129,7 +138,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Map<String, Object> getStockPagination(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getStockPagination(Map<String, Object> reqData, int totalData, Integer userId) {
         List<Stock> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
@@ -170,7 +179,7 @@ public class StockServiceImpl implements StockService {
             }
             
             List<Stock> users = new LinkedList<>();
-            String query = "SELECT a FROM Stock a WHERE a.id>0 ";
+            String query = "SELECT a FROM Stock a WHERE a.userId="+userId+" ";
             if(!stockFilter.isEmpty()){
                 if(stockFilter.equalsIgnoreCase("EMPTY")){
                     query += " AND a.quantity = 0 ";

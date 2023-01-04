@@ -34,10 +34,14 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "userId")
+    private int userId;
+
     public Customer() {
     }
 
-    public Customer(int id, String name, Date dob, String gender, String address, String phone, String email) {
+
+    public Customer(int id, String name, Date dob, String gender, String address, String phone, String email, int userId) {
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -45,7 +49,17 @@ public class Customer {
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.userId = userId;
     }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 
     public int getId() {
         return this.id;

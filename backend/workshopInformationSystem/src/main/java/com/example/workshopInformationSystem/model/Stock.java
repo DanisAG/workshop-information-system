@@ -34,10 +34,14 @@ public class Stock {
     @Column(name = "minimumQty")
     private int minimumQty;
 
+    @Column(name = "userId")
+    private int userId;
+
     public Stock() {
     }
 
-    public Stock(int id, String name, int price, int quantity, Date created, Date updated, int minimumQty) {
+
+    public Stock(int id, String name, int price, int quantity, Date created, Date updated, int minimumQty, int userId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -45,7 +49,9 @@ public class Stock {
         this.created = created;
         this.updated = updated;
         this.minimumQty = minimumQty;
+        this.userId = userId;
     }
+
 
     public int getId() {
         return id;
@@ -101,6 +107,14 @@ public class Stock {
 
     public void setMinimumQty(int minimumQty) {
         this.minimumQty = minimumQty;
+    }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 }

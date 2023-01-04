@@ -32,14 +32,14 @@ public class CustomerController {
     @PostMapping("/add")
     public String add(@RequestBody Customer customer, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        customerService.saveCustomer(customer);
+        customerService.saveCustomer(customer, userService.getId(token));
         return "New Customer is added";
     }
 
     @PostMapping("/update")
     public String update(@RequestBody Customer customer, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        customerService.updateCustomer(customer);
+        customerService.updateCustomer(customer, userService.getId(token));
         return "Customer is Updated";
     }
 
@@ -56,14 +56,14 @@ public class CustomerController {
             result.put("customer", "Invalid Token");
             return result;
         }
-        int totalData = customerService.getCustomerTotal(reqData);
-        result = customerService.getCustomerPagination(reqData, totalData);
+        int totalData = customerService.getCustomerTotal(reqData, userService.getId(token));
+        result = customerService.getCustomerPagination(reqData, totalData, userService.getId(token));
         return result;
     }
     
     @GetMapping("/getAll")
-    public List<Customer> getAllCustomer(){
-        return customerService.getAllCustomers();
+    public List<Customer> getAllCustomer(@RequestHeader (name="Authorization") String token){
+        return customerService.getAllCustomers(userService.getId(token));
     }
 
 }

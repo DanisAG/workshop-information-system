@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     private EntityManager entityManager;
     
     @Override
-    public Customer saveCustomer(Customer customer){
+    public Customer saveCustomer(Customer customer, Integer userId){
         try {
 
             Customer customers = new Customer();
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
             customers.setAddress(customer.getAddress());
             customers.setPhone(customer.getPhone());
             customers.setEmail(customer.getEmail());
-
+            customers.setUserId(userId);
             customerRepository.save(customers);
 
             Map<String, Object> userData = new HashMap<>();
@@ -47,10 +47,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer){
+    public Customer updateCustomer(Customer customer, Integer userId){
         try {            
 
-            String query = "FROM Customer WHERE id = "+customer.getId()+" ";
+            String query = "FROM Customer WHERE id = "+customer.getId()+" AND userId = "+userId+" ";
 
             Query queryResult = entityManager.createQuery(query,Customer.class);
 
@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
             customers.setAddress(customer.getAddress());
             customers.setPhone(customer.getPhone());
             customers.setEmail(customer.getEmail());
-            
+            customers.setUserId(userId);
             customerRepository.save(customers);
 
             Map<String, Object> userData = new HashMap<>();
@@ -88,18 +88,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<Customer> getAllCustomers(Integer userId) {
+        try {
+            List<Customer> listUsers = new LinkedList<>();
+            String query = "SELECT a FROM Customer a WHERE a.userId="+userId+" ";
+            listUsers = entityManager.createQuery(query, Customer.class).getResultList();
+            return listUsers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override
-    public Integer getCustomerTotal(Map<String, Object> reqData) {
+    public Integer getCustomerTotal(Map<String, Object> reqData, Integer userId) {
         Long totalData = null;
         try {
 
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
 
-            String query = "SELECT COUNT(a) FROM Customer a WHERE a.id>0 ";
+            String query = "SELECT COUNT(a) FROM Customer a WHERE a.userId="+userId+" ";
 
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%' OR UPPER(a.email) LIKE '%" + key + "%' or UPPER(a.phone) LIKE '%" + key + "%') ";
@@ -115,7 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Map<String, Object> getCustomerPagination(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getCustomerPagination(Map<String, Object> reqData, int totalData, Integer userId) {
         List<Customer> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
@@ -151,7 +160,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
             
             List<Customer> users = new LinkedList<>();
-            String query = "SELECT a FROM Customer a WHERE a.id>0 ";
+            String query = "SELECT a FROM Customer a WHERE a.userId="+userId+" ";
 
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%' OR UPPER(a.email) LIKE '%" + key + "%' or UPPER(a.phone) LIKE '%" + key + "%') ";

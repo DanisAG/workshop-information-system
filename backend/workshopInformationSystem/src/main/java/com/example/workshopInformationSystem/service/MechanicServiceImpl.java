@@ -25,7 +25,7 @@ public class MechanicServiceImpl implements MechanicService {
     private EntityManager entityManager;
 
     @Override
-    public Mechanic saveMechanic(Mechanic mechanic){
+    public Mechanic saveMechanic(Mechanic mechanic, Integer userId){
         try {
 
             Mechanic mechanics = new Mechanic();
@@ -35,7 +35,7 @@ public class MechanicServiceImpl implements MechanicService {
             mechanics.setAddress(mechanic.getAddress());
             mechanics.setPhone(mechanic.getPhone());
             mechanics.setEmail(mechanic.getEmail());
-
+            mechanics.setUserId(userId);
             mechanicRepository.save(mechanics);
 
             Map<String, Object> userData = new HashMap<>();
@@ -48,10 +48,10 @@ public class MechanicServiceImpl implements MechanicService {
     }
 
     @Override
-    public Mechanic updateMechanic(Mechanic mechanic){
+    public Mechanic updateMechanic(Mechanic mechanic, Integer userId){
         try {            
 
-            String query = "FROM Mechanic WHERE id = "+mechanic.getId()+" ";
+            String query = "FROM Mechanic WHERE id = "+mechanic.getId()+" AND userId = "+userId+" ";
 
             Query queryResult = entityManager.createQuery(query,Mechanic.class);
 
@@ -65,7 +65,7 @@ public class MechanicServiceImpl implements MechanicService {
             mechanics.setAddress(mechanic.getAddress());
             mechanics.setPhone(mechanic.getPhone());
             mechanics.setEmail(mechanic.getEmail());
-
+            mechanics.setUserId(userId);
             
             mechanicRepository.save(mechanics);
 
@@ -90,18 +90,26 @@ public class MechanicServiceImpl implements MechanicService {
     }
 
     @Override
-    public List<Mechanic> getAllMechanics() {
-        return mechanicRepository.findAll();
+    public List<Mechanic> getAllMechanics(Integer userId) {
+        try {
+            List<Mechanic> listUsers = new LinkedList<>();
+            String query = "SELECT a FROM Mechanic a WHERE a.userId="+userId+" ";
+            listUsers = entityManager.createQuery(query, Mechanic.class).getResultList();
+            return listUsers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public Integer getMechanicTotal(Map<String, Object> reqData) {
+    public Integer getMechanicTotal(Map<String, Object> reqData, Integer userId) {
         Long totalData = null;
         try {
 
             String key = reqData.get("keyword") != null ? reqData.get("keyword").toString().toLowerCase() : "";
 
-            String query = "SELECT COUNT(a) FROM Mechanic a WHERE a.id>0 ";
+            String query = "SELECT COUNT(a) FROM Mechanic a WHERE a.userId="+userId+" ";
 
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%' OR UPPER(a.email) LIKE '%" + key + "%' or UPPER(a.phone) LIKE '%" + key + "%') ";
@@ -117,7 +125,7 @@ public class MechanicServiceImpl implements MechanicService {
     }
 
     @Override
-    public Map<String, Object> getMechanicPagination(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getMechanicPagination(Map<String, Object> reqData, int totalData, Integer userId) {
         List<Mechanic> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
@@ -153,7 +161,7 @@ public class MechanicServiceImpl implements MechanicService {
             }
             
             List<Mechanic> users = new LinkedList<>();
-            String query = "SELECT a FROM Mechanic a WHERE a.id>0 ";
+            String query = "SELECT a FROM Mechanic a WHERE a.userId="+userId+" ";
 
             if(!key.isEmpty()){
                 query += " AND (UPPER(a.name) LIKE '%" + key + "%' OR UPPER(a.email) LIKE '%" + key + "%' or UPPER(a.phone) LIKE '%" + key + "%') ";

@@ -52,22 +52,28 @@ public class Transaction {
     @Column(name = "updated")
     private Date updated;
 
+    @Column(name = "userId")
+    private int userId;
+
     public Transaction() {
     }
 
-    public Transaction(int id, Mechanic mechanic, Customer customer, Stock stock, String type, String name, int price, int quantity, String status, Date created, Date updated) {
+
+    public Transaction(int id, Mechanic mechanic, Customer customer, Stock stock, String name, String type, int price, int quantity, String status, Date created, Date updated, int userId) {
         this.id = id;
         this.mechanic = mechanic;
         this.customer = customer;
         this.stock = stock;
-        this.type = type;
         this.name = name;
+        this.type = type;
         this.price = price;
         this.quantity = quantity;
         this.status = status;
         this.created = created;
         this.updated = updated;
+        this.userId = userId;
     }
+
 
     public int getId() {
         return this.id;
@@ -156,4 +162,13 @@ public class Transaction {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 }

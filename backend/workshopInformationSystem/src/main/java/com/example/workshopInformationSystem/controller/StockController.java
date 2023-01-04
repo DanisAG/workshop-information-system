@@ -32,14 +32,15 @@ public class StockController {
     @PostMapping("/add")
     public String add(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        stockService.saveStock(stock);
+
+        stockService.saveStock(stock, userService.getId(token));
         return "New Stock is added";
     }
 
     @PostMapping("/update")
     public String update(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        stockService.updateStock(stock);
+        stockService.updateStock(stock, userService.getId(token));
         return "Stock is Updated";
     }
 
@@ -56,7 +57,7 @@ public class StockController {
             result.put("stock", "Invalid Token");
             return result;
         }
-        result.put("stock", stockService.getAllStocks());
+        result.put("stock", stockService.getAllStocks(userService.getId(token)));
         return result;
     }
   
@@ -67,8 +68,8 @@ public class StockController {
             result.put("stock", "Invalid Token");
             return result;
         }
-        int totalData = stockService.getStockTotal(reqData);
-        result = stockService.getStockPagination(reqData, totalData);
+        int totalData = stockService.getStockTotal(reqData, userService.getId(token));
+        result = stockService.getStockPagination(reqData, totalData, userService.getId(token));
         return result;
     }
 

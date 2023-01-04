@@ -35,13 +35,14 @@ public class TransactionServiceImpl  implements TransactionService {
     private EntityManager entityManager;
     
     @Override
-    public Transaction saveTransaction(TransactionPayload transaction){
+    public Transaction saveTransaction(TransactionPayload transaction, Integer userId){
         try {            
 
             Transaction transactions = new Transaction();
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
             transactions.setStatus(transaction.getStatus());
+            transactions.setUserId(userId);
             String query = "FROM Mechanic WHERE id = "+transaction.getMechanic()+" ";
             Query queryResult = entityManager.createQuery(query,Mechanic.class);
             Mechanic mechanic = (Mechanic) queryResult.getSingleResult();
@@ -90,10 +91,10 @@ public class TransactionServiceImpl  implements TransactionService {
     
     
     @Override
-    public Transaction updateTransaction(TransactionPayload transaction){
+    public Transaction updateTransaction(TransactionPayload transaction, Integer userId){
         try {            
 
-            String query = "FROM Transaction WHERE id = "+transaction.getId()+" ";
+            String query = "FROM Transaction WHERE id = "+transaction.getId()+" AND userId = "+userId+" ";
 
             Query queryResult = entityManager.createQuery(query,Transaction.class);
 
@@ -102,6 +103,7 @@ public class TransactionServiceImpl  implements TransactionService {
             transactions.setId(transaction.getId());
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
+            transactions.setUserId(userId);
             query = "FROM Mechanic WHERE id = "+transaction.getMechanic()+" ";
             queryResult = entityManager.createQuery(query,Mechanic.class);
             Mechanic mechanic = (Mechanic) queryResult.getSingleResult();
@@ -146,7 +148,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Integer getTransactionTotal(Map<String, Object> reqData) {
+    public Integer getTransactionTotal(Map<String, Object> reqData, Integer userId) {
         Long totalData = null;
         try {
 
@@ -165,7 +167,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 customer = filtered.get("customer") != null ? filtered.get("customer").toString().toLowerCase() : "";
             }
 
-            String query = "SELECT COUNT(a) FROM Transaction a WHERE a.id>0 ";
+            String query = "SELECT COUNT(a) FROM Transaction a WHERE a.userId="+userId+" ";
 
             if(!type.isEmpty()){  
                 query += "AND (a.type LIKE '%" + type + "%') ";                
@@ -193,7 +195,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Map<String, Object> getTransactionPagination(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getTransactionPagination(Map<String, Object> reqData, int totalData, Integer userId) {
         List<TransactionRequest> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
@@ -240,7 +242,7 @@ public class TransactionServiceImpl  implements TransactionService {
             }
             
             List<Transaction> users = new LinkedList<>();
-            String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
+            String query = "SELECT a FROM Transaction a WHERE a.userId="+userId+" ";
 
             if(!type.isEmpty()){  
                 query += "AND (a.type LIKE '%" + type + "%') ";                
@@ -297,7 +299,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Integer getTransactionTotalFinancial(Map<String, Object> reqData) {
+    public Integer getTransactionTotalFinancial(Map<String, Object> reqData, Integer userId) {
         Long totalData = null;
         try {
 
@@ -318,7 +320,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 day = filtered.get("day") != null ? filtered.get("day").toString().toLowerCase() : "";
             }
 
-            String query = "SELECT COUNT(a) FROM Transaction a WHERE a.id>0 ";
+            String query = "SELECT COUNT(a) FROM Transaction a WHERE a.userId="+userId+" ";
 
             if(!type.isEmpty()){  
                 query += "AND (a.type LIKE '%" + type + "%') ";                
@@ -349,7 +351,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Map<String, Object> getTransactionPaginationFinancial(Map<String, Object> reqData, int totalData) {
+    public Map<String, Object> getTransactionPaginationFinancial(Map<String, Object> reqData, int totalData, Integer userId) {
         List<FinancialRequest> listUsers = new LinkedList<>();
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> pagination = new HashMap<>();
@@ -398,7 +400,7 @@ public class TransactionServiceImpl  implements TransactionService {
             }
             
             List<Transaction> users = new LinkedList<>();
-            String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
+            String query = "SELECT a FROM Transaction a WHERE a.userId="+userId+" ";
 
             if(!type.isEmpty()){  
                 query += "AND (a.type LIKE '%" + type + "%') ";                
@@ -464,7 +466,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Map<String, Object> getReport(Map<String, Object> reqData) {
+    public Map<String, Object> getReport(Map<String, Object> reqData, Integer userId) {
         Map<String, Object> datas = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
         List<FinancialRequest> listUsers = new LinkedList<>();
@@ -482,7 +484,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 day = filtered.get("day") != null ? filtered.get("day").toString().toLowerCase() : "";
             }
             List<Transaction> users = new LinkedList<>();
-            String query = "SELECT a FROM Transaction a WHERE a.id>0 ";
+            String query = "SELECT a FROM Transaction a WHERE a.userId="+userId+" ";
 
             if(!day.isEmpty()){  
                 query += "AND (DAY(a.created)="+ day +") ";                
@@ -542,7 +544,7 @@ public class TransactionServiceImpl  implements TransactionService {
     }
 
     @Override
-    public Map<String, Object> mostStock() {
+    public Map<String, Object> mostStock(Integer userId) {
         
         Map<String, Object> data = new HashMap<>();
         List<Map<String, Object>> listStock = new LinkedList<>();
@@ -550,7 +552,7 @@ public class TransactionServiceImpl  implements TransactionService {
 
 
             List<Object[]> results = new LinkedList<>();
-            String query = "SELECT stock.name, stock.minimumQty, stock.quantity, COUNT(stock) FROM Transaction GROUP BY stock ";
+            String query = "SELECT stock.name, stock.minimumQty, stock.quantity, COUNT(stock) FROM Transaction WHERE userId="+userId+" GROUP BY stock ";
 
             System.out.println(query);
             results = entityManager.createQuery(query, Object[].class).getResultList();
