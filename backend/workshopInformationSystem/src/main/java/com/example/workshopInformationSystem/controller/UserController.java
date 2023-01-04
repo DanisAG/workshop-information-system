@@ -30,6 +30,12 @@ public class UserController {
         return "New User is added";
     }
 
+    @PostMapping("/update")
+    public String update(@RequestBody User user){
+        userService.updateUser(user);
+        return "User is updated";
+    }
+
     @GetMapping("/getAll")
     public List<User> getAllUsers(){
         return userService.getAllUsers();

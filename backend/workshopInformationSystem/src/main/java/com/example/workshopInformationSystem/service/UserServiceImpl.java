@@ -62,6 +62,38 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public User updateUser(User user){
+        try {            
+            String query = "FROM User WHERE id = "+user.getId()+" ";
+
+            Query queryResult = entityManager.createQuery(query,User.class);
+
+            User users = (User) queryResult.getSingleResult();
+            // users.setUsername(user.getUsername());
+            // users.setEmail(user.getEmail());
+            users.setPassword(user.getPassword()); 
+            // users.setToken(new CommonMethod().generateToken());
+    
+            // Calendar calendar = Calendar.getInstance();
+            // calendar.setTime(new Date());
+            // calendar.add(Calendar.HOUR_OF_DAY, 12);
+
+            // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            // sdf.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+            // Date dtNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sdf.format(calendar.getTime()));
+            // // Date date = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            // users.setExpiredDate(dtNow);
+            userRepository.save(users);
+
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("user", users);
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public User logInUser(User user){
         try {            
