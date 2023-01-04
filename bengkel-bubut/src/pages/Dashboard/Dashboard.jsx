@@ -182,8 +182,8 @@ const Dashboard = (props) => {
       <Row>
         <Breadcrumbs icon={icon} activeName="Dashboard" />
       </Row>
-      <div className="d-flex justify-content-between">
-        <div>
+      <div className="d-flex">
+        <div className={styles.left}>
           <div className={styles.leftTop}>
             <div className={styles.leftTopCard}>
               <div className={styles.saleTitle}>TOTAL SALES TODAY</div>
@@ -313,7 +313,7 @@ const Dashboard = (props) => {
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />
-              <div className={styles.lowStockTitle}>LOW STOCK ITEM</div>
+              <div className={styles.lowStockTitle}>LOW STOCK ITEMS</div>
             </div>
             <div>
               {filteredStocks.length > 0 ? (

@@ -16,6 +16,7 @@ import AuthContext from "./store/AuthContext";
 import Filter from "./Filter";
 import styles from "../styles/Chart.module.css";
 import moment from "moment";
+import { AiOutlineTransaction } from "react-icons/ai";
 
 ChartJS.register(
   CategoryScale,
@@ -64,7 +65,7 @@ export const Chart = () => {
   const initialFilterData = {
     filter: {
       month: filterChart.month,
-      year: filterChart.year
+      year: filterChart.year,
     },
   };
   const filterData = useRef(initialFilterData);
@@ -125,14 +126,31 @@ export const Chart = () => {
 
   return (
     <>
-      <div className={styles.filterDiv}>
-        <Filter
-          chart={true}
-          filterChart={filterChart}
-          setFilterChart={setFilterChart}
+      <div className={styles.overview}>
+        <div className={styles.overviewHeader}>
+          <AiOutlineTransaction size={40} className={styles.icon} />
+          <div className="mb-auto mt-auto">
+            <div className={styles.title}>Overview Transaction Report - Year {filterChart.year}</div>
+            <div className={styles.updateDate}>
+              Update Terakhir: Hari Ini, 20 Oktober 2022 12.00 WIB
+            </div>
+          </div>
+          <div className={styles.filterDiv}>
+            <Filter
+              chart={true}
+              filterChart={filterChart}
+              setFilterChart={setFilterChart}
+              className={styles.filter}
+            />
+          </div>
+        </div>
+
+        <Bar
+          options={{ options, maintainAspectRatio: false }}
+          data={data}
+          className={styles.bar}
         />
       </div>
-      <Bar options={options} data={data} />
     </>
   );
 };

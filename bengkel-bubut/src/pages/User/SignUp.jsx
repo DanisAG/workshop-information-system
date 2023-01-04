@@ -23,13 +23,13 @@ const SignUp = () => {
             </div>
           </div>
           <div className={styles.image}>
-            <img src={logo} width="90%" height="85%" />
+            <img src={logo} width="90%" height="85%" alt="" />
           </div>
         </div>
       </div>
       <div className={styles.rightContentDiv}>
         <div className={styles.rightTop}>
-          Sudah Punya Akun?{" "}
+          Already Have An Account?{" "}
           <Link to="/" style={{ color: "#6F6AF8" }}>
             Log In
           </Link>

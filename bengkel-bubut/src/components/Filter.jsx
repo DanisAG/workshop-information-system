@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "../styles/TableTransaksi.module.css";
 import Select from "react-select";
 import formStyles from "../styles/Form.module.css";
+import moment from "moment";
 
 const Filter = (props) => {
   const [filterOpen, setFilterOpen] = useState(false);
@@ -49,7 +50,7 @@ const Filter = (props) => {
       ? props?.setFilter({ status: "", type: "" })
       : props.reportFilter
       ? props?.setFilterDataPerPeriod({ month: "", year: "" })
-      : props.chart && props?.setFilterChart({ month: "", year: "" });
+      : props.chart && props?.setFilterChart({ month: "", year: moment().year() });
   };
 
   return (

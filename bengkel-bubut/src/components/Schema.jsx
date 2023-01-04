@@ -3,12 +3,26 @@ import * as yup from "yup";
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 const phonenumber = /^08[0-9]{10,}$/;
 export const loginSchema = yup.object().shape({
-  username: yup.string().required("Required"),
+  email: yup.string().email("Invalid Email").required("Email Cannot Be Empty"),
   password: yup
     .string()
     .min(5)
     .matches(passwordRules, { message: "Please create a stronger password" })
-    .required("Required"),
+    .required("Password Cannot Be Empty"),
+});
+
+export const signupSchema = yup.object().shape({
+  email: yup.string().email("Invalid Email").required("Email Cannot Be Empty"),
+  username: yup.string().required("Username Cannot Be Empty"),
+  password: yup
+    .string()
+    .min(5)
+    .matches(passwordRules, { message: "Please create a stronger password" })
+    .required("Password Cannot Be Empty"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Password confirmation cannot be empty"),
 });
 
 export const customerSchema = yup.object().shape({

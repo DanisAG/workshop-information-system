@@ -44,6 +44,8 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("expiredDate");
   }
 
+  console.log(remainingTime);
+
   setTimeout(logoutHandler, remainingTime);
 
   const contextValue = {

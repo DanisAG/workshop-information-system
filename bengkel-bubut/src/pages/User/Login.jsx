@@ -3,8 +3,7 @@ import logo from "../../Images/login.png";
 import Form from "../../components/User/Form";
 import { Link, Navigate } from "react-router-dom";
 import {useState, useEffect, useContext} from "react";
-import {useFormik} from "formik";
-import { UserContext } from "../../App";
+
 import AuthContext from "../../components/store/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +19,6 @@ const Login = () => {
         });
     }, []);  
 
-    const navigate = useNavigate();
     const authCtx = useContext(AuthContext)
 
     if(authCtx.isLoggedIn) {
@@ -38,7 +36,7 @@ const Login = () => {
             </div>
           </div>
           <div className={styles.image}>
-            <img src={logo} width="90%" height="85%" />
+            <img src={logo} width="90%" height="85%" alt="" />
           </div>
         </div>
       </div>

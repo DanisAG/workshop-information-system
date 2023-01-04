@@ -17,6 +17,7 @@ import { useEffect } from "react";
 const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
   const [allStocks, setAllStocks] = useState([]);
+  const [mostStocks, setMostStocks] = useState([]);
   const authCtx = useContext(AuthContext);
   const toggle = (tab) => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
@@ -56,12 +57,45 @@ const Stock = () => {
       });
   };
 
+  const getMostStocks = async () => {
+    await fetch("http://localhost:8080/transaction/mostStock", {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // eslint-disable-next-line no-throw-literal
+          throw "Error";
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setMostStocks(result.result);
+      });
+  };
+
   const filteredStocks = allStocks?.filter(
     (data) => data.quantity < data.minimumQty
   );
+
+  function myFunc(total, num) {
+    return (total + num.count);
+  }
+
+  const averageStocks = mostStocks.reduce(myFunc,0) / mostStocks.length
+  console.log(mostStocks)
+
+  const sortedStocks = mostStocks.filter(data => data.count >= averageStocks).sort(function (a, b) {
+    return b.count - a.count;
+  });
+
   useEffect(() => {
     getAllStocks();
+    getMostStocks();
   }, []);
+
+  console.log(sortedStocks);
   return (
     <div className={styles.content}>
       <div className={styles.breadcrumbs}>
@@ -80,7 +114,7 @@ const Stock = () => {
               </div>
             </div>
             <div className={styles.chart}>
-              <Chart />
+              <Chart sortedStocks={sortedStocks}/>
             </div>
           </div>
           <div className={styles.table}>
@@ -91,21 +125,25 @@ const Stock = () => {
           <div className={styles.lowStock}>
             <div className={styles.lowStockTitleDiv}>
               <AiFillWarning size={35} />
-              <div className={styles.lowStockTitle}>LOW STOCK ITEM</div>
+              <div className={styles.lowStockTitle}>LOW STOCK ITEMS</div>
             </div>
             <div>
               {filteredStocks.length > 0 ? (
                 filteredStocks.map((item) => {
                   return (
-                    <div className={styles.clickedItem} key={item.id} onClick={() => {
-                      navigate("/editStock", {
-                        state: {
-                          id: item.id,
-                          allData: allStocks,
-                          status: "Edit",
-                        },
-                      });
-                    }}>
+                    <div
+                      className={styles.clickedItem}
+                      key={item.id}
+                      onClick={() => {
+                        navigate("/editStock", {
+                          state: {
+                            id: item.id,
+                            allData: allStocks,
+                            status: "Edit",
+                          },
+                        });
+                      }}
+                    >
                       <div className={styles.leftData}>
                         <div className={styles.namaBarang}>{item.name}</div>
                         <div className={styles.minQuantity}>
@@ -124,51 +162,23 @@ const Stock = () => {
           <div className={styles.lowStock}>
             <div className={styles.readyStockTitleDiv}>
               <AiFillStar size={40} className={styles.iconReady} />
-              <div className={styles.readyStockTitle}>
-                BARANG SERING TERPAKAI
-              </div>
+              <div className={styles.readyStockTitle}>AVERAGE USED ITEMS</div>
             </div>
             <div className="pb-1">
-              <div className="d-flex">
-                <div className={styles.bottomData}>
-                  <TbNumber1 className={styles.number} size={23} />
-                  <div className={styles.namaBarang}>Besi 1</div>
-                </div>
-                <div className={styles.transaction}>
-                  <BsArrowUpShort size={23} className="my-auto" />
-                  10 Transaksi
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.bottomData}>
-                  <TbNumber2 className={styles.number} size={23} />
-                  <div className={styles.namaBarang}>Besi 2</div>
-                </div>
-                <div className={styles.transaction}>
-                  <BsArrowUpShort size={23} className="my-auto" />
-                  10 Transaksi
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.bottomData}>
-                  <TbNumber3 className={styles.number} size={23} />
-                  <div className={styles.namaBarang}>Besi 3</div>
-                </div>
-                <div className={styles.transaction}>
-                  <BsArrowUpShort size={23} className="my-auto" />
-                  10 Transaksi
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className={styles.bottomData}>
-                  <TbNumber4 className={styles.number} size={23} />
-                  <div className={styles.namaBarang}>Besi 4</div>
-                </div>
-                <div className={styles.transaction}>
-                  <BsArrowUpShort size={23} className="my-auto" />
-                  10 Transaksi
-                </div>
-              </div>
+              {sortedStocks.map((data, index) => {
+                return (
+                  <div className="d-flex" key={index}>
+                    <div className={styles.bottomData}>
+                      <TbNumber1 className={styles.number} size={23} />
+                      <div className={styles.namaBarang}>{data.name}</div>
+                    </div>
+                    <div className={styles.transaction}>
+                      <BsArrowUpShort size={23} className="my-auto" />
+                      {data.count} {data.count > 1 ? "Transactions" : "Transaction"}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
