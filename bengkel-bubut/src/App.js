@@ -20,6 +20,7 @@ import EditMechanic from "./pages/Mechanic/EditMechanic";
 import Mechanic from "./pages/Mechanic/Mechanic";
 import Transaction from "./pages/Transaction/Transaction";
 import AddOrEdit from "./pages/Transaction/AddOrEdit";
+import ChangePassword from "./pages/User/ChangePassword";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/addStock" element={<AddStock />} />
               <Route path="/addTransaction" element={<AddOrEdit />} />
               <Route path="/editTransaction" element={<AddOrEdit />} />
+              <Route path="/changePassword" element={<ChangePassword />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -68,6 +70,8 @@ const App = () => {
             <Route path="/editCustomer" element={<EditCustomer />} />
             <Route path="/addTransaction" element={<AddOrEdit />} />
             <Route path="/editTransaction" element={<AddOrEdit />} />
+            <Route path="/changePassword" element={<ChangePassword />} />
+
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

@@ -25,6 +25,18 @@ export const signupSchema = yup.object().shape({
     .required("Password confirmation cannot be empty"),
 });
 
+export const changePasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(5)
+    .matches(passwordRules, { message: "Please create a stronger password" })
+    .required("Password Cannot Be Empty"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Password confirmation cannot be empty"),
+});
+
 export const customerSchema = yup.object().shape({
   name: yup.string().required("Customer name cannot be empty"),
   dob: yup.date().required("Date of Birth cannot be empty"),

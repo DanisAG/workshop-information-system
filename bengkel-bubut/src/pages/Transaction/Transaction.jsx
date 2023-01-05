@@ -10,6 +10,7 @@ const Transaction = () => {
     buttonText: "Add Transaction",
     filterStatus: true,
     transactionFilterStatus: true,
+    exportExcel: true,
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",

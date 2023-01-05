@@ -7,7 +7,7 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import AuthContext from "./store/AuthContext";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 
 const Breadcrumbs = (props) => {
@@ -18,28 +18,26 @@ const Breadcrumbs = (props) => {
   const [userData, setUserData] = useState([]);
   const logoutHandler = () => {
     swal
-    .fire({
-      title: "Confirmation",
-      text: "Are you sure to logout?",
-      icon: "warning",
-      showCancelButton: true,
-      cancelButtonColor: "#d33",
-      confirmButtonColor: "#3085d6",
-      confirmButtonText: "Add",
-    })
-    .then( async(result) => {
-      if (result.isConfirmed) {
-        authCtx.logout();
-        navigate("/login");    
-      }
-    });
-   
-  }
-
+      .fire({
+        title: "Confirmation",
+        text: "Are you sure to logout?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Logout",
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          authCtx.logout();
+          navigate("/login");
+        }
+      });
+  };
 
   useEffect(() => {
-    const data = {token: authCtx.token};
-    fetch("http://localhost:8080/user/getbytoken",{
+    const data = { token: authCtx.token };
+    fetch("http://localhost:8080/user/getbytoken", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,14 +48,17 @@ const Breadcrumbs = (props) => {
       .then((result) => {
         setUserData(result.user);
       });
-  }, []);  
-  
+  }, []);
+
   return (
-    <div className="d-flex justify-content-between" style={{marginBottom : "1.6rem"}}>
-      <div className="d-flex" style={{minWidth: "70vw"}}>
+    <div
+      className="d-flex justify-content-between"
+      style={{ marginBottom: "1.6rem" }}
+    >
+      <div className="d-flex" style={{ minWidth: "70vw" }}>
         <h3 className={styles.breadcrumbs}>
           <b>{moment().format("dddd, MMMM Do YYYY")}</b>
-          <div className="d-flex" style={{height: "6vh"}}>
+          <div className="d-flex" style={{ height: "6vh" }}>
             <img
               src={props.icon}
               className={styles.icon}
@@ -69,7 +70,9 @@ const Breadcrumbs = (props) => {
             <Breadcrumb>
               {props.name && (
                 <BreadcrumbItem className={styles.text}>
-                  <Link to={props.url} style={{color: "#6F6AF8"}}>{props.name}</Link>
+                  <Link to={props.url} style={{ color: "#6F6AF8" }}>
+                    {props.name}
+                  </Link>
                 </BreadcrumbItem>
               )}
               <BreadcrumbItem className={styles.text} active>
@@ -94,7 +97,24 @@ const Breadcrumbs = (props) => {
               {userData.username}
             </div>
             <div className={styles.userRole}>Administrator</div>
-            {isOpen ? <div className={styles.logout} onClick={logoutHandler}>Log Out</div> : ""}
+            {isOpen ? (
+              <>
+                <div className={styles.logout} onClick={() => {
+                      navigate("/changePassword", {
+                        state: {
+                          changePasswordStatus: true,
+                        },
+                      });
+                    }}>
+                  Change Password
+                </div>
+                <div className={styles.logout} onClick={logoutHandler}>
+                  Log Out
+                </div>{" "}
+              </>
+            ) : (
+              ""
+            )}
           </div>
           <div
             className={isOpen ? styles.dropdownDivExpand : styles.dropdownDiv}

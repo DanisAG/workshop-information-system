@@ -19,6 +19,7 @@ import ReactPaginate from "react-paginate";
 import moment from "moment";
 import { NumericFormat } from "react-number-format";
 import "../styles/Pagination.css";
+import ExportExcel from "./Transaction/ExportExcel";
 
 const TableData = (props) => {
   const navigate = useNavigate();
@@ -214,6 +215,8 @@ const TableData = (props) => {
     iconTable: "",
   };
 
+  console.log()
+
   return (
     <>
       <div className={styles.divTable}>
@@ -225,6 +228,9 @@ const TableData = (props) => {
                   {props.data.iconTable}
                 </div>
                 <div className={styles.headerTitle}>{props.data.title}</div>
+              </div>
+              <div>
+                {props.data.exportExcel && <ExportExcel/>}
               </div>
             </div>
 
