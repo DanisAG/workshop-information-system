@@ -185,5 +185,88 @@
   padding: 0.1rem 0.3rem;
   width: fit-content;
   margin-right: auto;
+}
 
+.modalContainer{
+  /* position: relative; */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal{
+  position: absolute;
+  width: 30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #ffffff;
+  box-shadow: 0px 0px 0.7rem rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.formTitle{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 32px;
+    letter-spacing: 0.05em;
+    text-align: left;
+
+}
+
+.formHeader {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-bottom: 15px;
+  background-color: #6f6af8;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  color: white;
+}
+
+.close{
+  cursor: pointer;
+}
+
+.datepicker {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  padding-left: 12px;
+  font-size: 1rem;
+
+}
+
+.datepickerError {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  padding-left: 12px;
+  border-color: #fc8181;
+  border-width: thin;
+  font-size: 0.88rem;
+}
+
+.error {
+  color: #fc8181;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-top: 0.25rem;
 }

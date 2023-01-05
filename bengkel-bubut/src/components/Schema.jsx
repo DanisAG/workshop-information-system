@@ -92,3 +92,41 @@ export const transactionSchema = (data) =>
       }),
     status: yup.string().required("Status cannot be empty"),
   });
+
+  
+  const context = {
+   startDate: "",
+    endDate: ""
+  }
+  
+ 
+
+export const exportExcelSchema = () =>
+  yup.object().shape({
+    // startDate: yup.string().when('endDate', {
+    //   is: (endDate,node) => endDate.length > 0,
+    //   then: yup.string()
+    //     .required('Field is required')
+    // }).nullable(),
+    // endDate: yup.string().when('startDate',{
+    //   is: (value) => !!value,
+    //   then: yup.string().required('This is a required field.').nullable()
+    // }).nullable()
+    startDate: yup.string().nullable().when("endDate", (endDate) => {
+      if (endDate) {
+        return yup
+          .string()
+          .required("Start Date is required")
+          .typeError("Start Date is required");
+      }
+    }),
+    endDate: yup.string().nullable().when("startDate", (startDate) => {
+      if (startDate) {
+        return yup
+          .date()
+            .min(startDate, "End Date must be after Start Date")
+          .required("End Date is required")
+          .typeError("End Date is required");
+      }
+    }),
+  },['startDate', 'endDate']);
