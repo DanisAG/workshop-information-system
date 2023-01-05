@@ -30,27 +30,27 @@ public class MechanicController {
     private UserService userService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
+    public String saveMechanic(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         mechanicService.saveMechanic(mechanic, userService.getId(token));
         return "New Mechanic is added";
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
+    public String updateMechanic(@RequestBody Mechanic mechanic, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         mechanicService.updateMechanic(mechanic, userService.getId(token));
         return "Mechanic is Updated";
     }
 
     @DeleteMapping("/delete/{id}")
-    public String update(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
+    public String deleteMechanic(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
         if(userService.checkToken(token)==false)return "Invalid Token";
         return mechanicService.deleteMechanic(id);
     }
     
     @PostMapping("/getList")
-    public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+    public Map<String,Object> getMechanicPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
             result.put("mechanic", "Invalid Token");
@@ -62,7 +62,7 @@ public class MechanicController {
     }
 
     @GetMapping("/getAll")
-    public List<Mechanic> getAllMechanic(@RequestHeader (name="Authorization") String token){
+    public List<Mechanic> getAllMechanics(@RequestHeader (name="Authorization") String token){
         return mechanicService.getAllMechanics(userService.getId(token));
     }
 

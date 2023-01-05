@@ -25,13 +25,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public String add(@RequestBody User user){
+    public String saveUser(@RequestBody User user){
         userService.saveUser(user);
         return "New User is added";
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody User user){
+    public String updateUser(@RequestBody User user){
         userService.updateUser(user);
         return "User is updated";
     }

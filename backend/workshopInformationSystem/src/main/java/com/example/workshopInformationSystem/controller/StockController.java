@@ -30,7 +30,7 @@ public class StockController {
     private UserService userService;
     
     @PostMapping("/add")
-    public String add(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
+    public String saveStock(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
 
         stockService.saveStock(stock, userService.getId(token));
@@ -38,20 +38,20 @@ public class StockController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
+    public String updateStock(@RequestBody Stock stock, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         stockService.updateStock(stock, userService.getId(token));
         return "Stock is Updated";
     }
 
     @DeleteMapping("/delete/{id}")
-    public String update(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
+    public String deleteStock(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
         if(userService.checkToken(token)==false)return "Invalid Token";
         return stockService.deleteStock(id);
     }
 
     @GetMapping("/getAll")
-    public Map<String,Object> getAllStudents(@RequestHeader (name="Authorization") String token){
+    public Map<String,Object> getAllStocks(@RequestHeader (name="Authorization") String token){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
             result.put("stock", "Invalid Token");
@@ -62,7 +62,7 @@ public class StockController {
     }
   
     @PostMapping("/getList")
-    public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+    public Map<String,Object> getStockPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
             result.put("stock", "Invalid Token");

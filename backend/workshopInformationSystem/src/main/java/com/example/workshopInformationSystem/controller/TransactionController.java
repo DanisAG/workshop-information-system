@@ -35,27 +35,27 @@ public class TransactionController {
     private UserService userService;
     
     @PostMapping("/add")
-    public String add(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
+    public String saveTransaction(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         transactionService.saveTransaction(transaction, userService.getId(token));
         return "New Transaction is added";
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
+    public String updateTransaction(@RequestBody TransactionPayload transaction, @RequestHeader (name="Authorization") String token){
         if(userService.checkToken(token)==false)return "Invalid Token";
         transactionService.updateTransaction(transaction, userService.getId(token));
         return "Transaction is Updated";
     }
 
     @DeleteMapping("/delete/{id}")
-    public String update(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
+    public String deleteTransaction(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
         if(userService.checkToken(token)==false)return "Invalid Token";
         return transactionService.deleteTransaction(id);
     }
 
     @PostMapping("/getList")
-    public Map<String,Object> getPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+    public Map<String,Object> getTransactionPagination(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
             result.put("transaction", "Invalid Token");
@@ -67,7 +67,7 @@ public class TransactionController {
     }
 
     @PostMapping("/getList/financial")
-    public Map<String,Object> getPaginationFinancial(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
+    public Map<String,Object> getTransactionPaginationFinancial(@RequestHeader (name="Authorization") String token, @RequestBody Map<String, Object> reqData){
         Map<String,Object> result = new HashMap<>();
         if(userService.checkToken(token)==false){
             result.put("transaction", "Invalid Token");
@@ -101,7 +101,7 @@ public class TransactionController {
     }
 
     @PostMapping("/export")
-    public void exportRecord(@RequestHeader (name="Authorization") String token, HttpServletResponse response, @RequestBody Map<String, Object> payload) {
+    public void exportData(@RequestHeader (name="Authorization") String token, HttpServletResponse response, @RequestBody Map<String, Object> payload) {
         try { 
             transactionService.exportData(response, payload, userService.getId(token));
         } catch (Exception e) {
