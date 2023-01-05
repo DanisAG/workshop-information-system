@@ -679,14 +679,14 @@ public class TransactionServiceImpl  implements TransactionService {
                         Date date = inputFormat.parse(map.get("date").toString());
                         row.createCell(1).setCellValue(df.format(date));
                     }
-                    row.createCell(2).setCellValue((String) map.get("name").toString());
-                    row.createCell(3).setCellValue((String) map.get("type").toString());
-                    row.createCell(4).setCellValue((String) map.get("customer").toString());
-                    row.createCell(5).setCellValue((String) map.get("mechanic").toString());
-                    row.createCell(6).setCellValue((String) map.get("stock").toString());
-                    row.createCell(7).setCellValue((String) map.get("price").toString());
-                    row.createCell(8).setCellValue((String) map.get("status").toString());
-                    row.createCell(9).setCellValue((String) map.get("quantity").toString());
+                    if(map.get("name")!=null)row.createCell(2).setCellValue((String) map.get("name").toString());
+                    if(map.get("type")!=null)row.createCell(3).setCellValue((String) map.get("type").toString());
+                    if(map.get("customer")!=null)row.createCell(4).setCellValue((String) map.get("customer").toString());
+                    if(map.get("mechanic")!=null)row.createCell(5).setCellValue((String) map.get("mechanic").toString());
+                    if(map.get("stock")!=null)row.createCell(6).setCellValue((String) map.get("stock").toString());
+                    if(map.get("price")!=null)row.createCell(7).setCellValue((String) map.get("price").toString());
+                    if(map.get("status")!=null)row.createCell(8).setCellValue((String) map.get("status").toString());
+                    if(map.get("quantity")!=null)row.createCell(9).setCellValue((String) map.get("quantity").toString());
               
                     index++;
                     count++;
