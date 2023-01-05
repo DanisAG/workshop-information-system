@@ -67,6 +67,9 @@ const AddOrEdit = () => {
   const getAllCustomers = async () => {
     await fetch("http://localhost:8080/customer/getAll", {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
     })
       .then((res) => res.json())
       .then((result) => {
@@ -79,6 +82,7 @@ const AddOrEdit = () => {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
+      method: "GET"
     })
       .then((res) => {
         if (!res.ok) {
@@ -95,6 +99,9 @@ const AddOrEdit = () => {
   const getAllMechanics = async () => {
     await fetch("http://localhost:8080/mechanic/getAll", {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
     })
       .then((res) => res.json())
       .then((result) => {
