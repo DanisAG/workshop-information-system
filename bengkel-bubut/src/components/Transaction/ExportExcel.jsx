@@ -5,9 +5,6 @@ import {
   Form,
   FormGroup,
   Label,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
 } from "reactstrap";
 import swal from "sweetalert2";
 import "../../styles/Swal.css";
@@ -16,93 +13,27 @@ import { saveAs } from "file-saver";
 import moment from "moment";
 import styles from "../../styles/TableTransaksi.module.css";
 import { BiExport } from "react-icons/bi";
-import { Modal } from "react-responsive-modal";
-// import "react-responsive-modal/styles.css";
 import DatePicker from "react-datepicker";
 import formStyles from "../../styles/Form.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useFormik } from "formik";
 import { exportExcelSchema } from "../Schema";
-const ExportExcel = (props) => {
-  const authCtx = useContext(AuthContext);
-  const navigate = useNavigate();
 
-  const tes = () => {
-    swal
-      .fire({
-        title:
-          "<span style='font-family:Helvetica'>Transaction Export Excel</span>",
-        html: `<div style="font-family:Helvetica;display:flex; justify-content:center;align-items:center">
-                    <label >Start Date</label>
-                    <input type="date" id="startDate" class="swal2-input" placeholder="Username">
-                </div>
-                <div style="font-family:Helvetica;display:flex; justify-content:center;align-items:center"">
-                    <label >End Date  </label><input type="date" id="endDate" class="swal2-input" placeholder="Password">     
-                </div>`,
-        confirmButtonText: "Export",
-        focusConfirm: false,
-        preConfirm: async () => {
-          const startDate = swal.getPopup().querySelector("#startDate").value;
-          const endDate = swal.getPopup().querySelector("#endDate").value;
-          //   if (!startDate || !endDate) {
-          //     swal.showValidationMessage(`Please enter login and password`);
-          //   }
-          await fetch("http://localhost:8080/transaction/export", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authCtx.token}`,
-              responseType: "blob",
-            },
-            body: JSON.stringify({
-              filter: {
-                startDate: "2020-11-27",
-                endDate: "2023-12-30",
-              },
-            }),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(response.statusText);
-              } else {
-                saveAs(
-                  response.data,
-                  `BidComparison (${moment().format(
-                    "DD/MM/yyy hh:mm:ss"
-                  )}).xlsx`
-                );
-                swal.fire("Added!", "The Data has been added.", "success");
-              }
-            })
-            .catch((error) => {
-              swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `Request failed: ${error}`,
-              });
-            });
-          return { login: startDate, password: endDate };
-        },
-      })
-      .then((result) => {
-        swal.fire(
-          `
-              Login: ${result.value.login}
-              Password: ${result.value.password}
-            `.trim()
-        );
-      });
-  };
+
+const ExportExcel = () => {
+  const authCtx = useContext(AuthContext);
+
   const [open, setOpen] = useState(false);
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const onSubmit = (values) => {
-    const data = {filter: {
+    const data = {
+      filter: {
         startDate: values.startDate,
-        endDate:  values.endDate,
-      },}
-    console.log(data)
+        endDate: values.endDate,
+      },
+    };
     swal
       .fire({
         title: "Confirmation",
@@ -129,36 +60,38 @@ const ExportExcel = (props) => {
               "Content-Type": "application/json",
               Authorization: `Bearer ${authCtx.token}`,
             },
-            //  responseType: "blob",
+            responseType: "blob",
             body: JSON.stringify({
               filter: {
-                startDate: values.startDate ? moment(values.startDate).format("yyyy-MM-DD") : "",
-                endDate: values.endDate ? moment(values.endDate).format("yyyy-MM-DD") : "",
+                startDate: values.startDate
+                  ? moment(values.startDate).format("yyyy-MM-DD")
+                  : "",
+                endDate: values.endDate
+                  ? moment(values.endDate).format("yyyy-MM-DD")
+                  : "",
               },
             }),
           })
             .then((response) => {
-              // const blob = new Blob([JSON.stringify(response)], {
-              //     type: "application/json",
-
-              //   });
-              //   console.log(blob)
               if (!response.ok) {
                 throw new Error(response.statusText);
               }
-              //    console.log(response.createObjectURL(blob))
-              return response.json();
+              return response.blob();
             })
             .then((data) => {
-              console.log(data);
-              saveAs(
-                data,
-                `Transaction (${moment().format("DD/MM/yyy hh:mm:ss")}).xlsx`
-              );
-              swal.fire("Added!", "The Data has been added.", "success");
+              const outputFilename = `${Date.now()}.xlsx`;
+
+              const url = URL.createObjectURL(new Blob([data]));
+              console.log(url);
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", outputFilename);
+              document.body.appendChild(link);
+              link.click();
+              swal.fire("Added!", "The Data has been exported.", "success");
               onCloseModal();
-              setFieldValue("startDate", "")
-              setFieldValue("endDate", "")
+              setFieldValue("startDate", "");
+              setFieldValue("endDate", "");
             })
             .catch((error) => {
               swal.fire({
@@ -166,8 +99,6 @@ const ExportExcel = (props) => {
                 title: "Oops...",
                 text: `Request failed: ${error}`,
               });
-              onCloseModal();
-              
             });
         }
       });
@@ -220,7 +151,6 @@ const ExportExcel = (props) => {
                       : styles.datepicker
                   }
                   isClearable="true"
-
                   dateFormat="yyyy-MM-dd"
                 />
                 {errors.startDate && touched.startDate && (

@@ -14,9 +14,7 @@ import moment from "moment";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [userData, setUserData] = useState();
-  console.log(location.state.changePasswordStatus);
   const handleClickCancel = () => {
     swal
       .fire({
@@ -92,13 +90,15 @@ const ChangePassword = () => {
       });
   };
 
+
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
     useFormik({
       initialValues: {
         password: "",
+        oldPassword: "",
         passwordConfirmation: "",
       },
-      validationSchema: changePasswordSchema,
+      validationSchema: changePasswordSchema(userData?.password),
       onSubmit,
     });
 
@@ -117,8 +117,10 @@ const ChangePassword = () => {
       .then((result) => {
         setUserData(result.user);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(userData);
+   console.log(userData?.password);
+  // console.log(userData.password)
 
   return (
     <div>
@@ -133,6 +135,25 @@ const ChangePassword = () => {
           <div className={styles.title}>Change Password</div>
         </div>
         <Form onSubmit={handleSubmit}>
+        <FormGroup className={styles.formgroup}>
+            <Label className={styles.label}>Old Password</Label>
+            <Input
+              id="oldPassword"
+              type="password"
+              value={values.oldPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={
+                errors.oldPassword && touched.oldPassword
+                  ? styles.inputError
+                  : styles.input
+              }
+              placeholder="Old Password"
+            />
+            {errors.oldPassword && touched.oldPassword && (
+              <p className={styles.error}>{errors.oldPassword}</p>
+            )}
+          </FormGroup>
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>New Password</Label>
             <Input
@@ -182,7 +203,6 @@ const ChangePassword = () => {
               </Button>
               <Button
                 className={styles.tambahTransaksi}
-                // onClick={(e) => handleClick(e)}
                 type="submit"
               >
                 Update Password

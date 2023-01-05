@@ -25,17 +25,22 @@ export const signupSchema = yup.object().shape({
     .required("Password confirmation cannot be empty"),
 });
 
-export const changePasswordSchema = yup.object().shape({
-  password: yup
-    .string()
-    .min(5)
-    .matches(passwordRules, { message: "Please create a stronger password" })
-    .required("Password Cannot Be Empty"),
-  passwordConfirmation: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords must match")
-    .required("Password confirmation cannot be empty"),
-});
+export const changePasswordSchema = (oldPassword) =>
+  yup.object().shape({
+    oldPassword: yup
+      .string()
+      .matches(oldPassword, { message: "Your Old Password is wrong" })
+      .required("Old Password cannot be empty"),
+    password: yup
+      .string()
+      .min(5)
+      .matches(passwordRules, { message: "Please create a stronger password" })
+      .required("Password Cannot Be Empty"),
+    passwordConfirmation: yup
+      .string()
+      .oneOf([yup.ref("password")], "Passwords must match")
+      .required("Password confirmation cannot be empty"),
+  });
 
 export const customerSchema = yup.object().shape({
   name: yup.string().required("Customer name cannot be empty"),
@@ -93,40 +98,32 @@ export const transactionSchema = (data) =>
     status: yup.string().required("Status cannot be empty"),
   });
 
-  
-  const context = {
-   startDate: "",
-    endDate: ""
-  }
-  
- 
-
 export const exportExcelSchema = () =>
-  yup.object().shape({
-    // startDate: yup.string().when('endDate', {
-    //   is: (endDate,node) => endDate.length > 0,
-    //   then: yup.string()
-    //     .required('Field is required')
-    // }).nullable(),
-    // endDate: yup.string().when('startDate',{
-    //   is: (value) => !!value,
-    //   then: yup.string().required('This is a required field.').nullable()
-    // }).nullable()
-    startDate: yup.string().nullable().when("endDate", (endDate) => {
-      if (endDate) {
-        return yup
-          .string()
-          .required("Start Date is required")
-          .typeError("Start Date is required");
-      }
-    }),
-    endDate: yup.string().nullable().when("startDate", (startDate) => {
-      if (startDate) {
-        return yup
-          .date()
-            .min(startDate, "End Date must be after Start Date")
-          .required("End Date is required")
-          .typeError("End Date is required");
-      }
-    }),
-  },['startDate', 'endDate']);
+  yup.object().shape(
+    {
+      startDate: yup
+        .string()
+        .nullable()
+        .when("endDate", (endDate) => {
+          if (endDate) {
+            return yup
+              .string()
+              .required("Start Date is required")
+              .typeError("Start Date is required");
+          }
+        }),
+      endDate: yup
+        .string()
+        .nullable()
+        .when("startDate", (startDate) => {
+          if (startDate) {
+            return yup
+              .date()
+              .min(startDate, "End Date must be after Start Date")
+              .required("End Date is required")
+              .typeError("End Date is required");
+          }
+        }),
+    },
+    ["startDate", "endDate"]
+  );
