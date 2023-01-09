@@ -22,13 +22,13 @@ import Transaction from "./pages/Transaction/Transaction";
 import AddOrEdit from "./pages/Transaction/AddOrEdit";
 import ChangePassword from "./pages/User/ChangePassword";
 import { ToastContainer, toast } from "react-toastify";
-
+import "./styles/Global.css";
 const App = () => {
   const authCtx = useContext(AuthContext);
   console.log(authCtx);
   const Msg = () => (
-    <div>
-      <div>LOW STOCK ALERT!</div>
+    <div >
+      <h5 style={{fontWeight: "700"}}>LOW STOCK ALERT!</h5>
       <div>
         {" "}
         Keep track of your items running below certain quantity in Stock or
