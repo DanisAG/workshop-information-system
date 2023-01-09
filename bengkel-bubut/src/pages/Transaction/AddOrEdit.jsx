@@ -12,7 +12,6 @@ import AuthContext from "../../components/store/AuthContext.jsx";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { transactionSchema } from "../../components/Schema.jsx";
-import moment from "moment";
 
 const AddOrEdit = () => {
   const navigate = useNavigate();
@@ -132,6 +131,7 @@ const AddOrEdit = () => {
     getAllCustomers();
     getAllMechanics();
   }, []);
+
 
   const filteredData = location.state.allData.filter(
     (data) => data.id === location.state.id
@@ -504,7 +504,7 @@ const AddOrEdit = () => {
               <p className={styles.error}>{errors.stock}</p>
             )}
           </FormGroup>
-          <div className="d-flex">
+          <div className={styles.formgroupButton}>
             <div className={styles.button}>
               <Button
                 className={styles.batal}

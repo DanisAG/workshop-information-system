@@ -13,9 +13,8 @@ import { useEffect } from "react";
 import { NumericFormat } from "react-number-format";
 import { BsArrowUpShort } from "react-icons/bs";
 import { BsArrowDownShort } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import TableData from "../../components/Table.jsx";
-import { MdSupervisedUserCircle } from "react-icons/md";
 
 const Dashboard = (props) => {
   const [reportData, setReportData] = useState([]);
@@ -24,6 +23,7 @@ const Dashboard = (props) => {
   const [previousReportDataByDay, setPreviousReportDataByDay] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const filterTransaction = {
     filter: {
@@ -177,6 +177,7 @@ const Dashboard = (props) => {
     postCurrentDayFilterData(currentDayFilterTransaction);
     getAllStocks();
   }, []);
+
   return (
     <>
       <Row>
@@ -239,7 +240,9 @@ const Dashboard = (props) => {
                   </div>
                   <div
                     className={
-                      currentDayFilter.revenue - previousReportDataByDay.revenue > 0
+                      currentDayFilter.revenue -
+                        previousReportDataByDay.revenue >
+                      0
                         ? styles.saleValueDifference
                         : styles.saleValueDifference2
                     }
@@ -275,7 +278,9 @@ const Dashboard = (props) => {
                   </div>
                   <div
                     className={
-                      currentDayFilter.totalTransaction - previousReportDataByDay.totalTransaction > 0
+                      currentDayFilter.totalTransaction -
+                        previousReportDataByDay.totalTransaction >
+                      0
                         ? styles.saleValueDifference
                         : styles.saleValueDifference2
                     }

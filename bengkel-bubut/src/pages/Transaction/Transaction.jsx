@@ -3,6 +3,7 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Transaksi.png";
 import Table from "../../components/Table";
 import { AiOutlineTransaction } from "react-icons/ai";
+import { useLocation } from "react-router-dom";
 
 const Transaction = () => {
   const allTableDatas = {
@@ -46,6 +47,9 @@ const Transaction = () => {
     updateAPI: "http://localhost:8080/transaction/update",
     orderBy: {field: "updated", sort: "DESC"}
   };
+
+  const location = useLocation();
+  console.log(location.state)
 
   return (
     <div >

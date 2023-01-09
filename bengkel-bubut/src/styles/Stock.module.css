@@ -100,7 +100,7 @@
   line-height: 1rem;
   letter-spacing: 0.05em;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 
 .lowStockTitleDiv {
@@ -166,6 +166,7 @@
 
 .bottomData{
   padding: 1rem;
+  margin-left: 0.25rem;
   display: flex;
   width: max-content;
 }

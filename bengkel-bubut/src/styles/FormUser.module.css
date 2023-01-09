@@ -12,7 +12,6 @@
   }
   
   .label {
-    font-family: Montserrat;
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
@@ -85,7 +84,6 @@
   .title {
     margin-top: auto;
     margin-bottom: auto;
-    font-family: Montserrat;
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 2.5rem;

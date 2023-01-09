@@ -214,8 +214,8 @@
   font-weight: 700;
   line-height: 1rem;
   letter-spacing: 0.05em;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .minQuantity {
   font-size: 0.7rem;

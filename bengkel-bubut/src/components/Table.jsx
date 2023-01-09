@@ -6,7 +6,7 @@ import {
   AiFillLeftCircle,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { Button } from "reactstrap";
 import Filter from "./Filter";
@@ -27,7 +27,6 @@ const TableData = (props) => {
   const [allData, setAllData] = useState([]);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
-  const [pageCount, setPageCount] = useState(allData?.pagination?.currentPage);
   const [refresh, setRefresh] = useState(true);
 
   const [filter, setFilter] = useState({

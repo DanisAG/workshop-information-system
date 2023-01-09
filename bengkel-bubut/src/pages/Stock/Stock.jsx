@@ -1,5 +1,4 @@
 import icon from "../../Images/notSelected/Stok.png";
-import { Button } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import styles from "../../styles/Stock.module.css";
 import { MdInventory2 } from "react-icons/md";
@@ -7,13 +6,14 @@ import { Chart } from "../../components/Stock/Chart";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillWarning, AiFillStar } from "react-icons/ai";
-import { TbNumber1, TbNumber2, TbNumber3, TbNumber4 } from "react-icons/tb";
+import { BsListUl} from "react-icons/bs";
 import { BsArrowUpShort } from "react-icons/bs";
 import TableData from "../../components/Table";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext";
 import { useEffect } from "react";
 import moment from "moment";
+import "react-toastify/dist/ReactToastify.css";
 
 const Stock = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
@@ -81,20 +81,21 @@ const Stock = () => {
   );
 
   function myFunc(total, num) {
-    return (total + num.count);
+    return total + num.count;
   }
 
-  const averageStocks = mostStocks.reduce(myFunc,0) / mostStocks.length
-  const sortedStocks = mostStocks.filter(data => data.count >= averageStocks).sort(function (a, b) {
-    return b.count - a.count;
-  });
+  const averageStocks = mostStocks.reduce(myFunc, 0) / mostStocks.length;
+  const sortedStocks = mostStocks
+    .filter((data) => data.count >= averageStocks)
+    .sort(function (a, b) {
+      return b.count - a.count;
+    });
 
   useEffect(() => {
     getAllStocks();
     getMostStocks();
   }, []);
 
-  console.log(sortedStocks);
   return (
     <div className={styles.content}>
       <div className={styles.breadcrumbs}>
@@ -106,14 +107,17 @@ const Stock = () => {
             <div className={styles.overviewHeader}>
               <MdInventory2 size={40} className={styles.icon} />
               <div className="mb-auto mt-auto">
-                <div className={styles.title}>OVERVIEW AVERAGE COMMONLY USED ITEMS</div>
+                <div className={styles.title}>
+                  OVERVIEW AVERAGE COMMONLY USED ITEMS
+                </div>
                 <div className={styles.updateDate}>
-                  Last Updated: {moment().format("dddd, MMMM Do YYYY, h:mm:ss A")}
+                  Last Updated:{" "}
+                  {moment().format("dddd, MMMM Do YYYY, h:mm:ss A")}
                 </div>
               </div>
             </div>
             <div className={styles.chart}>
-              <Chart sortedStocks={sortedStocks}/>
+              <Chart sortedStocks={sortedStocks} />
             </div>
           </div>
           <div className={styles.table}>
@@ -164,20 +168,25 @@ const Stock = () => {
               <div className={styles.readyStockTitle}>AVERAGE USED ITEMS</div>
             </div>
             <div className="pb-1">
-              {sortedStocks.map((data, index) => {
+            {sortedStocks.length > 0 ? (
+              sortedStocks.map((data, index) => {
                 return (
                   <div className="d-flex" key={index}>
                     <div className={styles.bottomData}>
-                      <TbNumber1 className={styles.number} size={23} />
+                      <BsListUl className={styles.number} size={23} />
                       <div className={styles.namaBarang}>{data.name}</div>
                     </div>
                     <div className={styles.transaction}>
                       <BsArrowUpShort size={23} className="my-auto" />
-                      {data.count} {data.count > 1 ? "Transactions" : "Transaction"}
+                      {data.count}{" "}
+                      {data.count > 1 ? "Transactions" : "Transaction"}
                     </div>
                   </div>
                 );
-              })}
+              })
+              ) : (
+                <div className={styles.nodata}>NO DATA FOUND</div>
+              )}
             </div>
           </div>
         </div>

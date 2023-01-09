@@ -192,7 +192,7 @@ const ChangePassword = () => {
               <p className={styles.error}>{errors.passwordConfirmation}</p>
             )}
           </FormGroup>
-          <div className="d-flex">
+          <div className={styles.formgroupButton}>
             <div className={styles.button}>
               <Button
                 className={styles.batal}

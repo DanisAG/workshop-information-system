@@ -16,6 +16,7 @@ const EditStock = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const authCtx = useContext(AuthContext);
+
   const handleClickCancel = () => {
     swal
       .fire({
@@ -58,8 +59,7 @@ const EditStock = (props) => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Update",
       })
-      .then(async(result) => {
-        
+      .then(async (result) => {
         if (result.isConfirmed) {
           await swal.fire({
             title: "Please Wait...",
@@ -67,8 +67,7 @@ const EditStock = (props) => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
           await fetch("http://localhost:8080/stock/update", {
             method: "POST",
@@ -107,7 +106,6 @@ const EditStock = (props) => {
       price: parseInt(filteredData.map((data) => data.price)),
       quantity: parseInt(filteredData.map((data) => data.quantity)),
       minimumQty: parseInt(filteredData.map((data) => data.minimumQty)),
-
     },
     validationSchema: stockSchema,
     onSubmit,
@@ -195,7 +193,7 @@ const EditStock = (props) => {
               <p className={styles.error}>{errors.minimumQty}</p>
             )}
           </FormGroup>
-          <div className="d-flex">
+          <div className={styles.formgroupButton}>
             <div className={styles.button}>
               <Button
                 className={styles.batal}

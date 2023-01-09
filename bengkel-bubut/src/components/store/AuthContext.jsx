@@ -7,6 +7,7 @@ const AuthContext = React.createContext({
   login: (token) => {},
   logout: () => {},
   expiredDate: "",
+  notifStatus: false,
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -21,6 +22,7 @@ export const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
   const initialExpiredDate = localStorage.getItem("expiredDate");
   const [token, setToken] = useState(initialToken);
+  const [notifStatus, setNotifStatus] = useState(false);
   const [expiredDate, setExpiredDate] = useState(initialExpiredDate);
   const userIsLoggedIn = !!token;
 
@@ -29,9 +31,12 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("token");
   };
 
-  const loginHandler = (token, data) => {
+  const loginHandler = (token, data, filteredStocks) => {
     setToken(token);
     setExpiredDate(data);
+    console.log(filteredStocks);
+    console.log(token);
+    if (filteredStocks.length > 0) setNotifStatus(true);
 
     localStorage.setItem("token", token);
     localStorage.setItem("expiredDate", data);
@@ -52,6 +57,7 @@ export const AuthContextProvider = (props) => {
     login: loginHandler,
     logout: logoutHandler,
     expiredDate: expiredDate,
+    notifStatus: notifStatus,
   };
 
   return (

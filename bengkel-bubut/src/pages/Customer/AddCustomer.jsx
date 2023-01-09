@@ -261,7 +261,7 @@ const AddCustomer = () => {
               <p className={styles.error}>{errors.email}</p>
             )}
           </FormGroup>
-          <div className="d-flex">
+          <div className={styles.formgroupButton}>
             <div className={styles.button}>
               <Button
                 className={styles.batal}

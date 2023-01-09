@@ -10,7 +10,7 @@ import AddCustomer from "./pages/Customer/AddCustomer";
 import EditCustomer from "./pages/Customer/EditCustomer";
 import AddStock from "./pages/Stock/AddStock";
 import EditStock from "./pages/Stock/EditStock";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Login from "./pages/User/Login";
 import SignUp from "./pages/User/SignUp";
 import ProtectedRoutes from "./components/ProtectedRoutes";
@@ -21,14 +21,39 @@ import Mechanic from "./pages/Mechanic/Mechanic";
 import Transaction from "./pages/Transaction/Transaction";
 import AddOrEdit from "./pages/Transaction/AddOrEdit";
 import ChangePassword from "./pages/User/ChangePassword";
+import { ToastContainer, toast } from "react-toastify";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
+  console.log(authCtx);
+  const Msg = () => (
+    <div>
+      <div>LOW STOCK ALERT!</div>
+      <div>
+        {" "}
+        Keep track of your items running below certain quantity in Stock or
+        Dashboard page{" "}
+      </div>
+    </div>
+  );
+  const notify = () =>
+    toast.warn(Msg, {
+      position: "top-right",
+      autoClose: 50000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  authCtx.notifStatus && notify();
 
   return (
     <BrowserRouter>
       {authCtx.isLoggedIn ? (
         <Sidebar>
+          <ToastContainer />
           <Routes>
             <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<Dashboard />} />
@@ -71,7 +96,6 @@ const App = () => {
             <Route path="/addTransaction" element={<AddOrEdit />} />
             <Route path="/editTransaction" element={<AddOrEdit />} />
             <Route path="/changePassword" element={<ChangePassword />} />
-
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
