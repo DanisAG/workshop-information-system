@@ -57,9 +57,21 @@ export const customerSchema = yup.object().shape({
 
 export const stockSchema = yup.object().shape({
   name: yup.string().required("Stock name cannot be empty!"),
-  price: yup.number().required("Price cannot be empty!"),
-  quantity: yup.number().required("Quantity cannot be empty!"),
-  minimumQty: yup.number().required("Minimum Quantity cannot be empty!"),
+  price: yup
+    .number("Price must be a number")
+    .positive("Price must be a positive number")
+    .required("Price cannot be empty")
+    .typeError("Price must be a number"),
+  quantity: yup
+    .number("Quantity must be a number")
+    .positive("Quantity must be a positive number")
+    .required("Quantity cannot be empty!")
+    .typeError("Quantity must be a number"),
+  minimumQty: yup
+    .number("Quantity must be a number")
+    .positive("Quantity must be a positive number")
+    .required("Minimum Quantity cannot be empty!")
+    .typeError("Minimum Quantity must be a number"),
 });
 
 export const mechanicSchema = yup.object().shape({
@@ -82,9 +94,15 @@ export const transactionSchema = (data) =>
     mechanic: yup.string().required("Mechanic cannot be empty"),
     customer: yup.string().required("Customer cannot be empty"),
     stock: yup.string().required("Stock cannot be empty"),
-    price: yup.string().required("Price cannot be empty"),
+    price: yup
+      .number("Price must be a number")
+      .positive("Price must be a positive number")
+      .required("Price cannot be empty")
+      .typeError("Price must be a number"),
     quantity: yup
-      .number()
+      .number("Quantity must be a number")
+      .positive("Quantity must be a positive number")
+      .typeError("Quantity must be a number")
       .lessThan(
         data,
         `The quantity exceeds the number of stocks available wchich is ${
