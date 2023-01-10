@@ -78,7 +78,7 @@ const ExportExcel = () => {
               return response.blob();
             })
             .then((data) => {
-              const outputFilename = `${Date.now()}.xlsx`;
+              const outputFilename = `Transaction Report - ${moment().format("YYYY/MM/DD/HHMMSS")}.xlsx`;
 
               const url = URL.createObjectURL(new Blob([data]));
               console.log(url);
