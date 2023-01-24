@@ -1,11 +1,11 @@
 package com.example.workshopInformationSystem.model.request;
-
+import java.util.List;
 public class TransactionRequest {
 
     private int id;
     public String mechanic;
     public String customer;
-    public String stock;
+    public List<Object> stock;
     private String name;
     private String type;
     private int price;
@@ -18,7 +18,7 @@ public class TransactionRequest {
     }
 
 
-    public TransactionRequest(int id, String mechanic, String customer, String stock, String name, String type, int price, int quantity, String status, String created, String updated) {
+    public TransactionRequest(int id, String mechanic, String customer, List<Object> stock, String name, String type, int price, int quantity, String status, String created, String updated) {
         this.id = id;
         this.mechanic = mechanic;
         this.customer = customer;
@@ -56,11 +56,11 @@ public class TransactionRequest {
         this.customer = customer;
     }
 
-    public String getStock() {
+    public List<Object> getStock() {
         return this.stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(List<Object> stock) {
         this.stock = stock;
     }
 

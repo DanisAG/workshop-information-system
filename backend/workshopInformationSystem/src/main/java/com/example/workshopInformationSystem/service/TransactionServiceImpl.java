@@ -70,11 +70,11 @@ public class TransactionServiceImpl  implements TransactionService {
 
             transactions.setCustomer(customer);
 
-            query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
-            queryResult = entityManager.createQuery(query,Stock.class);
-            Stock stock = (Stock) queryResult.getSingleResult();
+            // query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
+            // queryResult = entityManager.createQuery(query,Stock.class);
+            // Stock stock = (Stock) queryResult.getSingleResult();
 
-            transactions.setStock(stock);
+            transactions.setStock(transaction.getStock());
             transactions.setPrice(transaction.getPrice()); 
             transactions.setQuantity(transaction.getQuantity());
             transactions.setCreated(new Date());
@@ -83,16 +83,21 @@ public class TransactionServiceImpl  implements TransactionService {
 
             if(transactions.getStock()!=null){
                 if(!transactions.getStock().toString().isEmpty()){
-                    query = "FROM Stock WHERE id = "+transactions.getStock().getId()+" ";
+                    String[] stockList = transactions.getStock().split(";");
+                    String[] qtyList = transactions.getStock().split(";");
+                    for(int i=0;i<stockList.length;i++){
+          
+                        query = "FROM Stock WHERE id = "+stockList[i]+" ";
 
-                    queryResult = entityManager.createQuery(query,Stock.class);
-
-                    Stock stocks = (Stock) queryResult.getSingleResult();
-                 
-                    stocks.setUpdated(new Date());
-                    stocks.setQuantity(stocks.getQuantity()-transaction.getQuantity());
-                    
-                    stockRepository.save(stocks);
+                        queryResult = entityManager.createQuery(query,Stock.class);
+    
+                        Stock stocks = (Stock) queryResult.getSingleResult();
+                     
+                        stocks.setUpdated(new Date());
+                        stocks.setQuantity(stocks.getQuantity()- Integer.parseInt(qtyList[i].toString()));
+                        
+                        stockRepository.save(stocks);
+                    }
                 }
             }
             Map<String, Object> userData = new HashMap<>();
@@ -131,11 +136,11 @@ public class TransactionServiceImpl  implements TransactionService {
 
             transactions.setCustomer(customer);
 
-            query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
-            queryResult = entityManager.createQuery(query,Stock.class);
-            Stock stock = (Stock) queryResult.getSingleResult();
+            // query = "FROM Stock WHERE id = "+transaction.getStock()+" ";
+            // queryResult = entityManager.createQuery(query,Stock.class);
+            // Stock stock = (Stock) queryResult.getSingleResult();
             transactions.setStatus(transaction.getStatus());
-            transactions.setStock(stock);
+            transactions.setStock(transaction.getStock());
             transactions.setPrice(transaction.getPrice()); 
             transactions.setQuantity(transaction.getQuantity());
             transactions.setUpdated(new Date());
@@ -285,10 +290,28 @@ public class TransactionServiceImpl  implements TransactionService {
                 transactions.setType(transaction.getType());
                 transactions.setMechanic(transaction.getMechanic().getName());
                 transactions.setCustomer(transaction.getCustomer().getName());
-                transactions.setStock(transaction.getStock().getName());
+                // transactions.setStock(transaction.getStock().getName());
+                List<Object> stockLists = new LinkedList<>();
+                if(transaction.getStock()!=null){
+                    if(!transaction.getStock().toString().isEmpty()){
+                        String[] qtyList = transaction.getStock().split(";");
+                        String[] stockList = transaction.getStock().split(";");
+                        for(int i=0;i<stockList.length;i++){
+                            String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
+    
+                            Query queryResult = entityManager.createQuery(querys,Stock.class);
+        
+                            Stock stocks = (Stock) queryResult.getSingleResult();
+                            stocks.setQuantity(Integer.parseInt(qtyList[i].toString()));
+                            stockLists.add(stocks);
+
+                        }
+                    }
+                }
+                transactions.setStock(stockLists);
                 transactions.setPrice(transaction.getPrice()); 
                 transactions.setStatus(transaction.getStatus()); 
-                transactions.setQuantity(transaction.getQuantity());
+                // transactions.setQuantity(transaction.getQuantity());
                 if(transaction.getCreated()!=null)
                 transactions.setCreated(transaction.getCreated().toString());
                 if(transaction.getUpdated()!=null)
@@ -445,8 +468,23 @@ public class TransactionServiceImpl  implements TransactionService {
                 financial.setName(transaction.getName());
                 financial.setSale(transaction.getPrice());
                 int expense = 0;
-                if(transaction.getQuantity()!=0){
-                    expense = transaction.getQuantity() * transaction.getStock().getPrice();
+                if(transaction.getQuantity()!=null && !transaction.getQuantity().isEmpty()){
+                    if(transaction.getStock()!=null){
+                        if(!transaction.getStock().toString().isEmpty()){
+                            String[] stockList = transaction.getStock().split(";");
+                            String[] qtyList = transaction.getStock().split(";");
+                            for(int i=0;i<stockList.length;i++){
+                                String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
+        
+                                Query queryResult = entityManager.createQuery(querys,Stock.class);
+            
+                                Stock stocks = (Stock) queryResult.getSingleResult();
+
+                                expense = expense + Integer.parseInt(qtyList[i].toString()) * stocks.getPrice();
+                            }
+                        }
+                    }
+                    // expense = transaction.getQuantity() * transaction.getStock().getPrice();
                 }
                 
                 financial.setExpense(expense);
@@ -456,8 +494,28 @@ public class TransactionServiceImpl  implements TransactionService {
                 financial.setCreated(transaction.getCreated().toString());
                 financial.setCustomer(transaction.getCustomer().getName());
                 financial.setMechanic(transaction.getMechanic().getName());
-                financial.setStock(transaction.getStock().getName());
-                financial.setQuantity(transaction.getQuantity());
+                // financial.setStock(transaction.getStock().getName());
+                // transactions.setStock(transaction.getStock().getName());
+                List<Object> stockLists = new LinkedList<>();
+                if(transaction.getStock()!=null){
+                    if(!transaction.getStock().toString().isEmpty()){
+                        String[] stockList = transaction.getStock().split(";");
+                        String[] qtyList = transaction.getStock().split(";");
+                        for(int i=0;i<stockList.length;i++){
+                            String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
+                    
+                            Query queryResult = entityManager.createQuery(querys,Stock.class);
+                        
+                            Stock stocks = (Stock) queryResult.getSingleResult();
+                            
+                            stockLists.add(stocks);
+                
+                        }
+                    }
+                }
+                financial.setStock(stockLists);
+
+                // financial.setQuantity(transaction.getQuantity());
                 financial.setStatus(transaction.getStatus());
                 financial.setType(transaction.getType());
                 listUsers.add(financial);
@@ -519,8 +577,23 @@ public class TransactionServiceImpl  implements TransactionService {
                 financial.setName(transaction.getName());
                 financial.setSale(transaction.getPrice());
                 int expense = 0;
-                if(transaction.getQuantity()!=0){
-                    expense = transaction.getQuantity() * transaction.getStock().getPrice();
+                if(transaction.getQuantity()!=null && !transaction.getQuantity().isEmpty()){
+                    if(transaction.getStock()!=null){
+                        if(!transaction.getStock().toString().isEmpty()){
+                            String[] stockList = transaction.getStock().split(";");
+                            String[] qtyList = transaction.getStock().split(";");
+                            for(int i=0;i<stockList.length;i++){
+                                String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
+        
+                                Query queryResult = entityManager.createQuery(querys,Stock.class);
+            
+                                Stock stocks = (Stock) queryResult.getSingleResult();
+
+                                expense = expense + Integer.parseInt(qtyList[i].toString()) * stocks.getPrice();
+                            }
+                        }
+                    }
+                    // expense = transaction.getQuantity() * transaction.getStock().getPrice();
                 }
                 
                 financial.setExpense(expense);
@@ -652,8 +725,10 @@ public class TransactionServiceImpl  implements TransactionService {
                 
 
                 //set headers
+                // List<String> headers = Arrays.asList("NO", "TGL", "NAMA TRANSAKSI", "TIPE TRANSAKSI", "CUSTOMER", "MECHANIC"
+                // , "STOCK" , "HARGA" , "STATUS", "QTY");
                 List<String> headers = Arrays.asList("NO", "TGL", "NAMA TRANSAKSI", "TIPE TRANSAKSI", "CUSTOMER", "MECHANIC"
-                , "STOCK" , "HARGA" , "STATUS", "QTY");
+                , "HARGA" , "STATUS");
                 Row header = sheet.createRow(3);
                 Row header2 = sheet.createRow(4);
                 for(int i = 0; i< headers.size(); i++) {
@@ -683,10 +758,10 @@ public class TransactionServiceImpl  implements TransactionService {
                     if(map.get("type")!=null)row.createCell(3).setCellValue((String) map.get("type").toString());
                     if(map.get("customer")!=null)row.createCell(4).setCellValue((String) map.get("customer").toString());
                     if(map.get("mechanic")!=null)row.createCell(5).setCellValue((String) map.get("mechanic").toString());
-                    if(map.get("stock")!=null)row.createCell(6).setCellValue((String) map.get("stock").toString());
-                    if(map.get("price")!=null)row.createCell(7).setCellValue((String) map.get("price").toString());
-                    if(map.get("status")!=null)row.createCell(8).setCellValue((String) map.get("status").toString());
-                    if(map.get("quantity")!=null)row.createCell(9).setCellValue((String) map.get("quantity").toString());
+                    // if(map.get("stock")!=null)row.createCell(6).setCellValue((String) map.get("stock").toString());
+                    if(map.get("price")!=null)row.createCell(6).setCellValue((String) map.get("price").toString());
+                    if(map.get("status")!=null)row.createCell(7).setCellValue((String) map.get("status").toString());
+                    // if(map.get("quantity")!=null)row.createCell(9).setCellValue((String) map.get("quantity").toString());
               
                     index++;
                     count++;
@@ -732,10 +807,10 @@ public class TransactionServiceImpl  implements TransactionService {
                 resultData.put("type", transaction.getType());
                 resultData.put("mechanic", transaction.getMechanic().getName());
                 resultData.put("customer", transaction.getCustomer().getName());
-                resultData.put("stock", transaction.getStock().getName());
+                // resultData.put("stock", transaction.getStock().getName());
                 resultData.put("price", transaction.getPrice());
                 resultData.put("status", transaction.getStatus());
-                resultData.put("quantity", transaction.getQuantity());
+                // resultData.put("quantity", transaction.getQuantity());
                 resultData.put("date", transaction.getCreated());
                 resultDataList.add(resultData);
             });

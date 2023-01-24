@@ -1,5 +1,7 @@
 package com.example.workshopInformationSystem.model.request;
 
+import java.util.List;
+
 public class FinancialRequest {
 
     private int id;
@@ -10,7 +12,7 @@ public class FinancialRequest {
     private String name;
     public String mechanic;
     public String customer;
-    public String stock;
+    public List<Object> stock;
     private String type;
     private int price;
     private int quantity;
@@ -20,7 +22,7 @@ public class FinancialRequest {
     }
 
 
-    public FinancialRequest(int id, int sale, int expense, int revenue, String created, String name, String mechanic, String customer, String stock, String type, int price, int quantity, String status) {
+    public FinancialRequest(int id, int sale, int expense, int revenue, String created, String name, String mechanic, String customer, List<Object> stock, String type, int price, int quantity, String status) {
         this.id = id;
         this.sale = sale;
         this.expense = expense;
@@ -101,11 +103,11 @@ public class FinancialRequest {
         this.customer = customer;
     }
 
-    public String getStock() {
+    public List<Object> getStock() {
         return this.stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(List<Object> stock) {
         this.stock = stock;
     }
 

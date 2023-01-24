@@ -5,11 +5,11 @@ public class TransactionPayload {
     private int id;
     public int mechanic;
     public int customer;
-    public int stock;
+    public String stock;
     private String name;
     private String type;
     private int price;
-    private int quantity;
+    private String quantity;
     private String status;
     private String created;
     private String updated;
@@ -17,7 +17,7 @@ public class TransactionPayload {
     public TransactionPayload() {
     }
 
-    public TransactionPayload(int id, int mechanic, int customer, int stock, String name, String type, int price, int quantity, String status, String created, String updated) {
+    public TransactionPayload(int id, int mechanic, int customer, String stock, String name, String type, int price, String quantity, String status, String created, String updated) {
         this.id = id;
         this.mechanic = mechanic;
         this.customer = customer;
@@ -55,11 +55,11 @@ public class TransactionPayload {
         this.customer = customer;
     }
 
-    public int getStock() {
+    public String getStock() {
         return this.stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 
@@ -87,11 +87,11 @@ public class TransactionPayload {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return this.quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
