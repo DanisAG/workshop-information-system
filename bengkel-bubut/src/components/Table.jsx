@@ -193,6 +193,8 @@ const TableData = (props) => {
   useEffect(() => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
+    console.log(allData)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, limit, filter, refresh]);
 

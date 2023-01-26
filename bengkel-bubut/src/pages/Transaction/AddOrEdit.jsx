@@ -16,10 +16,13 @@ import { transactionSchema } from "../../components/Schema.jsx";
 const AddOrEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(location.state.allData);
   const [allCustomers, setAllCustomers] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
   const [allMechanics, setAllMechanics] = useState([]);
   const [quantityById, setQuantityById] = useState();
+  const [stockFields, setStockFields] = useState([{ stock: "", quantity: "" }]);
+
   const style = {
     control: (base) => ({
       ...base,
@@ -53,13 +56,17 @@ const AddOrEdit = () => {
   });
 
   const stockOptions = allStocks?.map(function (data) {
-    return { value: data.id, label: data.name };
+    return { value: data.id, label: data.name, quantity: "" };
   });
 
   const statusOptions = [
     { value: "In Progress", label: "In Progress" },
     { value: "Done", label: "Done" },
   ];
+
+  const checkIfDuplicateExists = (arr) => {
+    return new Set(arr).size !== arr.length;
+  };
 
   const authCtx = useContext(AuthContext);
 
@@ -81,7 +88,7 @@ const AddOrEdit = () => {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
-      method: "GET"
+      method: "GET",
     })
       .then((res) => {
         if (!res.ok) {
@@ -126,18 +133,47 @@ const AddOrEdit = () => {
       });
   };
 
+  const filteredData = location.state.allData.filter(
+    (data) => data.id === location.state.id
+  );
+  console.log(filteredData);
+
   useEffect(() => {
     getAllStocks();
     getAllCustomers();
     getAllMechanics();
+    if (location.state.status === "Edit") {
+      let temp = [];
+      filteredData.map((data) =>
+        data.stock.map((stockData) => {
+          temp.push({
+            stock: stockData.id.toString(),
+            quantity: stockData.quantity.toString(),
+          });
+        })
+      );
+      setStockFields(temp);
+    }
   }, []);
+  let arrayStock = [];
 
-
-  const filteredData = location.state.allData.filter(
-    (data) => data.id === location.state.id
-  );
-
+  stockFields.map((item) => {
+    arrayStock.push(item.stock);
+  });
+  console.log(arrayStock);
+  console.log(checkIfDuplicateExists(arrayStock));
   const onSubmit = (values) => {
+    let arrayStock = [];
+    let arrayQuantity = [];
+
+    stockFields.map((item) => {
+      arrayStock.push(item.stock);
+      arrayQuantity.push(item.quantity);
+    });
+
+    const finalStock = arrayStock.join(";");
+    const finalQuantity = arrayQuantity.join(";");
+
     const getCustomerId =
       typeof values.customer === "string"
         ? allCustomers.find((data) => data.name === values.customer)?.id
@@ -160,9 +196,9 @@ const AddOrEdit = () => {
             type: values.type,
             mechanic: values.mechanic,
             customer: values.customer,
-            stock: values.stock,
+            stock: finalStock,
             price: values.price,
-            quantity: values.quantity,
+            quantity: finalQuantity,
             status: values.status,
           }
         : {
@@ -177,6 +213,7 @@ const AddOrEdit = () => {
             status: values.status,
           };
 
+    console.log(transaction);
     swal
       .fire({
         title: "Confirmation",
@@ -190,7 +227,7 @@ const AddOrEdit = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: location.state.status === "Add" ? "Add" : "Update",
       })
-      .then(async(result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           await swal.fire({
             title: "Please Wait...",
@@ -198,10 +235,9 @@ const AddOrEdit = () => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
-         await fetch(
+          await fetch(
             location.state.status === "Add"
               ? location.state.allTableDatas.addAPI
               : location.state.allTableDatas.updateAPI,
@@ -260,12 +296,11 @@ const AddOrEdit = () => {
           type: filteredData.map((data) => data.type).toString(),
           mechanic: filteredData.map((data) => data.mechanic).toString(),
           customer: filteredData.map((data) => data.customer).toString(),
-          stock: filteredData.map((data) => data.stock).toString(),
-          price:
-            isNaN(parseInt(filteredData.map((data) => data.price)))
-              ? parseInt(filteredData.map((data) => data.sale))
-              : parseInt(filteredData.map((data) => data.price)),
-          quantity: parseInt(filteredData.map((data) => data.quantity)),
+          // stock: filteredData.map((data) => data.stock).toString(),
+          price: isNaN(parseInt(filteredData.map((data) => data.price)))
+            ? parseInt(filteredData.map((data) => data.sale))
+            : parseInt(filteredData.map((data) => data.price)),
+          // quantity: parseInt(filteredData.map((data) => data.quantity)),
           status: filteredData.map((data) => data.status).toString(),
         };
 
@@ -285,10 +320,51 @@ const AddOrEdit = () => {
     initialValues: initialValues,
     validationSchema:
       location.state.status === "Add"
-        ? transactionSchema(quantity + 1)
-        : transactionSchema(Infinity),
+        ? transactionSchema(quantity + 1, checkIfDuplicateExists(arrayStock))
+        : transactionSchema(Infinity, checkIfDuplicateExists(arrayStock)),
     onSubmit,
   });
+
+  console.log(stockFields);
+
+  const handleStockField = (event, index) => {
+    let data = [...stockFields];
+    data[index].stock = event.value.toString();
+    setStockFields(data);
+    console.log(stockFields);
+    setQuantityById(event.value);
+    setFieldValue("stock", event.value);
+  };
+
+  const handleQuantityField = (event, index) => {
+    let data = [...stockFields];
+    data[index].quantity = event.target.value;
+    setStockFields(data);
+    console.log(data[index].quantity);
+    console.log(stockFields);
+
+    handleChange(event);
+  };
+
+  const addFields = () => {
+    let object = {
+      stock: "",
+      quantity: "",
+    };
+
+    setStockFields([...stockFields, object]);
+  };
+
+  const removeField = (index) => {
+    console.log(index);
+    let data = [...stockFields];
+    console.log(data);
+
+    data.splice(index, 1);
+    console.log(data);
+
+    setStockFields(data);
+  };
 
   return (
     <div>
@@ -296,7 +372,11 @@ const AddOrEdit = () => {
         <Breadcrumbs
           icon={icon}
           name="Transaction"
-          activeName="Add Transaction"
+          activeName={
+            location.state.status === "Add"
+              ? "Add Transaction"
+              : "Edit Transaction"
+          }
           url="/transaction"
         />
       </Row>
@@ -402,67 +482,115 @@ const AddOrEdit = () => {
               <p className={styles.error}>{errors.type}</p>
             )}
           </FormGroup>
-          <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Item</Label>
-            <Select
-              id="stock"
-              options={stockOptions}
-              styles={errors.stock && touched.stock ? errorStyle : style}
-              className={
-                errors.stock && touched.stock ? styles.inputError : styles.input
-              }
-              value={
-                stockOptions
-                  ? stockOptions.find((option) => option.label === values.stock)
-                  : ""
-              }
-              onChange={(option) => {
-                setFieldValue("stock", option.value);
-                setQuantityById(option.value);
-              }}
-              maxMenuHeight={500}
-              placeholder="Item Name"
-            />
-            {errors.stock && touched.stock && (
-              <p className={styles.error}>{errors.stock}</p>
-            )}
-          </FormGroup>
-          <FormGroup className={styles.formgroup}>
-            <Label className={styles.label}>Quantity</Label>
-            {location.state.status === "Add" ? (
-              <Input
-                placeholder="Quantity"
-                id="quantity"
-                type="number"
-                onChange={(e) => handleChange(e)}
-                onBlur={handleBlur}
-                value={values.quantity}
-                className={
-                  errors.quantity && touched.quantity
-                    ? styles.inputError
-                    : styles.input
-                }
-              />
-            ) : (
-              <Input
-                disabled
-                placeholder="Quantity"
-                id="quantity"
-                type="number"
-                onChange={(e) => handleChange(e)}
-                onBlur={handleBlur}
-                value={values.quantity}
-                className={
-                  errors.quantity && touched.quantity
-                    ? styles.inputError
-                    : styles.input
-                }
-              />
-            )}
-            {errors.quantity && touched.quantity && (
-              <p className={styles.error}>{errors.quantity}</p>
-            )}
-          </FormGroup>
+          <div>
+            {stockFields.map((data, index) => {
+              return (
+                <div
+                  key={index}
+                  className="d-flex justify-content-space-between"
+                >
+                  <FormGroup className={styles.formgroup}>
+                    <Label className={styles.label}>Item</Label>
+                    <Select
+                      id="stock"
+                      name="stock"
+                      options={stockOptions}
+                      styles={
+                        errors.stock && touched.stock ? errorStyle : style
+                      }
+                      className={
+                        errors.stock && touched.stock
+                          ? styles.inputError
+                          : styles.input
+                      }
+                      value={
+                        stockOptions
+                          ? stockOptions.find(
+                              (option) => option.value == data.stock
+                            )
+                          : ""
+                      }
+                      // onChange={(option) => {
+                      //   setFieldValue("stock", option.value);
+                      //   setQuantityById(option.value);
+                      // }}
+                      onChange={(event) => handleStockField(event, index)}
+                      maxMenuHeight={500}
+                      placeholder="Item Name"
+                    />
+                    {errors.stock && touched.stock ? (
+                      <p className={styles.error}>{errors.stock}</p>
+                    ) : checkIfDuplicateExists(arrayStock) ? (
+                      <p className={styles.error}>The Item you input already exists</p>
+                    ): ""}
+                    
+                  </FormGroup>
+                  <FormGroup
+                    className={styles.formgroup}
+                    style={{ marginRight: "0px !important" }}
+                  >
+                    <Label className={styles.label}>Quantity</Label>
+                    {location.state.status === "Add" ? (
+                      <Input
+                        placeholder="Quantity"
+                        id="quantity"
+                        type="number"
+                        onChange={(event) => handleQuantityField(event, index)}
+                        // onChange={(e) => handleChange(e)}
+                        // onBlur={handleBlur}
+                        value={stockFields.quantity}
+                        className={
+                          errors.quantity && touched.quantity
+                            ? styles.inputError
+                            : styles.input
+                        }
+                      />
+                    ) : (
+                      <Input
+                        disabled
+                        placeholder="Quantity"
+                        id="quantity"
+                        name="quantity"
+                        type="number"
+                        onChange={(event) => handleQuantityField(event, index)}
+                        onBlur={handleBlur}
+                        value={data.quantity}
+                        className={
+                          errors.quantity && touched.quantity
+                            ? styles.inputError
+                            : styles.input
+                        }
+                      />
+                    )}
+                    {errors.quantity && touched.quantity && (
+                      <p className={styles.error}>{errors.quantity}</p>
+                    )}
+                  </FormGroup>
+                  <div
+                    className="d-flex"
+                    style={{
+                      height: "min-content",
+                      marginTop: "auto",
+                      marginBottom: "auto",
+                    }}
+                  >
+                    {stockFields.length > 1 ? (
+                      <Button onClick={() => removeField(index)}>Remove</Button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            
+            
+          </div>
+
+          <div className=" pl-auto pr-auto">
+            <Button onClick={addFields}>Add</Button>
+          </div>
+
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Price</Label>
             <Input
@@ -500,8 +628,8 @@ const AddOrEdit = () => {
               maxMenuHeight={500}
               placeholder="Status"
             />
-            {errors.stock && touched.stock && (
-              <p className={styles.error}>{errors.stock}</p>
+            {errors.status && touched.status && (
+              <p className={styles.status}>{errors.status}</p>
             )}
           </FormGroup>
           <div className={styles.formgroupButton}>

@@ -37,6 +37,7 @@ const AddStock = () => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
+      minimumQty: values.minimumQty,
       updated: moment().format(),
       created: moment().format()
     };

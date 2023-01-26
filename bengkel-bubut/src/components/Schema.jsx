@@ -87,13 +87,15 @@ export const mechanicSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("Email cannot be empty"),
 });
 
-export const transactionSchema = (data) =>
+export const transactionSchema = (data, check) =>
   yup.object().shape({
-    name: yup.string().required("Mechanic name cannot be empty"),
+    name: yup.string().required("Name cannot be empty"),
     type: yup.string().required("Service Type cannot be empty"),
     mechanic: yup.string().required("Mechanic cannot be empty"),
     customer: yup.string().required("Customer cannot be empty"),
-    stock: yup.string().required("Stock cannot be empty"),
+    stock: yup
+      .string()
+      .required("Stock cannot be empty"),
     price: yup
       .number("Price must be a number")
       .positive("Price must be a positive number")
@@ -103,16 +105,12 @@ export const transactionSchema = (data) =>
       .number("Quantity must be a number")
       .positive("Quantity must be a positive number")
       .typeError("Quantity must be a number")
-      .lessThan(
-        data,
-        `The quantity exceeds the number of stocks available wchich is ${
-          data - 1
-        }`
-      )
+      .lessThan(data, `The quantity exceeds the number of stocks available`)
       .when(["stock"], {
         is: (stock) => isNaN(stock),
         then: yup.number().required("Item Field should be filled first"),
       }),
+
     status: yup.string().required("Status cannot be empty"),
   });
 

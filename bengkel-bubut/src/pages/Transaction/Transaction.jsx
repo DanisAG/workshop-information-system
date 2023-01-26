@@ -22,7 +22,6 @@ const Transaction = () => {
       "CUSTOMER",
       "MECHANIC",
       "SERVICE TYPE",
-      "STOCK",
       "QUANTITY",
       "SALE",
       "STATUS",
@@ -34,7 +33,6 @@ const Transaction = () => {
       "customer",
       "mechanic",
       "type",
-      "stock",
       "quantity",
       "price",
       "status",
@@ -48,11 +46,8 @@ const Transaction = () => {
     orderBy: {field: "updated", sort: "DESC"}
   };
 
-  const location = useLocation();
-  console.log(location.state)
-
   return (
-    <div >
+    <div>
       <Row>
         <Breadcrumbs icon={icon} activeName="Transaction" url="/Transaction" />
       </Row>
