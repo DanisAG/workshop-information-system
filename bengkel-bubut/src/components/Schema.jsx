@@ -2,6 +2,9 @@ import * as yup from "yup";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 const phonenumber = /^08[0-9]{10,}$/;
+const checkStock = () => {
+  
+}
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("Email Cannot Be Empty"),
   password: yup
@@ -87,7 +90,7 @@ export const mechanicSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("Email cannot be empty"),
 });
 
-export const transactionSchema = (data, check) =>
+export const transactionSchema = (data) =>
   yup.object().shape({
     name: yup.string().required("Name cannot be empty"),
     type: yup.string().required("Service Type cannot be empty"),

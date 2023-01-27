@@ -7,6 +7,24 @@
   margin-left: 0px;
 }
 
+.cardStockDetail {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  /* width: 100%; */
+  margin: 25px 36px;
+
+}
+.cardTransaction {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 45vw;
+  margin-left: 0px;
+}
+
 .formgroup {
   margin: 12px 36px;
 }
@@ -32,6 +50,33 @@
   font-size: 1rem;
   font-weight: 500;
   line-height: 22px;
+}
+.inputStock {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 22px;
+  height: 2.38rem;
+  width: 15vw;
+}
+.inputQuantity {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 22px;
+  height: 2.38rem;
+  width: 10vw;
+}
+
+.formgroupStocks{
+  margin-left: 36px;
+  padding-bottom: 12px;
 }
 .button {
   margin-left: auto;
@@ -122,3 +167,25 @@
   
 }
 
+.inputErrorStock {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border-color: #fc8181;
+}
+.inputErrorQuantity {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border-color: #fc8181;
+  width: 10vw;
+}
+
+.delete{
+  cursor: pointer;
+  margin-top: 2rem;
+  height: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: 1vw;
+}
