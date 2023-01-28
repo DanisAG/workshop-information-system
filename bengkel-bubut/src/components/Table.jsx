@@ -28,6 +28,7 @@ const TableData = (props) => {
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
   const [refresh, setRefresh] = useState(true);
+  const [allStocks, setAllStocks] = useState([]);
 
   const [filter, setFilter] = useState({
     status: "",
@@ -82,8 +83,24 @@ const TableData = (props) => {
     }),
   };
 
-  // console.log(Math.ceil(allData?.pagination?.totalPage))
-
+  const getAllStocks = async () => {
+    await fetch("http://localhost:8080/stock/getAll", {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // eslint-disable-next-line no-throw-literal
+          throw "Error";
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setAllStocks(result.stock);
+      });
+  };
   const initialDataPagination = {
     start: 0,
     limit: limit,
@@ -193,8 +210,7 @@ const TableData = (props) => {
   useEffect(() => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
-    console.log(allData)
-
+    getAllStocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, limit, filter, refresh]);
 
@@ -370,6 +386,7 @@ const TableData = (props) => {
                             allData: allData?.result,
                             status: "Edit",
                             allTableDatas: passedTableData,
+                            allStocks2: allStocks
                           },
                         });
                       }}

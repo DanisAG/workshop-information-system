@@ -2,8 +2,9 @@ import * as yup from "yup";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 const phonenumber = /^08[0-9]{10,}$/;
+const leadingZero = /^0+/;
 const checkStock = () => {
-  
+
 }
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("Email Cannot Be Empty"),
@@ -112,10 +113,26 @@ export const transactionSchema = (data) =>
       .when(["stock"], {
         is: (stock) => isNaN(stock),
         then: yup.number().required("Item Field should be filled first"),
-      }),
+      })
+      ,
 
     status: yup.string().required("Status cannot be empty"),
   });
+
+export const transactionEditSchema = (data) =>
+  yup.object().shape({
+    name: yup.string().required("Name cannot be empty"),
+    type: yup.string().required("Service Type cannot be empty"),
+    mechanic: yup.string().required("Mechanic cannot be empty"),
+    customer: yup.string().required("Customer cannot be empty"),
+    price: yup
+      .number("Price must be a number")
+      .positive("Price must be a positive number")
+      .required("Price cannot be empty")
+      .typeError("Price must be a number"),
+    status: yup.string().required("Status cannot be empty"),
+  });
+
 
 export const exportExcelSchema = () =>
   yup.object().shape(
