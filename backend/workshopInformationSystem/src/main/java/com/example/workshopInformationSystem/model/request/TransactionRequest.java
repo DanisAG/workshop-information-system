@@ -1,15 +1,18 @@
 package com.example.workshopInformationSystem.model.request;
 import java.util.List;
+import java.util.Map;
+
+import com.example.workshopInformationSystem.model.Stock;
 public class TransactionRequest {
 
     private int id;
     public String mechanic;
     public String customer;
-    public List<Object> stock;
+    public List<Map<String, Object>> stock;
     private String name;
     private String type;
     private int price;
-    private int quantity;
+    // private int quantity;
     private String status;
     private String created;
     private String updated;
@@ -18,7 +21,7 @@ public class TransactionRequest {
     }
 
 
-    public TransactionRequest(int id, String mechanic, String customer, List<Object> stock, String name, String type, int price, int quantity, String status, String created, String updated) {
+    public TransactionRequest(int id, String mechanic, String customer, List<Map<String, Object>> stock, String name, String type, int price, String status, String created, String updated) {
         this.id = id;
         this.mechanic = mechanic;
         this.customer = customer;
@@ -26,7 +29,7 @@ public class TransactionRequest {
         this.name = name;
         this.type = type;
         this.price = price;
-        this.quantity = quantity;
+        // this.quantity = quantity;
         this.status = status;
         this.created = created;
         this.updated = updated;
@@ -56,11 +59,11 @@ public class TransactionRequest {
         this.customer = customer;
     }
 
-    public List<Object> getStock() {
+    public List<Map<String, Object>> getStock() {
         return this.stock;
     }
 
-    public void setStock(List<Object> stock) {
+    public void setStock(List<Map<String, Object>> stock) {
         this.stock = stock;
     }
 
@@ -88,13 +91,13 @@ public class TransactionRequest {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return this.quantity;
-    }
+    // public int getQuantity() {
+    //     return this.quantity;
+    // }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    // public void setQuantity(int quantity) {
+    //     this.quantity = quantity;
+    // }
 
     public String getStatus() {
         return this.status;

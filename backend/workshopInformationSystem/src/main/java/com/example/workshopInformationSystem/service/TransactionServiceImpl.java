@@ -293,26 +293,32 @@ public class TransactionServiceImpl  implements TransactionService {
                 transactions.setMechanic(transaction.getMechanic().getName());
                 transactions.setCustomer(transaction.getCustomer().getName());
                 // transactions.setStock(transaction.getStock().getName());
-                List<Object> stockLists = new LinkedList<>();
+                List<Map<String, Object>> stockLists = new LinkedList<>();
                 if(transaction.getStock()!=null){
                     if(!transaction.getStock().toString().isEmpty()){
                         String[] qtyList = transaction.getQuantity().split(";");
                         String[] stockList = transaction.getStock().split(";");
-                        System.out.println("tracfed"+transaction.getStock());
+
                         for(int i=0;i<stockList.length;i++){
-                            System.out.println("tracfed"+Integer.parseInt(qtyList[i].toString()));
+                            Map<String, Object> map = new HashMap<>();
                             String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
     
                             Query queryResult = entityManager.createQuery(querys,Stock.class);
         
                             Stock stocks = (Stock) queryResult.getSingleResult();
-                            stocks.setQuantity(Integer.parseInt(qtyList[i].toString()));
-                            stockLists.add(stocks);
+                            // stocks.setQuantity(Integer.parseInt(qtyList[i].toString()));
+                            
+                            map.put("id",stocks.getId());
+                            map.put("name",stocks.getName());
+                            map.put("quantity",Integer.parseInt(qtyList[i].toString()));
 
+                            stockLists.add(map);
+                            System.out.println(" ke "+i+"tracing2  "+ stocks.getQuantity());
                         }
                     }
                 }
                 transactions.setStock(stockLists);
+                
                 transactions.setPrice(transaction.getPrice()); 
                 transactions.setStatus(transaction.getStatus()); 
                 // transactions.setQuantity(transaction.getQuantity());
