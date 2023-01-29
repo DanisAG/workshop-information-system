@@ -15,6 +15,7 @@ const Transaction = () => {
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",
+    viewNavigation: "/viewTransaction",
     iconTable: <AiOutlineTransaction size={40} />,
     tableHeaderTitles: [
       "TRANSACTION NAME",
@@ -22,7 +23,6 @@ const Transaction = () => {
       "CUSTOMER",
       "MECHANIC",
       "SERVICE TYPE",
-      "QUANTITY",
       "SALE",
       "STATUS",
       "ACTION",
@@ -33,7 +33,6 @@ const Transaction = () => {
       "customer",
       "mechanic",
       "type",
-      "quantity",
       "price",
       "status",
     ],

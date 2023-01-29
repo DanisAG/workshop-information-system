@@ -4,6 +4,7 @@ import {
   AiOutlineEdit,
   AiFillRightCircle,
   AiFillLeftCircle,
+  AiOutlineEye,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -104,7 +105,7 @@ const TableData = (props) => {
   const initialDataPagination = {
     start: 0,
     limit: limit,
-    page: allData?.pagination?.currentPage  ,
+    page: allData?.pagination?.currentPage,
     keyword: search,
     filter: {
       status: filter.status,
@@ -143,11 +144,11 @@ const TableData = (props) => {
             method: "DELETE",
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
-            .then(async(response) => {
+            .then(async (response) => {
               const errorMessage = await response.text()
               console.log(errorMessage)
 
-              if(errorMessage.includes("Failed to Delete")){
+              if (errorMessage.includes("Failed to Delete")) {
                 throw new Error(errorMessage)
               }
 
@@ -247,7 +248,7 @@ const TableData = (props) => {
                 <div className={styles.headerTitle}>{props.data.title}</div>
               </div>
               <div>
-                {props.data.exportExcel && <ExportExcel/>}
+                {props.data.exportExcel && <ExportExcel />}
               </div>
             </div>
 
@@ -377,6 +378,18 @@ const TableData = (props) => {
                     );
                   })}
                   <td>
+                    <AiOutlineEye
+                      className={styles.view}
+                      onClick={() => {
+                        navigate(props.data.viewNavigation, {
+                          state: {
+                            id: item.id,
+                            allData: allData?.result,
+                            allTableDatas: passedTableData,
+                            allStocks2: allStocks
+                          },
+                        });
+                      }} />
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {

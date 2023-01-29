@@ -130,6 +130,16 @@
   text-align: left;
 }
 
+.titleForView {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
 .datepicker {
   border: none;
   background: #ffffff;
