@@ -4,9 +4,7 @@ import icon from "../../Images/notSelected/Laporan Financial.png";
 import styles from "../../styles/LaporanFinancial.module.css";
 import TableRangkumanLaporan from "../../components/Financial Report/TableRangkumanLaporan";
 import Table from "../../components/Table";
-import {
-  AiOutlineTransaction,
-} from "react-icons/ai";
+import { AiOutlineTransaction } from "react-icons/ai";
 import { Chart } from "../../components/Chart.jsx";
 
 const FinancialReport = () => {
@@ -18,20 +16,22 @@ const FinancialReport = () => {
     header: true,
     buttonNavigation: "/addTransaction",
     editNavigation: "/editTransaction",
-    iconTable: <AiOutlineTransaction size={40}/>,
-    tableHeaderTitles: ["TRANSACTION NAME", "TRANSACTION DATE", "SALE", "EXPENSE", "REVENUE", "ACTION"],
-    variableName: [
-      "name",
-      "created",
-      "sale",
-      "expense",
-      "revenue"
+    iconTable: <AiOutlineTransaction size={40} />,
+    tableHeaderTitles: [
+      "TRANSACTION NAME",
+      "TRANSACTION DATE",
+      "SALE",
+      "EXPENSE",
+      "REVENUE",
+      "ACTION",
     ],
-    postAPIWithPagination: "http://localhost:8080/transaction/getList/financial",
-    financialReportFilterAPI: "http://localhost:8080/transaction/getReport",
-    addAPI: "http://localhost:8080/transaction/add",
-    updateAPI: "http://localhost:8080/transaction/update",
-    orderBy: {field: "updated", sort: "DESC"}
+    variableName: ["name", "created", "sale", "expense", "revenue"],
+    postAPIWithPagination:
+      "http://localhost:8090/transaction/getList/financial",
+    financialReportFilterAPI: "http://localhost:8090/transaction/getReport",
+    addAPI: "http://localhost:8090/transaction/add",
+    updateAPI: "http://localhost:8090/transaction/update",
+    orderBy: { field: "updated", sort: "DESC" },
   };
 
   return (
@@ -43,7 +43,7 @@ const FinancialReport = () => {
         <Chart />
       </div>
       <div>
-        <TableRangkumanLaporan data={allTableDatas}/>
+        <TableRangkumanLaporan data={allTableDatas} />
       </div>
       <div>
         <Table data={allTableDatas} />

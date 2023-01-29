@@ -37,7 +37,7 @@ const Breadcrumbs = (props) => {
 
   useEffect(() => {
     const data = { token: authCtx.token };
-    fetch("http://localhost:8080/user/getbytoken", {
+    fetch("http://localhost:8090/user/getbytoken", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,13 +99,16 @@ const Breadcrumbs = (props) => {
             <div className={styles.userRole}>Administrator</div>
             {isOpen ? (
               <>
-                <div className={styles.logout} onClick={() => {
-                      navigate("/changePassword", {
-                        state: {
-                          changePasswordStatus: true,
-                        },
-                      });
-                    }}>
+                <div
+                  className={styles.logout}
+                  onClick={() => {
+                    navigate("/changePassword", {
+                      state: {
+                        changePasswordStatus: true,
+                      },
+                    });
+                  }}
+                >
                   Change Password
                 </div>
                 <div className={styles.logout} onClick={logoutHandler}>

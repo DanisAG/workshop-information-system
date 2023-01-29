@@ -65,8 +65,7 @@ const AddMechanic = () => {
       address: values.address,
       phone: values.phone,
       email: values.email,
-      updated: moment().format()
-
+      updated: moment().format(),
     };
 
     swal
@@ -79,7 +78,7 @@ const AddMechanic = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Add",
       })
-      .then(async(result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           await swal.fire({
             title: "Please Wait...",
@@ -87,10 +86,9 @@ const AddMechanic = () => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
-          await fetch("http://localhost:8080/mechanic/add", {
+          await fetch("http://localhost:8090/mechanic/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -85,11 +85,10 @@ const AddCustomer = () => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
 
-          await fetch("http://localhost:8080/customer/add", {
+          await fetch("http://localhost:8090/customer/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -97,15 +96,11 @@ const AddCustomer = () => {
             },
             body: JSON.stringify(customer),
           })
-            .then( (response) => {
+            .then((response) => {
               if (!response.ok) {
                 throw new Error(response.statusText);
               } else {
-                 swal.fire(
-                  "Added!",
-                  "The Data has been added.",
-                  "success"
-                );
+                swal.fire("Added!", "The Data has been added.", "success");
                 navigate("/customer");
               }
             })

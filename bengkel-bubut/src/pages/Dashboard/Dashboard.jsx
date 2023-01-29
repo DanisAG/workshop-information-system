@@ -66,7 +66,7 @@ const Dashboard = (props) => {
   const authCtx = useContext(AuthContext);
 
   const postFilterData = (data) => {
-    fetch("http://localhost:8080/transaction/getReport", {
+    fetch("http://localhost:8090/transaction/getReport", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Dashboard = (props) => {
   };
 
   const postPreviousFilterData = (data) => {
-    fetch("http://localhost:8080/transaction/getReport", {
+    fetch("http://localhost:8090/transaction/getReport", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const Dashboard = (props) => {
       });
   };
   const postCurrentDayFilterData = (data) => {
-    fetch("http://localhost:8080/transaction/getReport", {
+    fetch("http://localhost:8090/transaction/getReport", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +110,7 @@ const Dashboard = (props) => {
   };
 
   const postPreviousDayFilterData = (data) => {
-    fetch("http://localhost:8080/transaction/getReport", {
+    fetch("http://localhost:8090/transaction/getReport", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ const Dashboard = (props) => {
       });
   };
   const getAllStocks = async () => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -163,10 +163,10 @@ const Dashboard = (props) => {
     ],
     variableName: ["name", "created", "type", "status"],
     postAPIWithPagination:
-      "http://localhost:8080/transaction/getList/financial",
-    financialReportFilterAPI: "http://localhost:8080/transaction/getReport",
-    addAPI: "http://localhost:8080/transaction/add",
-    updateAPI: "http://localhost:8080/transaction/update",
+      "http://localhost:8090/transaction/getList/financial",
+    financialReportFilterAPI: "http://localhost:8090/transaction/getReport",
+    addAPI: "http://localhost:8090/transaction/add",
+    updateAPI: "http://localhost:8090/transaction/update",
     orderBy: { field: "updated", sort: "DESC" },
   };
 
