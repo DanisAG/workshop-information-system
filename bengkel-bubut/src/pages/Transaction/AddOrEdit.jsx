@@ -693,7 +693,7 @@ const AddOrEdit = () => {
               placeholder="Status"
             />
             {errors.status && touched.status && (
-              <p className={styles.status}>{errors.status}</p>
+              <p className={styles.error}>{errors.status}</p>
             )}
           </FormGroup>
           <div className={styles.formgroupButton}>
