@@ -6,7 +6,7 @@ import { Chart } from "../../components/Stock/Chart";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillWarning, AiFillStar } from "react-icons/ai";
-import { BsListUl} from "react-icons/bs";
+import { BsListUl } from "react-icons/bs";
 import { BsArrowUpShort } from "react-icons/bs";
 import TableData from "../../components/Table";
 import { useContext } from "react";
@@ -35,13 +35,13 @@ const Stock = () => {
     iconTable: <MdInventory2 size={40} />,
     tableHeaderTitles: ["ITEM NAME", "PRICE", "QUANTITY", "ACTION"],
     variableName: ["name", "price", "quantity"],
-    postAPIWithPagination: "http://localhost:8080/stock/getList",
-    deleteAPI: "http://localhost:8080/stock/delete/",
+    postAPIWithPagination: "http://localhost:8090/stock/getList",
+    deleteAPI: "http://localhost:8090/stock/delete/",
     orderBy: { field: "updated", sort: "DESC" },
   };
 
   const getAllStocks = async () => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -59,7 +59,7 @@ const Stock = () => {
   };
 
   const getMostStocks = async () => {
-    await fetch("http://localhost:8080/transaction/mostStock", {
+    await fetch("http://localhost:8090/transaction/mostStock", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -168,22 +168,22 @@ const Stock = () => {
               <div className={styles.readyStockTitle}>AVERAGE USED ITEMS</div>
             </div>
             <div className="pb-1">
-            {sortedStocks.length > 0 ? (
-              sortedStocks.map((data, index) => {
-                return (
-                  <div className="d-flex" key={index}>
-                    <div className={styles.bottomData}>
-                      <BsListUl className={styles.number} size={23} />
-                      <div className={styles.namaBarang}>{data.name}</div>
+              {sortedStocks.length > 0 ? (
+                sortedStocks.map((data, index) => {
+                  return (
+                    <div className="d-flex" key={index}>
+                      <div className={styles.bottomData}>
+                        <BsListUl className={styles.number} size={23} />
+                        <div className={styles.namaBarang}>{data.name}</div>
+                      </div>
+                      <div className={styles.transaction}>
+                        <BsArrowUpShort size={23} className="my-auto" />
+                        {data.count}{" "}
+                        {data.count > 1 ? "Transactions" : "Transaction"}
+                      </div>
                     </div>
-                    <div className={styles.transaction}>
-                      <BsArrowUpShort size={23} className="my-auto" />
-                      {data.count}{" "}
-                      {data.count > 1 ? "Transactions" : "Transaction"}
-                    </div>
-                  </div>
-                );
-              })
+                  );
+                })
               ) : (
                 <div className={styles.nodata}>NO DATA FOUND</div>
               )}

@@ -59,7 +59,7 @@ const ChangePassword = () => {
               swal.showLoading();
             },
           });
-          await fetch("http://localhost:8080/user/update", {
+          await fetch("http://localhost:8090/user/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -90,7 +90,6 @@ const ChangePassword = () => {
       });
   };
 
-
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
     useFormik({
       initialValues: {
@@ -106,7 +105,7 @@ const ChangePassword = () => {
 
   useEffect(() => {
     const data = { token: authCtx.token };
-    fetch("http://localhost:8080/user/getbytoken", {
+    fetch("http://localhost:8090/user/getbytoken", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +118,7 @@ const ChangePassword = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-   console.log(userData?.password);
+  console.log(userData?.password);
   // console.log(userData.password)
 
   return (
@@ -135,7 +134,7 @@ const ChangePassword = () => {
           <div className={styles.title}>Change Password</div>
         </div>
         <Form onSubmit={handleSubmit}>
-        <FormGroup className={styles.formgroup}>
+          <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Old Password</Label>
             <Input
               id="oldPassword"
@@ -201,10 +200,7 @@ const ChangePassword = () => {
               >
                 Cancel
               </Button>
-              <Button
-                className={styles.tambahTransaksi}
-                type="submit"
-              >
+              <Button className={styles.tambahTransaksi} type="submit">
                 Update Password
               </Button>
             </div>

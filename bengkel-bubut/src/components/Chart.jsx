@@ -101,7 +101,7 @@ export const Chart = () => {
           year: filterChart.year,
         },
       };
-      await fetch("http://localhost:8080/transaction/getReport", {
+      await fetch("http://localhost:8090/transaction/getReport", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

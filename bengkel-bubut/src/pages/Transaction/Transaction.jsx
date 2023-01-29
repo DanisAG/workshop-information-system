@@ -36,13 +36,14 @@ const Transaction = () => {
       "price",
       "status",
     ],
-    postAPIWithPagination: "http://localhost:8080/transaction/getList",
-    getAllCustomersAPI: "http://localhost:8080/customer/getAll",
-    getAllMechanicsAPI: "http://localhost:8080/mechanic/getAll",
-    getAllStocksAPI: "http://localhost:8080/stock/getAll",
-    addAPI: "http://localhost:8080/transaction/add",
-    updateAPI: "http://localhost:8080/transaction/update",
-    orderBy: {field: "updated", sort: "DESC"}
+    postAPIWithPagination: "http://localhost:8090/transaction/getList",
+    getAllCustomersAPI: "http://localhost:8090/customer/getAll",
+    getAllMechanicsAPI: "http://localhost:8090/mechanic/getAll",
+    getAllStocksAPI: "http://localhost:8090/stock/getAll",
+    addAPI: "http://localhost:8090/transaction/add",
+    deleteAPI: "http://localhost:8090/transaction/delete/",
+    updateAPI: "http://localhost:8090/transaction/update",
+    orderBy: { field: "updated", sort: "DESC" },
   };
 
   return (
@@ -50,7 +51,7 @@ const Transaction = () => {
       <Row>
         <Breadcrumbs icon={icon} activeName="Transaction" url="/Transaction" />
       </Row>
-      <Col >
+      <Col>
         <Table data={allTableDatas} />
       </Col>
     </div>

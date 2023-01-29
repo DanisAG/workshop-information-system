@@ -1,11 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-} from "reactstrap";
+import { Button, Form, FormGroup, Label } from "reactstrap";
 import swal from "sweetalert2";
 import "../../styles/Swal.css";
 import AuthContext from "../store/AuthContext";
@@ -17,7 +12,6 @@ import formStyles from "../../styles/Form.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useFormik } from "formik";
 import { exportExcelSchema } from "../Schema";
-
 
 const ExportExcel = () => {
   const authCtx = useContext(AuthContext);
@@ -53,7 +47,7 @@ const ExportExcel = () => {
               swal.showLoading();
             },
           });
-          await fetch("http://localhost:8080/transaction/export", {
+          await fetch("http://localhost:8090/transaction/export", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -78,7 +72,9 @@ const ExportExcel = () => {
               return response.blob();
             })
             .then((data) => {
-              const outputFilename = `Transaction Report - ${moment().format("YYYY/MM/DD/HHMMSS")}.xlsx`;
+              const outputFilename = `Transaction Report - ${moment().format(
+                "YYYY/MM/DD/HHMMSS"
+              )}.xlsx`;
 
               const url = URL.createObjectURL(new Blob([data]));
               console.log(url);

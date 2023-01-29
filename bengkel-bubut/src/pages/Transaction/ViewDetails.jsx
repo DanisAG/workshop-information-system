@@ -73,7 +73,7 @@ const ViewDetails = () => {
   const authCtx = useContext(AuthContext);
 
   const getAllCustomers = async () => {
-    await fetch("http://localhost:8080/customer/getAll", {
+    await fetch("http://localhost:8090/customer/getAll", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
@@ -86,7 +86,7 @@ const ViewDetails = () => {
   };
 
   const getAllStocks = async () => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -105,7 +105,7 @@ const ViewDetails = () => {
   };
 
   const getAllMechanics = async () => {
-    await fetch("http://localhost:8080/mechanic/getAll", {
+    await fetch("http://localhost:8090/mechanic/getAll", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authCtx.token}`,

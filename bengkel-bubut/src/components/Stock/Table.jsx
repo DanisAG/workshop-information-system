@@ -41,7 +41,7 @@ const StokTable = (props) => {
   stockPagination.current = initialStockPagination;
 
   const getStockData = (data) => {
-    fetch("http://localhost:8080/stock/getList", {
+    fetch("http://localhost:8090/stock/getList", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const StokTable = (props) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          fetch(`http://localhost:8080/stock/delete/${id}`, {
+          fetch(`http://localhost:8090/stock/delete/${id}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
@@ -90,7 +90,7 @@ const StokTable = (props) => {
               if (!response.ok) {
                 throw new Error(response.statusText);
               } else {
-                fetch("http://localhost:8080/stock/getList", {
+                fetch("http://localhost:8090/stock/getList", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

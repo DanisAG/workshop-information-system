@@ -69,7 +69,7 @@ const EditStock = (props) => {
               swal.showLoading();
             },
           });
-          await fetch("http://localhost:8080/stock/update", {
+          await fetch("http://localhost:8090/stock/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

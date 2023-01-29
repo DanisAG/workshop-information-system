@@ -77,7 +77,7 @@ const AddOrEdit = () => {
   const authCtx = useContext(AuthContext);
 
   const getAllCustomers = async () => {
-    await fetch("http://localhost:8080/customer/getAll", {
+    await fetch("http://localhost:8090/customer/getAll", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
@@ -90,7 +90,7 @@ const AddOrEdit = () => {
   };
 
   const getAllStocks = async () => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -109,7 +109,7 @@ const AddOrEdit = () => {
   };
 
   const getAllMechanics = async () => {
-    await fetch("http://localhost:8080/mechanic/getAll", {
+    await fetch("http://localhost:8090/mechanic/getAll", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
@@ -392,7 +392,7 @@ const AddOrEdit = () => {
       filteredData.map((data) => {
         data.stock.map((stockData) => {
           console.log(arrStock());
-          const maxQty = location.state.allStocks2.find(
+          const maxQty = location.state.allStocks2?.find(
             (dataStock2) => dataStock2.id == stockData.id
           ).quantity;
           temp.push({
@@ -407,7 +407,8 @@ const AddOrEdit = () => {
       setStockFields(temp);
     }
   }, []);
-  console.log(messageStatus);
+  console.log(filteredData, "filteredData");
+  console.log(location.state.allData)
 
   return (
     <div>

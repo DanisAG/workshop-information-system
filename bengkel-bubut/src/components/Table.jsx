@@ -85,7 +85,7 @@ const TableData = (props) => {
   };
 
   const getAllStocks = async () => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${authCtx.token}`,
       },
@@ -122,7 +122,7 @@ const TableData = (props) => {
     },
   };
 
-  console.log(initialDataPagination)
+  console.log(initialDataPagination);
   //props?.data.orderBy?.sort
   const dataPagination = useRef(initialDataPagination);
 
@@ -145,11 +145,11 @@ const TableData = (props) => {
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
             .then(async (response) => {
-              const errorMessage = await response.text()
-              console.log(errorMessage)
+              const errorMessage = await response.text();
+              console.log(errorMessage);
 
               if (errorMessage.includes("Failed to Delete")) {
-                throw new Error(errorMessage)
+                throw new Error(errorMessage);
               }
 
               if (!response.ok) {
@@ -165,7 +165,7 @@ const TableData = (props) => {
                 })
                   .then((res) => {
                     if (res.ok) res.json();
-                    console.log(res)
+                    console.log(res);
                   })
                   .then((result) => {
                     console.log(result);
@@ -215,6 +215,8 @@ const TableData = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, limit, filter, refresh]);
 
+  console.log(allData)
+
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * allData?.pagination.limit) %
@@ -233,7 +235,7 @@ const TableData = (props) => {
     iconTable: "",
   };
 
-  console.log()
+  console.log();
 
   return (
     <>
@@ -247,9 +249,7 @@ const TableData = (props) => {
                 </div>
                 <div className={styles.headerTitle}>{props.data.title}</div>
               </div>
-              <div>
-                {props.data.exportExcel && <ExportExcel />}
-              </div>
+              <div>{props.data.exportExcel && <ExportExcel />}</div>
             </div>
 
             <div className={styles.headerBottom}>
@@ -386,10 +386,11 @@ const TableData = (props) => {
                             id: item.id,
                             allData: allData?.result,
                             allTableDatas: passedTableData,
-                            allStocks2: allStocks
+                            allStocks2: allStocks,
                           },
                         });
-                      }} />
+                      }}
+                    />
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {
@@ -399,7 +400,7 @@ const TableData = (props) => {
                             allData: allData?.result,
                             status: "Edit",
                             allTableDatas: passedTableData,
-                            allStocks2: allStocks
+                            allStocks2: allStocks,
                           },
                         });
                       }}

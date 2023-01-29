@@ -23,8 +23,8 @@ const Mechanic = () => {
       "ACTION",
     ],
     variableName: ["name", "dob", "gender", "address", "phone", "email"],
-    postAPIWithPagination: "http://localhost:8080/mechanic/getList",
-    deleteAPI: "http://localhost:8080/mechanic/delete/",
+    postAPIWithPagination: "http://localhost:8090/mechanic/getList",
+    deleteAPI: "http://localhost:8090/mechanic/delete/",
     orderBy: { field: "name", sort: "ASC" },
   };
   return (

@@ -90,7 +90,7 @@ const EditMechanic = (props) => {
               swal.showLoading();
             },
           });
-          await fetch("http://localhost:8080/mechanic/update", {
+          await fetch("http://localhost:8090/mechanic/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
