@@ -1,24 +1,16 @@
-import { Input, Button, Row, FormGroup, Form, Label } from "reactstrap";
+import { Input, Row, FormGroup, Form, Label } from "reactstrap";
 import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
-import {
-  AiFillDelete,
-  AiOutlineDelete,
-  AiOutlineTransaction,
-} from "react-icons/ai";
+import { AiOutlineTransaction } from "react-icons/ai";
 import React, { useState } from "react";
-import swal from "sweetalert2";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../components/store/AuthContext.jsx";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import {
-  transactionEditSchema,
-  transactionSchema,
-} from "../../components/Schema.jsx";
+
 const ViewDetails = () => {
   const [allCustomers, setAllCustomers] = useState([]);
   const [allStocks, setAllStocks] = useState([]);
@@ -190,7 +182,7 @@ const ViewDetails = () => {
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Mechanic</Label>
             <Select
-            isDisabled
+              isDisabled
               options={mechanicOptions}
               styles={style}
               className={styles.input}
@@ -206,7 +198,7 @@ const ViewDetails = () => {
           <FormGroup className={styles.formgroup}>
             <Label className={styles.label}>Service</Label>
             <Select
-                isDisabled
+              isDisabled
               options={serviceOptions}
               styles={style}
               className={styles.input}
@@ -251,7 +243,7 @@ const ViewDetails = () => {
                     >
                       <Label className={styles.label}>Quantity</Label>
                       <Input
-                      disabled
+                        disabled
                         type="number"
                         value={data.quantity || 0}
                         className={styles.inputQuantity}

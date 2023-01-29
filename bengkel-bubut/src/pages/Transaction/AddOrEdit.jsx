@@ -26,7 +26,7 @@ const AddOrEdit = () => {
   const [stockFields, setStockFields] = useState([
     { stock: "", quantity: "", maxQty: 0 },
   ]);
-  const [validation, setValidation] = useState(true);
+  const [validation, setValidation] = useState({ stock: true, quantity: true });
   const [refresh, setRefresh] = useState(true);
   const [messageStatus, setMessageStatus] = useState(false);
 
@@ -144,7 +144,7 @@ const AddOrEdit = () => {
   );
 
   const onSubmit = (values) => {
-    if (validation) {
+    if (validation.stock && validation.quantity && !messageStatus) {
       let arrayStock = [];
       let arrayQuantity = [];
 
@@ -315,6 +315,8 @@ const AddOrEdit = () => {
     });
     return arrStock;
   };
+
+  console.log(validation);
   const handleStockField = (event, index) => {
     let data = [...stockFields];
     data[index].stock = event.value.toString();
@@ -323,16 +325,21 @@ const AddOrEdit = () => {
     )?.quantity;
 
     const temp = arrStock();
-    if (checkIfDuplicateExists(temp)) setValidation(false);
-    else setValidation(true);
+    console.log(checkIfDuplicateExists(temp));
+    if (checkIfDuplicateExists(temp))
+      setValidation({ ...validation, stock: false });
+    else if (!checkIfDuplicateExists(temp))
+      setValidation({ ...validation, stock: true });
     data[index].checkDuplicate = checkIfDuplicateExists(temp);
 
     if (data[index].stock == "") {
       data[index].checkFilled = false;
-      setValidation(false);
-    } else {
+      setValidation({ ...validation, stock: false });
+      setMessageStatus(true);
+    } else if (data[index].stock !== "" && !checkIfDuplicateExists(temp)) {
       data[index].checkFilled = true;
-      setValidation(true);
+      setValidation({ ...validation, stock: true });
+      setMessageStatus(false);
     }
 
     setStockFields(data);
@@ -344,8 +351,9 @@ const AddOrEdit = () => {
     const textboxText = event.target.value.replace(/^0+/, "");
     let data = [...stockFields];
     data[index].quantity = textboxText;
-    if (event.target.value > data[index].maxQty) setValidation(false);
-    else setValidation(true);
+    if (event.target.value > data[index].maxQty)
+      setValidation({ ...validation, quantity: false });
+    else setValidation({ ...validation, quantity: true });
     setStockFields(data);
     setFieldValue(`quantity`, event.target.value);
   };
@@ -359,7 +367,10 @@ const AddOrEdit = () => {
     };
     let check = true;
     stockFields.map((data) => {
-      if (data.stock == "") check = false;
+      if (data.stock == "") {
+        check = false;
+        setMessageStatus(true);
+      }
     });
     if (check) setStockFields([...stockFields, object]);
   };
@@ -368,6 +379,7 @@ const AddOrEdit = () => {
     let data = [...stockFields];
     data.splice(index, 1);
     setStockFields(data);
+    setMessageStatus(false);
   };
 
   useEffect(() => {
@@ -395,7 +407,7 @@ const AddOrEdit = () => {
       setStockFields(temp);
     }
   }, []);
-  console.log(stockFields);
+  console.log(messageStatus);
 
   return (
     <div>
@@ -537,13 +549,15 @@ const AddOrEdit = () => {
                         isClearable
                         styles={
                           (errors.stock && touched.stock) ||
-                          (data.checkDuplicate && arrStock().length > 1)
+                          (data.checkDuplicate && arrStock().length > 1) ||
+                          (messageStatus && index === stockFields.length - 1)
                             ? errorStyle
                             : style
                         }
                         className={
                           (errors.stock && touched.stock) ||
-                          (data.checkDuplicate && arrStock().length > 1)
+                          (data.checkDuplicate && arrStock().length > 1) ||
+                          (messageStatus && index === stockFields.length - 1)
                             ? styles.inputErrorStock
                             : styles.inputStock
                         }
@@ -567,6 +581,10 @@ const AddOrEdit = () => {
                         <p className={styles.error}>
                           Item field cannot be empty
                         </p>
+                      ) : messageStatus && index === stockFields.length - 1 ? (
+                        <p className={styles.errorForStockMsg}>
+                          Input the empty field first before adding another one
+                        </p>
                       ) : (
                         ""
                       )}
@@ -584,7 +602,7 @@ const AddOrEdit = () => {
                           onChange={(event) =>
                             handleQuantityField(event, index)
                           }
-                          value={data.quantity}
+                          value={data.quantity || 0}
                           className={
                             (errors.quantity && touched.quantity) ||
                             data.maxQty < data.quantity

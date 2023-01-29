@@ -105,17 +105,6 @@ export const transactionSchema = (data) =>
       .positive("Price must be a positive number")
       .required("Price cannot be empty")
       .typeError("Price must be a number"),
-    quantity: yup
-      .number("Quantity must be a number")
-      .positive("Quantity must be a positive number")
-      .typeError("Quantity must be a number")
-      .lessThan(data, `The quantity exceeds the number of stocks available`)
-      .when(["stock"], {
-        is: (stock) => isNaN(stock),
-        then: yup.number().required("Item Field should be filled first"),
-      })
-      ,
-
     status: yup.string().required("Status cannot be empty"),
   });
 
