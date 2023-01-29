@@ -27,9 +27,8 @@ public class Transaction {
     @JoinColumn(name = "customer", referencedColumnName = "id")
     public Customer customer;
 
-    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "stock", referencedColumnName = "id")
-    public Stock stock;
+    @Column(name = "stock")
+    private String stock;
 
     @Column(name = "name")
     private String name;
@@ -41,7 +40,7 @@ public class Transaction {
     private int price;
 
     @Column(name = "quantity")
-    private int quantity;
+    private String quantity;
 
     @Column(name = "status")
     private String status;
@@ -59,7 +58,7 @@ public class Transaction {
     }
 
 
-    public Transaction(int id, Mechanic mechanic, Customer customer, Stock stock, String name, String type, int price, int quantity, String status, Date created, Date updated, int userId) {
+    public Transaction(int id, Mechanic mechanic, Customer customer, String stock, String name, String type, int price, String quantity, String status, Date created, Date updated, int userId) {
         this.id = id;
         this.mechanic = mechanic;
         this.customer = customer;
@@ -99,11 +98,11 @@ public class Transaction {
         this.customer = customer;
     }
 
-    public Stock getStock() {
+    public String getStock() {
         return this.stock;
     }
 
-    public void setStock(Stock stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 
@@ -123,11 +122,11 @@ public class Transaction {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return this.quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 

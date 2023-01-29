@@ -16,11 +16,11 @@ const FormUser = (props) => {
   const [allStocks, setAllStocks] = useState([]);
   const [error, setError] = useState("");
   const getAllStocks = async (token) => {
-    await fetch("http://localhost:8080/stock/getAll", {
+    await fetch("http://localhost:8090/stock/getAll", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      method: "GET"
+      method: "GET",
     })
       .then((res) => {
         if (!res.ok) {
@@ -30,18 +30,18 @@ const FormUser = (props) => {
         return res.json();
       })
       .then((result) => {
-        console.log(result)
+        console.log(result);
         setAllStocks(result.stock);
       });
   };
 
-  console.log(allStocks)
-  console.log(authCtx.token)
+  console.log(allStocks);
+  console.log(authCtx.token);
 
   const onSubmit = (values) => {
     let filteredStocks = [];
     if (props.loginStatus) {
-      fetch("http://localhost:8080/user/login", {
+      fetch("http://localhost:8090/user/login", {
         method: "POST",
         body: JSON.stringify({
           email: values.email,
@@ -64,7 +64,7 @@ const FormUser = (props) => {
             });
           }
         })
-        .then(async(data) => {
+        .then(async (data) => {
           if (
             data.user.password !== values.password ||
             data.user.email !== values.email
@@ -72,12 +72,12 @@ const FormUser = (props) => {
             setErrorMessage(true);
             return;
           }
-          console.log(data.user)
-          await fetch("http://localhost:8080/stock/getAll", {
+          console.log(data.user);
+          await fetch("http://localhost:8090/stock/getAll", {
             headers: {
               Authorization: `Bearer ${data.user.token}`,
             },
-            method: "GET"
+            method: "GET",
           })
             .then((res) => {
               if (!res.ok) {
@@ -87,74 +87,73 @@ const FormUser = (props) => {
               return res.json();
             })
             .then((result) => {
-              console.log(result)
-              filteredStocks = result.stock
+              console.log(result);
+              filteredStocks = result.stock;
               setAllStocks(result.stock);
             });
-          console.log(allStocks)
+          console.log(allStocks);
           filteredStocks = filteredStocks?.filter(
             (data) => data.quantity < data.minimumQty
           );
-          console.log(filteredStocks)
+          console.log(filteredStocks);
           authCtx.login(data.user.token, data.user.expiredDate, filteredStocks);
-         
-           navigate("/");
+
+          navigate("/");
         });
     } else {
       swal
-      .fire({
-        title: "Confirmation",
-        text: "Are you sure to add the data?",
-        icon: "warning",
-        showCancelButton: true,
-        cancelButtonColor: "#d33",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Add",
-      })
-      .then(async(result) => {
-        if (result.isConfirmed) {
-          await swal.fire({
-            title: "Please Wait...",
-            timer: 1000,
-            showConfirmButton: false,
-            didOpen: () => {
-              swal.showLoading();
-
-            }
-          });
-         await fetch("http://localhost:8080/user/add", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authCtx.token}`,
-            },
-            body: JSON.stringify({
-              email: values.email,
-              password: values.password,
-              username: values.username,
-            }),
-          })
-            .then(async (response) => {
-              if (!response.ok) {
-                throw new Error(response.statusText);
-              } else {
-                await swal.fire(
-                  "Added!",
-                  "The Data has been added.",
-                  "success"
-                );
-                navigate(-1);
-              }
-            })
-            .catch((error) => {
-              swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `Request failed: ${error}`,
-              });
+        .fire({
+          title: "Confirmation",
+          text: "Are you sure to add the data?",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Add",
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            await swal.fire({
+              title: "Please Wait...",
+              timer: 1000,
+              showConfirmButton: false,
+              didOpen: () => {
+                swal.showLoading();
+              },
             });
-        }
-      });
+            await fetch("http://localhost:8090/user/add", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authCtx.token}`,
+              },
+              body: JSON.stringify({
+                email: values.email,
+                password: values.password,
+                username: values.username,
+              }),
+            })
+              .then(async (response) => {
+                if (!response.ok) {
+                  throw new Error(response.statusText);
+                } else {
+                  await swal.fire(
+                    "Added!",
+                    "The Data has been added.",
+                    "success"
+                  );
+                  navigate(-1);
+                }
+              })
+              .catch((error) => {
+                swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: `Request failed: ${error}`,
+                });
+              });
+          }
+        });
     }
   };
   const initialValues = props.loginStatus

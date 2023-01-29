@@ -4,6 +4,7 @@ import {
   AiOutlineEdit,
   AiFillRightCircle,
   AiFillLeftCircle,
+  AiOutlineEye,
 } from "react-icons/ai";
 import styles from "../styles/TableTransaksi.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ const TableData = (props) => {
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(5);
   const [refresh, setRefresh] = useState(true);
+  const [allStocks, setAllStocks] = useState([]);
 
   const [filter, setFilter] = useState({
     status: "",
@@ -82,12 +84,28 @@ const TableData = (props) => {
     }),
   };
 
-  // console.log(Math.ceil(allData?.pagination?.totalPage))
-
+  const getAllStocks = async () => {
+    await fetch("http://localhost:8090/stock/getAll", {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // eslint-disable-next-line no-throw-literal
+          throw "Error";
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setAllStocks(result.stock);
+      });
+  };
   const initialDataPagination = {
     start: 0,
     limit: limit,
-    page: allData?.pagination?.currentPage  ,
+    page: allData?.pagination?.currentPage,
     keyword: search,
     filter: {
       status: filter.status,
@@ -104,7 +122,7 @@ const TableData = (props) => {
     },
   };
 
-  console.log(initialDataPagination)
+  console.log(initialDataPagination);
   //props?.data.orderBy?.sort
   const dataPagination = useRef(initialDataPagination);
 
@@ -126,12 +144,12 @@ const TableData = (props) => {
             method: "DELETE",
             headers: { Authorization: `Bearer ${authCtx.token}` },
           })
-            .then(async(response) => {
-              const errorMessage = await response.text()
-              console.log(errorMessage)
+            .then(async (response) => {
+              const errorMessage = await response.text();
+              console.log(errorMessage);
 
-              if(errorMessage.includes("Failed to Delete")){
-                throw new Error(errorMessage)
+              if (errorMessage.includes("Failed to Delete")) {
+                throw new Error(errorMessage);
               }
 
               if (!response.ok) {
@@ -147,7 +165,7 @@ const TableData = (props) => {
                 })
                   .then((res) => {
                     if (res.ok) res.json();
-                    console.log(res)
+                    console.log(res);
                   })
                   .then((result) => {
                     console.log(result);
@@ -193,8 +211,11 @@ const TableData = (props) => {
   useEffect(() => {
     dataPagination.current = initialDataPagination;
     postDataWithPagination(dataPagination.current);
+    getAllStocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, limit, filter, refresh]);
+
+  console.log(allData)
 
   const handlePageClick = (event) => {
     const newOffset =
@@ -214,7 +235,7 @@ const TableData = (props) => {
     iconTable: "",
   };
 
-  console.log()
+  console.log();
 
   return (
     <>
@@ -228,9 +249,7 @@ const TableData = (props) => {
                 </div>
                 <div className={styles.headerTitle}>{props.data.title}</div>
               </div>
-              <div>
-                {props.data.exportExcel && <ExportExcel/>}
-              </div>
+              <div>{props.data.exportExcel && <ExportExcel />}</div>
             </div>
 
             <div className={styles.headerBottom}>
@@ -359,6 +378,19 @@ const TableData = (props) => {
                     );
                   })}
                   <td>
+                    <AiOutlineEye
+                      className={styles.view}
+                      onClick={() => {
+                        navigate(props.data.viewNavigation, {
+                          state: {
+                            id: item.id,
+                            allData: allData?.result,
+                            allTableDatas: passedTableData,
+                            allStocks2: allStocks,
+                          },
+                        });
+                      }}
+                    />
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {
@@ -368,6 +400,7 @@ const TableData = (props) => {
                             allData: allData?.result,
                             status: "Edit",
                             allTableDatas: passedTableData,
+                            allStocks2: allStocks,
                           },
                         });
                       }}

@@ -37,10 +37,10 @@ const AddStock = () => {
       name: values.name,
       price: values.price,
       quantity: values.quantity,
+      minimumQty: values.minimumQty,
       updated: moment().format(),
-      created: moment().format()
+      created: moment().format(),
     };
-
 
     swal
       .fire({
@@ -52,7 +52,7 @@ const AddStock = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Add",
       })
-      .then(async(result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           await swal.fire({
             title: "Please Wait...",
@@ -60,10 +60,9 @@ const AddStock = () => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
-         await fetch("http://localhost:8080/stock/add", {
+          await fetch("http://localhost:8090/stock/add", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -107,13 +106,12 @@ const AddStock = () => {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    fetch("http://localhost:8080/stock/getAll", {
+    fetch("http://localhost:8090/stock/getAll", {
       method: "GET",
       headers: { Authorization: `Bearer ${authCtx.token}` },
     })
       .then((res) => res.json())
-      .then((result) => {
-      });
+      .then((result) => {});
   }, []);
   return (
     <div>
@@ -197,9 +195,10 @@ const AddStock = () => {
               onChange={stockFormik.handleChange}
               value={stockFormik.values.minimumQty}
             />
-            {stockFormik.errors.minimumQty && stockFormik.touched.minimumQty && (
-              <p className={styles.error}>{stockFormik.errors.minimumQty}</p>
-            )}
+            {stockFormik.errors.minimumQty &&
+              stockFormik.touched.minimumQty && (
+                <p className={styles.error}>{stockFormik.errors.minimumQty}</p>
+              )}
           </FormGroup>
           <div className={styles.formgroupButton}>
             <div className={styles.button}>

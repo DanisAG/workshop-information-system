@@ -7,6 +7,23 @@
   margin-left: 0px;
 }
 
+.cardStockDetail {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  /* width: 100%; */
+  margin: 25px 36px;
+}
+.cardTransaction {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 45vw;
+  margin-left: 0px;
+}
+
 .formgroup {
   margin: 12px 36px;
 }
@@ -14,7 +31,6 @@
   margin: 12px 36px;
   display: flex;
   /* justify-content: space-between; */
- 
 }
 .label {
   font-size: 18px;
@@ -32,6 +48,41 @@
   font-size: 1rem;
   font-weight: 500;
   line-height: 22px;
+}
+.inputStock {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 22px;
+  height: 2.38rem;
+  width: 15vw;
+}
+
+.errorForStockMsg{
+  color: #fc8181;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-top: 0.25rem;
+  width: 15vw;
+}
+.inputQuantity {
+  border: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 22px;
+  height: 2.38rem;
+  width: 10vw;
+}
+
+.formgroupStocks {
+  margin-left: 36px;
+  padding-bottom: 12px;
 }
 .button {
   margin-left: auto;
@@ -60,7 +111,7 @@
   border-radius: 50%;
 }
 
-.iconCalendar{
+.iconCalendar {
   position: absolute;
   margin-left: 200px;
   margin-top: 10px;
@@ -78,6 +129,16 @@
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 15px;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.titleForView {
+  margin-top: auto;
+  margin-bottom: auto;
   font-size: 26px;
   font-weight: 800;
   line-height: 32px;
@@ -114,11 +175,46 @@
   margin-top: 0.25rem;
 }
 
+.errorForQuantityMsg {
+  color: #fc8181;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-top: 0.25rem;
+  width: 10vw;
+}
+
+.selectDiv {
+  display: flex;
+}
+
 .inputError {
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   border-color: #fc8181;
-  
 }
 
+.inputErrorStock {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border-color: #fc8181;
+  height: 2.38rem;
+  width: 15vw;
+}
+.inputErrorQuantity {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border-color: #fc8181;
+  width: 10vw;
+}
+
+.delete {
+  cursor: pointer;
+  margin-top: 2rem;
+  height: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: 1vw;
+}

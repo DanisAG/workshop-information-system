@@ -3,9 +3,9 @@ import Breadcrumbs from "../../components/BreadCrumbs.jsx";
 import icon from "../../Images/notSelected/Pelanggan.png";
 import styles from "../../styles/Form.module.css";
 import Select from "react-select";
-import {MdSupervisedUserCircle} from 'react-icons/md';
+import { MdSupervisedUserCircle } from "react-icons/md";
 import DatePicker from "react-datepicker";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -68,7 +68,7 @@ const EditCustomer = (props) => {
       address: values.address,
       phone: values.phone,
       email: values.email,
-      updated: moment().format()
+      updated: moment().format(),
     };
 
     swal
@@ -81,7 +81,7 @@ const EditCustomer = (props) => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "Update",
       })
-      .then(async(result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           await swal.fire({
             title: "Please Wait...",
@@ -89,10 +89,9 @@ const EditCustomer = (props) => {
             showConfirmButton: false,
             didOpen: () => {
               swal.showLoading();
-
-            }
+            },
           });
-          await fetch("http://localhost:8080/customer/update", {
+          await fetch("http://localhost:8090/customer/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -123,35 +122,38 @@ const EditCustomer = (props) => {
       });
   };
 
-
   const filteredData = location.state.allData.filter(
-    (customer) => customer.id === location.state.id);
-
+    (customer) => customer.id === location.state.id
+  );
 
   const { handleSubmit, handleChange, values, errors, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        name: filteredData.map(data=> data.name).toString(),
-        dob: moment(filteredData.map(data=> data.dob)).toDate(),
-        gender: filteredData.map(data=> data.gender).toString(),
-        address: filteredData.map(data=> data.address).toString(),
-        phone: filteredData.map(data=> data.phone).toString(),
-        email: filteredData.map(data=> data.email).toString(),
+        name: filteredData.map((data) => data.name).toString(),
+        dob: moment(filteredData.map((data) => data.dob)).toDate(),
+        gender: filteredData.map((data) => data.gender).toString(),
+        address: filteredData.map((data) => data.address).toString(),
+        phone: filteredData.map((data) => data.phone).toString(),
+        email: filteredData.map((data) => data.email).toString(),
       },
       validationSchema: customerSchema,
       onSubmit,
     });
 
-  
   return (
     <div>
       <Row>
-        <Breadcrumbs icon={icon} name="Customer" activeName="Add Customer" url="/customer" />
+        <Breadcrumbs
+          icon={icon}
+          name="Customer"
+          activeName="Add Customer"
+          url="/customer"
+        />
       </Row>
       <div className={styles.card}>
         <div className={styles.header}>
           <div>
-            <MdSupervisedUserCircle className={styles.iconForForm} size={40}/>
+            <MdSupervisedUserCircle className={styles.iconForForm} size={40} />
           </div>
           <div className={styles.title}>EDIT CUSTOMER</div>
         </div>
@@ -280,7 +282,6 @@ const EditCustomer = (props) => {
             </div>
           </div>
         </Form>
-      
       </div>
     </div>
   );

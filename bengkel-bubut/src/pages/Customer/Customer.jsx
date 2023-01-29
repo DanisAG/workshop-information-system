@@ -23,9 +23,9 @@ const Customer = () => {
       "ACTION",
     ],
     variableName: ["name", "dob", "gender", "address", "phone", "email"],
-    postAPIWithPagination: "http://localhost:8080/customer/getList",
-    deleteAPI: "http://localhost:8080/customer/delete/",
-    orderBy: {field: "name", sort: "ASC"}
+    postAPIWithPagination: "http://localhost:8090/customer/getList",
+    deleteAPI: "http://localhost:8090/customer/delete/",
+    orderBy: { field: "name", sort: "ASC" },
   };
   return (
     <div>
