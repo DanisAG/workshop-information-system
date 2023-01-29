@@ -28,6 +28,8 @@ import com.example.workshopInformationSystem.repository.StockRepository;
 import com.example.workshopInformationSystem.repository.TransactionRepository;
 import com.example.workshopInformationSystem.util.CommonMethod;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -84,7 +86,7 @@ public class TransactionServiceImpl  implements TransactionService {
             if(transactions.getStock()!=null){
                 if(!transactions.getStock().toString().isEmpty()){
                     String[] stockList = transactions.getStock().split(";");
-                    String[] qtyList = transactions.getStock().split(";");
+                    String[] qtyList = transactions.getQuantity().split(";");
                     for(int i=0;i<stockList.length;i++){
           
                         query = "FROM Stock WHERE id = "+stockList[i]+" ";
@@ -294,9 +296,11 @@ public class TransactionServiceImpl  implements TransactionService {
                 List<Object> stockLists = new LinkedList<>();
                 if(transaction.getStock()!=null){
                     if(!transaction.getStock().toString().isEmpty()){
-                        String[] qtyList = transaction.getStock().split(";");
+                        String[] qtyList = transaction.getQuantity().split(";");
                         String[] stockList = transaction.getStock().split(";");
+                        System.out.println("tracfed"+transaction.getStock());
                         for(int i=0;i<stockList.length;i++){
+                            System.out.println("tracfed"+Integer.parseInt(qtyList[i].toString()));
                             String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
     
                             Query queryResult = entityManager.createQuery(querys,Stock.class);
@@ -472,14 +476,14 @@ public class TransactionServiceImpl  implements TransactionService {
                     if(transaction.getStock()!=null){
                         if(!transaction.getStock().toString().isEmpty()){
                             String[] stockList = transaction.getStock().split(";");
-                            String[] qtyList = transaction.getStock().split(";");
+                            String[] qtyList = transaction.getQuantity().split(";");
                             for(int i=0;i<stockList.length;i++){
                                 String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
         
                                 Query queryResult = entityManager.createQuery(querys,Stock.class);
             
                                 Stock stocks = (Stock) queryResult.getSingleResult();
-
+                                stocks.setQuantity(Integer.parseInt(qtyList[i].toString()));
                                 expense = expense + Integer.parseInt(qtyList[i].toString()) * stocks.getPrice();
                             }
                         }
@@ -500,7 +504,7 @@ public class TransactionServiceImpl  implements TransactionService {
                 if(transaction.getStock()!=null){
                     if(!transaction.getStock().toString().isEmpty()){
                         String[] stockList = transaction.getStock().split(";");
-                        String[] qtyList = transaction.getStock().split(";");
+                        String[] qtyList = transaction.getQuantity().split(";");
                         for(int i=0;i<stockList.length;i++){
                             String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
                     
@@ -581,7 +585,7 @@ public class TransactionServiceImpl  implements TransactionService {
                     if(transaction.getStock()!=null){
                         if(!transaction.getStock().toString().isEmpty()){
                             String[] stockList = transaction.getStock().split(";");
-                            String[] qtyList = transaction.getStock().split(";");
+                            String[] qtyList = transaction.getQuantity().split(";");
                             for(int i=0;i<stockList.length;i++){
                                 String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
         
