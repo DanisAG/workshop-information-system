@@ -613,6 +613,7 @@ const AddOrEdit = () => {
                         />
                       ) : (
                         <Input
+                        disabled
                           placeholder="Quantity"
                           id="quantity"
                           name="quantity"
