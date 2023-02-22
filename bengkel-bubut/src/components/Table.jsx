@@ -235,8 +235,6 @@ const TableData = (props) => {
     iconTable: "",
   };
 
-  console.log();
-
   return (
     <>
       <div className={styles.divTable}>

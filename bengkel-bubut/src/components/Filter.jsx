@@ -45,12 +45,17 @@ const Filter = (props) => {
     }),
   };
 
+  console.log()
+
   const clearFilter = () => {
     props.reportfilterStatus
-      ? props?.setFilter({ status: "", type: "" })
-      : props.reportFilter
-      ? props?.setFilterDataPerPeriod({ month: "", year: "" })
+      ? props?.setFilter({ status: "", type: "", customer: "", mechanic: "",month: "", year: "", day: "" })
+      : props.reportFilter 
+      ? props?.setFilterDataPerPeriod({ month: "", year: "", day: "" })
+      : props.financialReportFilterStatus
+      ? props?.setFilter({ month: "", year: "", day: "" })
       : props.chart && props?.setFilterChart({ month: "", year: moment().year() });
+      
   };
 
   return (
