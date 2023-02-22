@@ -8,7 +8,7 @@ import com.example.workshopInformationSystem.model.Stock;
 public interface StockService {
     public Stock saveStock(Stock stock, Integer userId);
     public Stock updateStock(Stock stock, Integer userId);
-    public String deleteStock(Integer id);
+    public String deleteStock(Integer id,Integer userId);
     public Integer getStockTotal(Map<String, Object> reqData, Integer userId);
     public Map<String, Object> getStockPagination(Map<String, Object> reqData, int totalData, Integer userId);
     public List<Stock> getAllStocks(Integer userId);

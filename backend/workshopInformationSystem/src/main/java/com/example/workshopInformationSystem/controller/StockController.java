@@ -47,7 +47,7 @@ public class StockController {
     @DeleteMapping("/delete/{id}")
     public String deleteStock(@RequestHeader (name="Authorization") String token, @PathVariable("id") Integer id){
         if(userService.checkToken(token)==false)return "Invalid Token";
-        return stockService.deleteStock(id);
+        return stockService.deleteStock(id, userService.getId(token));
     }
 
     @GetMapping("/getAll")

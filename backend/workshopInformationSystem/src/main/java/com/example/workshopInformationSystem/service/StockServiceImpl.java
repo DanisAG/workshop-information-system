@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.example.workshopInformationSystem.model.Stock;
+import com.example.workshopInformationSystem.model.Transaction;
 import com.example.workshopInformationSystem.repository.StockRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,28 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public String deleteStock(Integer id){
+    public String deleteStock(Integer id, Integer userId){
         try {                        
+
+            String query = "FROM Transaction WHERE userId = "+userId+" ";
+
+            Query queryResult = entityManager.createQuery(query,Transaction.class);
+
+            List<Transaction> transactionList = (List<Transaction>) queryResult.getResultList();
+            // Stock stocks = new Stock();
+            for (Transaction transactions : transactionList) {
+                if(transactions.getStock()!=null){
+                    if(!transactions.getStock().toString().isEmpty()){
+                        String[] stockList = transactions.getStock().split(";");
+                        for(int i=0;i<stockList.length;i++){
+                            if(stockList[i].equalsIgnoreCase(id.toString()))System.out.println("tracing ");
+                            if(stockList[i].equalsIgnoreCase(id.toString()))return "Failed to Delete Stock";
+                        }
+                    }
+                }
+            }
+
+
             stockRepository.deleteById(id);
             return "Stock Deleted";
         } catch (Exception e) {
