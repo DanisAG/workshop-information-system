@@ -123,6 +123,27 @@ public class TransactionServiceImpl  implements TransactionService {
 
             Transaction transactions = (Transaction) queryResult.getSingleResult();
             // Stock stocks = new Stock();
+
+            if(transactions.getStock()!=null){
+                if(!transactions.getStock().toString().isEmpty()){
+                    String[] stockList = transactions.getStock().split(";");
+                    String[] qtyList = transactions.getQuantity().split(";");
+                    for(int i=0;i<stockList.length;i++){
+          
+                        query = "FROM Stock WHERE id = "+stockList[i]+" ";
+
+                        queryResult = entityManager.createQuery(query,Stock.class);
+    
+                        Stock stocks = (Stock) queryResult.getSingleResult();
+                     
+                        stocks.setUpdated(new Date());
+                        stocks.setQuantity(stocks.getQuantity() + Integer.parseInt(qtyList[i].toString()));
+                        
+                        stockRepository.save(stocks);
+                    }
+                }
+            }
+
             transactions.setId(transaction.getId());
             transactions.setName(transaction.getName());
             transactions.setType(transaction.getType());
@@ -148,6 +169,28 @@ public class TransactionServiceImpl  implements TransactionService {
             transactions.setQuantity(transaction.getQuantity());
             transactions.setUpdated(new Date());
             
+            if(transactions.getStock()!=null){
+                if(!transactions.getStock().toString().isEmpty()){
+                    String[] stockList = transactions.getStock().split(";");
+                    String[] qtyList = transactions.getQuantity().split(";");
+                    for(int i=0;i<stockList.length;i++){
+          
+                        query = "FROM Stock WHERE id = "+stockList[i]+" ";
+
+                        queryResult = entityManager.createQuery(query,Stock.class);
+    
+                        Stock stocks = (Stock) queryResult.getSingleResult();
+                     
+                        stocks.setUpdated(new Date());
+                        stocks.setQuantity(stocks.getQuantity() - Integer.parseInt(qtyList[i].toString()));
+                        
+                        stockRepository.save(stocks);
+                    }
+                }
+            }
+
+
+
             transactionRepository.save(transactions);
 
             Map<String, Object> userData = new HashMap<>();
