@@ -80,7 +80,7 @@ const App = () => {
         </Sidebar>
       ) : (
         <Routes>
-          {/* <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/laporanFinancial" element={<LaporanFinancial />} />
@@ -98,7 +98,7 @@ const App = () => {
             <Route path="/editTransaction" element={<AddOrEdit />} />
             <Route path="/viewTransaction" element={<ViewDetails />} />
             <Route path="/changePassword" element={<ChangePassword />} />
-          </Route> */}
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
