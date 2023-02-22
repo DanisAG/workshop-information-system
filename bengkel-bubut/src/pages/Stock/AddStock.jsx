@@ -98,6 +98,7 @@ const AddStock = () => {
       name: "",
       price: "",
       quantity: "",
+      minimumQty: ""
     },
     validationSchema: stockSchema,
     onSubmit,
