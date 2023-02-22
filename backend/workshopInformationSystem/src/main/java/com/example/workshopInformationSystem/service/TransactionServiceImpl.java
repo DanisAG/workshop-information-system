@@ -697,11 +697,11 @@ public class TransactionServiceImpl  implements TransactionService {
                         System.out.println("tracename "+row[0]);
                         datas.put("minimumQty", stocks.getMinimumQty());
                         datas.put("quantity", stocks.getQuantity());
-                        datas.put("count", qtyList[i]);
+                        datas.put("count", 1);
                         if(dataResult.containsKey(stocks.getName())){
                             Map<String, Object> dataTemp = (Map<String, Object>) dataResult.get(stocks.getName());
                             
-                            datas.put("count", Integer.parseInt(qtyList[i])+Integer.parseInt(dataTemp.get("count").toString()));
+                            datas.put("count", 1+Integer.parseInt(dataTemp.get("count").toString()));
                             dataResult.put(stocks.getName(), datas);
                         }else
                         dataResult.put(stocks.getName(), datas);
