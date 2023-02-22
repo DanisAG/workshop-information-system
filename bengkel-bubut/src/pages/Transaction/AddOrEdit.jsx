@@ -407,8 +407,6 @@ const AddOrEdit = () => {
       setStockFields(temp);
     }
   }, []);
-  console.log(filteredData, "filteredData");
-  console.log(location.state.allData)
 
   return (
     <div>
@@ -613,7 +611,6 @@ const AddOrEdit = () => {
                         />
                       ) : (
                         <Input
-                        disabled
                           placeholder="Quantity"
                           id="quantity"
                           name="quantity"
