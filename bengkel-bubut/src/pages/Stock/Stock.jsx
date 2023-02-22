@@ -81,7 +81,7 @@ const Stock = () => {
   );
 
   function myFunc(total, num) {
-    return total + num.count;
+    return total + parseInt(num.count);
   }
 
   const averageStocks = mostStocks.reduce(myFunc, 0) / mostStocks.length;
