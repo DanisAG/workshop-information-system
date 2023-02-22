@@ -26,7 +26,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "./styles/Global.css";
 const App = () => {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx);
   const Msg = () => (
     <div >
       <h5 style={{fontWeight: "700"}}>LOW STOCK ALERT!</h5>

@@ -37,6 +37,7 @@ export const AuthContextProvider = (props) => {
     console.log(filteredStocks);
     console.log(token);
     if (filteredStocks.length > 0) setNotifStatus(true);
+    else setNotifStatus(false);
 
     localStorage.setItem("token", token);
     localStorage.setItem("expiredDate", data);

@@ -96,6 +96,8 @@ const Stock = () => {
     getMostStocks();
   }, []);
 
+  console.log(mostStocks, "all stocks in transactions")
+
   return (
     <div className={styles.content}>
       <div className={styles.breadcrumbs}>
