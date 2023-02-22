@@ -30,7 +30,7 @@ const SignUp = () => {
       <div className={styles.rightContentDiv}>
         <div className={styles.rightTop}>
           Already Have An Account?{" "}
-          <Link to="/" style={{ color: "#6F6AF8" }}>
+          <Link to="/login" style={{ color: "#6F6AF8" }}>
             Log In
           </Link>
         </div>

@@ -123,7 +123,7 @@ const TableData = (props) => {
   };
 
   console.log(props.data.title);
-  //props?.data.orderBy?.sort
+
   const dataPagination = useRef(initialDataPagination);
 
   const handleClickDelete = (id) => {
