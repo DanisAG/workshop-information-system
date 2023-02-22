@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -645,7 +646,7 @@ public class TransactionServiceImpl  implements TransactionService {
     public Map<String, Object> mostStock(Integer userId) {
         
         Map<String, Object> data = new HashMap<>();
-        List<Map<String, Object>> listStock = new LinkedList<>();
+        List<Object> listStock = new LinkedList<>();
         try {
 
 
@@ -717,7 +718,8 @@ public class TransactionServiceImpl  implements TransactionService {
                     
                 }
             }     
-            listStock.add(dataResult);
+
+            listStock = new ArrayList<Object>(dataResult.values());
             data.put("result", listStock);
             return data;
         } catch (Exception e) {
