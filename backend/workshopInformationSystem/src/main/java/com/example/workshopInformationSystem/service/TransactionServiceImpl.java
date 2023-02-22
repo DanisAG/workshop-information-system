@@ -649,24 +649,75 @@ public class TransactionServiceImpl  implements TransactionService {
         try {
 
 
+            // List<Object[]> results = new LinkedList<>();
+            // String query = "SELECT stock.name, stock.minimumQty, stock.quantity, COUNT(stock) FROM Transaction WHERE userId="+userId+" GROUP BY stock ";
+
+            // System.out.println(query);
+            // results = entityManager.createQuery(query, Object[].class).getResultList();
+    
+            // if (results != null) {
+            //     for (Object[] row : results) {
+            //         Map<String, Object> datas = new HashMap<>();
+            //         datas.put("name", row[0]);
+            //         System.out.println("tracename "+row[0]);
+            //         datas.put("minimumQty", row[1]);
+            //         datas.put("quantity", row[2]);
+            //         datas.put("count", row[3]);
+            //         datas.containsKey("count");
+            //         listStock.add(datas);
+            //     }
+            // }      
+
+
             List<Object[]> results = new LinkedList<>();
-            String query = "SELECT stock.name, stock.minimumQty, stock.quantity, COUNT(stock) FROM Transaction WHERE userId="+userId+" GROUP BY stock ";
+            String query = "SELECT stock, quantity FROM Transaction WHERE userId="+userId;
 
             System.out.println(query);
             results = entityManager.createQuery(query, Object[].class).getResultList();
     
+            Map<String, Object> dataResult = new HashMap<>();
+
             if (results != null) {
                 for (Object[] row : results) {
-                    Map<String, Object> datas = new HashMap<>();
-                    datas.put("name", row[0]);
-                    System.out.println("tracename "+row[0]);
-                    datas.put("minimumQty", row[1]);
-                    datas.put("quantity", row[2]);
-                    datas.put("count", row[3]);
-                    listStock.add(datas);
-                }
-            }      
 
+                    String[] stockList = row[0].toString().split(";");
+                    String[] qtyList = row[1].toString().split(";");
+                    System.out.println("tracing qty "+ row[1]);
+                    for(int i=0;i<stockList.length;i++){
+                        
+                        String querys = "FROM Stock WHERE id = "+stockList[i]+" ";
+
+                        Query queryResult = entityManager.createQuery(querys,Stock.class);
+    
+                        Stock stocks = (Stock) queryResult.getSingleResult();
+
+                        Map<String, Object> datas = new HashMap<>();
+                        datas.put("name", stocks.getName());
+                        System.out.println("tracename "+row[0]);
+                        datas.put("minimumQty", stocks.getMinimumQty());
+                        datas.put("quantity", stocks.getQuantity());
+                        datas.put("count", qtyList[i]);
+                        if(dataResult.containsKey(stocks.getName())){
+                            Map<String, Object> dataTemp = (Map<String, Object>) dataResult.get(stocks.getName());
+                            
+                            datas.put("count", Integer.parseInt(qtyList[i])+Integer.parseInt(dataTemp.get("count").toString()));
+                            dataResult.put(stocks.getName(), datas);
+                        }else
+                        dataResult.put(stocks.getName(), datas);
+                    }
+ 
+                    // dataResult
+                    
+                    // datas.put("name", row[0]);
+                    // System.out.println("tracename "+row[0]);
+                    // datas.put("minimumQty", row[1]);
+                    // datas.put("quantity", row[2]);
+                    // datas.put("count", row[3]);
+                    // datas.containsKey("count");
+                    
+                }
+            }     
+            listStock.add(dataResult);
             data.put("result", listStock);
             return data;
         } catch (Exception e) {
