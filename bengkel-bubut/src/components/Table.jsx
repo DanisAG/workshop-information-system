@@ -122,7 +122,7 @@ const TableData = (props) => {
     },
   };
 
-  console.log(initialDataPagination);
+  console.log(props.data.title);
   //props?.data.orderBy?.sort
   const dataPagination = useRef(initialDataPagination);
 
@@ -378,19 +378,21 @@ const TableData = (props) => {
                     );
                   })}
                   <td>
-                    <AiOutlineEye
-                      className={styles.view}
-                      onClick={() => {
-                        navigate(props.data.viewNavigation, {
-                          state: {
-                            id: item.id,
-                            allData: allData?.result,
-                            allTableDatas: passedTableData,
-                            allStocks2: allStocks,
-                          },
-                        });
-                      }}
-                    />
+                    {props.data.title === "ALL TRANSACTIONS" &&
+                      <AiOutlineEye
+                        className={styles.view}
+                        onClick={() => {
+                          navigate(props.data.viewNavigation, {
+                            state: {
+                              id: item.id,
+                              allData: allData?.result,
+                              allTableDatas: passedTableData,
+                              allStocks2: allStocks,
+                            },
+                          });
+                        }}
+                      />
+                    }
                     <AiOutlineEdit
                       className={styles.edit}
                       onClick={() => {
